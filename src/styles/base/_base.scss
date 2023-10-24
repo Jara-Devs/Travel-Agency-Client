@@ -1,0 +1,53 @@
+* {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0px;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 5px;
+}
+
+.mt-5 {
+  margin-top: 20px;
+}
+
+.mb-1 {
+  margin-bottom: 5px;
+}
+
+.mb-5 {
+  margin-bottom: 20px;
+}
+
+.m-1 {
+  margin: 5px;
+}
+
+.m-5 {
+  margin: 20px;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.layout {
+  height: 100vh;
+}
+
+

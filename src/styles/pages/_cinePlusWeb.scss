@@ -1,0 +1,40 @@
+.seat-box {
+  border-radius: 5px;
+}
+
+.seat-available {
+  border: 2px solid green;
+  color: green;
+}
+
+.seat-reserved {
+  border: 2px solid red;
+  color: red;
+}
+
+.seat-number {
+  height: 60%;
+  font-size: 20px;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seat-price {
+  height: 40%;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.showMovieShop-tittle {
+  width: 100%;
+}
+
+.showMovieShop-buy {
+  width: auto;
+  height: auto;
+  font-size: 20px;
+}
