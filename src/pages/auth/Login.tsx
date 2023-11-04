@@ -1,17 +1,22 @@
 import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import logo from "../../assets/logo.jpg";
+
+interface LoginForm {
+  user: string;
+  password: string;
+}
 
 const Login = () => {
+  const onFinish = (values: LoginForm) => {
+    console.log(values);
+  };
+
   return (
     <div className="auth-box">
       <Row style={{ width: "100%" }}>
         <Col span={4}>
-          <Image
-            className="m-1"
-            width={"60px"}
-            height={"60px"}
-            src={"build/Logo 1.png"}
-          />
+          <Image className="m-1" width={"60px"} height={"60px"} src={logo} />
         </Col>
         <Col span={16}>
           <div className="center-content mt-5 mb-5">
@@ -23,11 +28,15 @@ const Login = () => {
         <Col span={4}></Col>
       </Row>
 
-      <Form className="m-5">
+      <Form className="m-5" onFinish={onFinish}>
         <Form.Item
           name="user"
           rules={[
-            { required: true, message: "Please introduce your email or user" },
+            {
+              required: true,
+              message: "Please introduce your email or user",
+              type: "email",
+            },
           ]}
         >
           <Input
@@ -48,8 +57,8 @@ const Login = () => {
           />
         </Form.Item>
         <Form.Item>
-        <div className="center-content">
-           <Button htmlType="submit" type="primary" className="auth-btn">
+          <div className="center-content">
+            <Button htmlType="submit" type="primary" className="auth-btn">
               Login
             </Button>
           </div>
@@ -59,9 +68,13 @@ const Login = () => {
       <div className="center-content">
         <Typography.Paragraph>
           <Typography.Text>Do not have account? </Typography.Text>
-          <Typography.Link href="/auth/register/turist">Create Turist Account.</Typography.Link>
+          <Typography.Link href="/auth/register/tourist">
+            Create Tourist Account.
+          </Typography.Link>
           <div className="center-content">
-          <Typography.Link href="/auth/register/agency">Create Agency Account.</Typography.Link>
+            <Typography.Link href="/auth/register/agency">
+              Create Agency Account.
+            </Typography.Link>
           </div>
         </Typography.Paragraph>
       </div>

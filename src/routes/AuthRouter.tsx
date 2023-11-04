@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import TuristRegister from "../pages/auth/TuristRegister";
+import TouristRegister from "../pages/auth/TouristRegister";
 import AgencyRegister from "../pages/auth/AgencyRegister";
 import Login from "../pages/auth/Login";
 import Layout, { Content, Footer } from "antd/es/layout/layout";
@@ -11,7 +11,7 @@ export const AuthRouter = () => {
       <Content>
         <div className="auth-main">
           <Routes>
-            <Route path="/register/turist" element={<TuristRegister />}></Route>
+            <Route path="/register/tourist" element={<TouristRegister />}></Route>
             <Route path="/register/agency" element={<AgencyRegister />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route
