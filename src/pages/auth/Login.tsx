@@ -10,13 +10,13 @@ const Login = () => {
             className="m-1"
             width={"60px"}
             height={"60px"}
-            src={"/assets/movie.png"}
+            src={"build/Logo 1.png"}
           />
         </Col>
         <Col span={16}>
           <div className="center-content mt-5 mb-5">
             <Typography>
-              <Typography.Title>Cine Plus</Typography.Title>
+              <Typography.Title>Travel Agency</Typography.Title>
             </Typography>
           </div>
         </Col>
@@ -48,16 +48,21 @@ const Login = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary" className="auth-btn">
-            Login
-          </Button>
+        <div className="center-content">
+           <Button htmlType="submit" type="primary" className="auth-btn">
+              Login
+            </Button>
+          </div>
         </Form.Item>
       </Form>
 
       <div className="center-content">
         <Typography.Paragraph>
           <Typography.Text>Do not have account? </Typography.Text>
-          <Typography.Link href="/auth/register">Register.</Typography.Link>
+          <Typography.Link href="/auth/register/turist">Create Turist Account.</Typography.Link>
+          <div className="center-content">
+          <Typography.Link href="/auth/register/agency">Create Agency Account.</Typography.Link>
+          </div>
         </Typography.Paragraph>
       </div>
     </div>

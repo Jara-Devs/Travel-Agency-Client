@@ -1,11 +1,13 @@
 import {
+  MailOutlined,
   UserOutlined,
+  EnvironmentOutlined,
   LockOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
 
-const Register = () => {
+const TuristRegister = () => {
   const validatePassword = () => {
     
   };
@@ -18,13 +20,13 @@ const Register = () => {
             className="m-1"
             width={"60px"}
             height={"60px"}
-            src={"/assets/movie.png"}
+            src={"/build/Logo 1.png"}
           />
         </Col>
         <Col span={16}>
           <div className="center-content mt-5 mb-5">
             <Typography>
-              <Typography.Title>Cine Plus</Typography.Title>
+              <Typography.Title>Travel Agency</Typography.Title>
             </Typography>
           </div>
         </Col>
@@ -33,14 +35,36 @@ const Register = () => {
 
       <Form className="m-5">
         <Form.Item
-          name="user"
+          name="email"
           rules={[
-            { required: true, message: "Please introduce your email or user" },
+            { required: true, message: "Please introduce your email" },
+          ]}
+        >
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="Introduce your email"
+          />
+        </Form.Item>
+        <Form.Item
+          name="name"
+          rules={[
+            { required: true, message: "Please introduce your user name" },
           ]}
         >
           <Input
             prefix={<UserOutlined />}
-            placeholder="Introduce your email or user"
+            placeholder="Introduce your user name"
+          />
+        </Form.Item>
+        <Form.Item
+          name="country"
+          rules={[
+            { required: true, message: "Please introduce your country" },
+          ]}
+        >
+          <Input
+            prefix={<EnvironmentOutlined />}
+            placeholder="Introduce your country"
           />
         </Form.Item>
         <Form.Item
@@ -65,9 +89,11 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button htmlType="submit" type="primary" className="auth-btn">
-            Register
-          </Button>
+          <div className="center-content">
+           <Button htmlType="submit" type="primary" className="auth-btn">
+              Create Account
+            </Button>
+          </div>
         </Form.Item>
       </Form>
 
@@ -81,4 +107,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default TuristRegister;
