@@ -12,7 +12,7 @@ export interface LoginForm {
 export interface TouristRegisterForm {
   email: string;
   name: string;
-  country: string;
+  nationality: string;
   password: string;
   confirm: string;
 }
@@ -20,6 +20,7 @@ export interface TouristRegisterForm {
 export interface AgencyRegisterForm {
   email: string;
   name: string;
+  nameAgency: string;
   password: string;
   confirm: string;
   Direction: string;

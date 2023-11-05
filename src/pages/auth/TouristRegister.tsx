@@ -5,17 +5,48 @@ import {
   LockOutlined,
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
-import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Row,
+  Col,
+  Image,
+  message,
+} from "antd";
 import logo from "../../assets/logo.jpg";
 import { TouristRegisterForm } from "../../types/auth";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/UserProvider";
+import { authService } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
+import MySpin from "../../layout/MySpin";
 
 const TouristRegister = () => {
+  const { login } = useContext(UserContext);
+  const { registerTourist } = authService();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   const onFinish = (values: TouristRegisterForm) => {
-    console.log(values);
+    setLoading(true);
+    registerTourist(values)
+      .then((response) => {
+        if (response.ok) {
+          login(response.value!);
+          navigate("/");
+        } else message.error(response.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <div className="auth-box">
+      <MySpin loading={loading} />
       <Row style={{ width: "100%" }}>
         <Col span={4}>
           <Image className="logo" width={"60px"} height={"60px"} src={logo} />
@@ -55,12 +86,12 @@ const TouristRegister = () => {
           />
         </Form.Item>
         <Form.Item
-          name="country"
-          rules={[{ required: true, message: "Please introduce your country" }]}
+          name="nationality"
+          rules={[{ required: true, message: "Please introduce your nationality" }]}
         >
           <Input
             prefix={<EnvironmentOutlined />}
-            placeholder="Introduce your country"
+            placeholder="Introduce your nationality"
           />
         </Form.Item>
         <Form.Item
@@ -69,10 +100,10 @@ const TouristRegister = () => {
             { required: true, message: "Please introduce your password" },
             {
               validator(_, value: string) {
-                if (value.length < 5)
+                if (value.length <= 5)
                   return Promise.reject(
                     new Error(
-                      "The length of the password no more than 5 characters"
+                      "The length of the password no more than 6 characters"
                     )
                   );
                 return Promise.resolve();

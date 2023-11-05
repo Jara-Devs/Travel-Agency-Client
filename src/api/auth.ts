@@ -14,9 +14,9 @@ export const authService = () => {
 
   const login = (data: LoginForm) => method<LoginForm>(data, "login");
   const registerAgency = (data: AgencyRegisterForm) =>
-    method<AgencyRegisterForm>(data, "registerAgency");
+    method<AgencyRegisterForm>(data, "register/agency");
   const registerTourist = (data: TouristRegisterForm) =>
-    method<TouristRegisterForm>(data, "touristAgency");
+    method<TouristRegisterForm>(data, "register/tourist");
   const renew = () =>
     apiWithToken<{}, User>("auth/renew", {}, HttpMethods.POST);
 

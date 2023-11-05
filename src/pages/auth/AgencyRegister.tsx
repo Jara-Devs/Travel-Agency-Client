@@ -6,17 +6,49 @@ import {
   HomeOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
-import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Row,
+  Col,
+  Image,
+  message,
+} from "antd";
 import logo from "../../assets/logo.jpg";
-import { AgencyRegisterForm } from "../../types/auth";
+import { AgencyRegisterForm, User } from "../../types/auth";
+import { useContext, useState } from "react";
+import { UserContext } from "../../context/UserProvider";
+import { authService } from "../../api/auth";
+import { ApiResponse } from "../../types/api";
+import { useNavigate } from "react-router-dom";
+import MySpin from "../../layout/MySpin";
 
 const AgencyRegister = () => {
+  const { login } = useContext(UserContext);
+  const { registerAgency } = authService();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   const onFinish = (values: AgencyRegisterForm) => {
-    console.log(values);
+    setLoading(true);
+    registerAgency(values)
+      .then((response: ApiResponse<User>) => {
+        if (response.ok) {
+          login(response.value!);
+          navigate("/");
+        } else message.error(response.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <div className="auth-box">
+      <MySpin loading={loading} />
       <Row style={{ width: "100%" }}>
         <Col span={4}>
           <Image className="logo" width={"60px"} height={"60px"} src={logo} />
@@ -46,13 +78,19 @@ const AgencyRegister = () => {
         </Form.Item>
         <Form.Item
           name="name"
+          rules={[{ required: true, message: "Please introduce the name" }]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Introduce the name" />
+        </Form.Item>
+        <Form.Item
+          name="nameAgency"
           rules={[
-            { required: true, message: "Please introduce the user name" },
+            { required: true, message: "Please introduce the name of agency" },
           ]}
         >
           <Input
             prefix={<UserOutlined />}
-            placeholder="Introduce the user name"
+            placeholder="Introduce the user name of agency"
           />
         </Form.Item>
         <Form.Item
@@ -61,10 +99,10 @@ const AgencyRegister = () => {
             { required: true, message: "Please introduce your password" },
             {
               validator(_, value: string) {
-                if (value.length < 5)
+                if (value.length <= 5)
                   return Promise.reject(
                     new Error(
-                      "The length of the password no more than 5 characters"
+                      "The length of the password no more than 6 characters"
                     )
                   );
                 return Promise.resolve();
