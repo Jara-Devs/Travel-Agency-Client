@@ -29,7 +29,7 @@ export const fetchWithToken = (
 ): Promise<Response> => {
   const url = `${baseUrl}/${endpoint}`;
 
-  const token = localStorage.getItem("accessToken") || "";
+  const token = localStorage.getItem("token") || "";
 
   if (method === HttpMethods.GET) {
     return fetch(url, {

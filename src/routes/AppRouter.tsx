@@ -9,10 +9,10 @@ import { User } from "../types/auth";
 
 export const AppRouter = () => {
   const { login } = useContext(UserContext);
-  const checkRegister = () => {
-    const token = localStorage.getItem("accessToken");
+  const { renew } = authService();
 
-    const { renew } = authService();
+  const checkRegister = () => {
+    const token = localStorage.getItem("token");
 
     if (token) {
       renew().then((response: ApiResponse<User>) => {
@@ -25,7 +25,8 @@ export const AppRouter = () => {
 
   useEffect(() => {
     checkRegister();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BrowserRouter>

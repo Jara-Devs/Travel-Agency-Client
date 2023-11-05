@@ -21,12 +21,12 @@ export const UserProvider: FC<UserProviderProps> = ({ children }) => {
 
   const login = (userData: User) => {
     setUser(userData);
-    localStorage.setItem("accessToken", userData.accessToken);
+    localStorage.setItem("token", userData.token);
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("token");
   };
 
   return (

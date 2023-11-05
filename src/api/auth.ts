@@ -5,7 +5,7 @@ import {
   TouristRegisterForm,
   User,
 } from "../types/auth";
-import { apiNoToken } from "./fetch";
+import { apiNoToken, apiWithToken } from "./fetch";
 
 export const authService = () => {
   function method<T>(data: T, endpoint: string) {
@@ -17,7 +17,8 @@ export const authService = () => {
     method<AgencyRegisterForm>(data, "registerAgency");
   const registerTourist = (data: TouristRegisterForm) =>
     method<TouristRegisterForm>(data, "touristAgency");
-  const renew = () => method<{}>({}, "renew");
+  const renew = () =>
+    apiWithToken<{}, User>("auth/renew", {}, HttpMethods.POST);
 
   return { login, registerAgency, registerTourist, renew };
 };

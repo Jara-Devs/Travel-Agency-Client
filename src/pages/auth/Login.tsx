@@ -7,12 +7,13 @@ import {
   Col,
   Image,
   message,
+  Spin,
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.jpg";
 import { LoginForm, User } from "../../types/auth";
 import { UserContext } from "../../context/UserProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { authService } from "../../api/auth";
 import { ApiResponse } from "../../types/api";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,8 @@ const Login = () => {
   const { login: loginApi } = authService();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const onFinish = (values: LoginForm) => {
     loginApi(values)
       .then((response: ApiResponse<User>) => {
@@ -30,11 +33,12 @@ const Login = () => {
           navigate("/");
         } else message.error(response.message);
       })
-      .catch(message.error("An error has ocurred"));
+      .finally();
   };
 
   return (
     <div className="auth-box">
+      {loading && <Spin />}
       <Row style={{ width: "100%" }}>
         <Col span={4}>
           <Image className="logo" width={"60px"} height={"60px"} src={logo} />
@@ -51,7 +55,7 @@ const Login = () => {
 
       <Form className="m-5" onFinish={onFinish}>
         <Form.Item
-          name="user"
+          name="email"
           rules={[
             {
               required: true,

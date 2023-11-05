@@ -1,11 +1,11 @@
 export interface User {
-  accessToken: string;
+  token: string;
   username: string;
   role: string;
 }
 
 export interface LoginForm {
-  user: string;
+  email: string;
   password: string;
 }
 
