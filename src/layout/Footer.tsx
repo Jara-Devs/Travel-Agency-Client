@@ -3,8 +3,8 @@ import Link from "antd/es/typography/Link";
 const MyFooter = () => {
   return (
     <div className="layout-footer">
-      Cine Plus ©2023 Created by{" "}
-      <Link href="https://github.com/raudel25">raudel25</Link>
+      Travel Agency ©2023 Created by{" "}
+      <Link href="https://github.com/Jara-Devs">JARA-Devs</Link>
     </div>
   );
 };

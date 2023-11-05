@@ -1,33 +1,69 @@
-import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Row,
+  Col,
+  Image,
+  message,
+} from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import logo from "../../assets/logo.jpg";
+import { LoginForm, User } from "../../types/auth";
+import { UserContext } from "../../context/UserProvider";
+import { useContext, useState } from "react";
+import { authService } from "../../api/auth";
+import { ApiResponse } from "../../types/api";
+import { useNavigate } from "react-router-dom";
+import MySpin from "../../layout/MySpin";
 
 const Login = () => {
+  const { login } = useContext(UserContext);
+  const { login: loginApi } = authService();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const onFinish = (values: LoginForm) => {
+    setLoading(true);
+    loginApi(values)
+      .then((response: ApiResponse<User>) => {
+        if (response.ok) {
+          login(response.value!);
+          console.log(response.value!)
+          navigate("/");
+        } else message.error(response.message);
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div className="auth-box">
+      <MySpin loading={loading} />
       <Row style={{ width: "100%" }}>
         <Col span={4}>
-          <Image
-            className="m-1"
-            width={"60px"}
-            height={"60px"}
-            src={"/assets/movie.png"}
-          />
+          <Image className="logo" width={"60px"} height={"60px"} src={logo} />
         </Col>
         <Col span={16}>
           <div className="center-content mt-5 mb-5">
             <Typography>
-              <Typography.Title>Cine Plus</Typography.Title>
+              <Typography.Title>Travel Agency</Typography.Title>
             </Typography>
           </div>
         </Col>
         <Col span={4}></Col>
       </Row>
 
-      <Form className="m-5">
+      <Form className="m-5" onFinish={onFinish}>
         <Form.Item
-          name="user"
+          name="email"
           rules={[
-            { required: true, message: "Please introduce your email or user" },
+            {
+              required: true,
+              message: "Please introduce your email or user",
+              type: "email",
+            },
           ]}
         >
           <Input
@@ -48,16 +84,30 @@ const Login = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" type="primary" className="auth-btn">
-            Login
-          </Button>
+          <div className="center-content">
+            <Button
+              htmlType="submit"
+              type="primary"
+              className="auth-btn"
+              disabled={loading}
+            >
+              Login
+            </Button>
+          </div>
         </Form.Item>
       </Form>
 
       <div className="center-content">
         <Typography.Paragraph>
           <Typography.Text>Do not have account? </Typography.Text>
-          <Typography.Link href="/auth/register">Register.</Typography.Link>
+          <Typography.Link href="/auth/register/tourist">
+            Create Tourist Account.
+          </Typography.Link>
+          <div className="center-content">
+            <Typography.Link href="/auth/register/agency">
+              Create Agency Account.
+            </Typography.Link>
+          </div>
         </Typography.Paragraph>
       </div>
     </div>
