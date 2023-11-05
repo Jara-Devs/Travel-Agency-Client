@@ -8,15 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
 import logo from "../../assets/logo.jpg";
-
-interface AgencyRegisterForm {
-  email: string;
-  name: string;
-  password: string;
-  confirm: string;
-  Direction: string;
-  fax: string;
-}
+import { AgencyRegisterForm } from "../../types/auth";
 
 const AgencyRegister = () => {
   const onFinish = (values: AgencyRegisterForm) => {

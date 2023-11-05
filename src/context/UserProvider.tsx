@@ -2,7 +2,7 @@ import { FC, useState, ReactNode } from "react";
 import { createContext } from "react";
 import { User } from "../types/auth";
 
-const UserContext = createContext<{
+export const UserContext = createContext<{
   user: User | null;
   login: (user: User) => void;
   logout: () => void;

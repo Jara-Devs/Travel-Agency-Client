@@ -7,14 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
 import logo from "../../assets/logo.jpg";
-
-interface TouristRegisterForm {
-  email: string;
-  name: string;
-  country: string;
-  password: string;
-  confirm: string;
-}
+import { TouristRegisterForm } from "../../types/auth";
 
 const TouristRegister = () => {
   const onFinish = (values: TouristRegisterForm) => {

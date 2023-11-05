@@ -1,15 +1,36 @@
-import { Form, Input, Button, Typography, Row, Col, Image } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Typography,
+  Row,
+  Col,
+  Image,
+  message,
+} from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.jpg";
-
-interface LoginForm {
-  user: string;
-  password: string;
-}
+import { LoginForm, User } from "../../types/auth";
+import { UserContext } from "../../context/UserProvider";
+import { useContext } from "react";
+import { authService } from "../../api/auth";
+import { ApiResponse } from "../../types/api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { login } = useContext(UserContext);
+  const { login: loginApi } = authService();
+  const navigate = useNavigate();
+
   const onFinish = (values: LoginForm) => {
-    console.log(values);
+    loginApi(values)
+      .then((response: ApiResponse<User>) => {
+        if (response.ok) {
+          login(response.value!);
+          navigate("/");
+        } else message.error(response.message);
+      })
+      .catch(message.error("An error has ocurred"));
   };
 
   return (
