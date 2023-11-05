@@ -31,6 +31,7 @@ const Login = () => {
       .then((response: ApiResponse<User>) => {
         if (response.ok) {
           login(response.value!);
+          console.log(response.value!)
           navigate("/");
         } else message.error(response.message);
       })

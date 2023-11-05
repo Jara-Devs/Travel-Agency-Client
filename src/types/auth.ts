@@ -1,7 +1,7 @@
 export interface User {
   token: string;
   username: string;
-  role: string;
+  role: Roles;
 }
 
 export interface LoginForm {
@@ -25,4 +25,14 @@ export interface AgencyRegisterForm {
   confirm: string;
   Direction: string;
   fax: string;
+}
+
+export enum Roles {
+  User = "User",
+  Tourist = "Tourist",
+  AdminAgency = "AdminAgency",
+  ManagerAgency = "ManagerAgency",
+  EmployeeAgency = "EmployeeAgency",
+  AdminApp = "AdminApp",
+  EmployeeApp = "EmployeeApp",
 }
