@@ -18,3 +18,17 @@
   margin-left: 20px;
   font-size: 20px;
 }
+
+.center-spin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+}

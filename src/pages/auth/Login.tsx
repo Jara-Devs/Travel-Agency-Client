@@ -7,7 +7,6 @@ import {
   Col,
   Image,
   message,
-  Spin,
 } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.jpg";
@@ -17,6 +16,7 @@ import { useContext, useState } from "react";
 import { authService } from "../../api/auth";
 import { ApiResponse } from "../../types/api";
 import { useNavigate } from "react-router-dom";
+import MySpin from "../../layout/MySpin";
 
 const Login = () => {
   const { login } = useContext(UserContext);
@@ -26,6 +26,7 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (values: LoginForm) => {
+    setLoading(true);
     loginApi(values)
       .then((response: ApiResponse<User>) => {
         if (response.ok) {
@@ -33,12 +34,12 @@ const Login = () => {
           navigate("/");
         } else message.error(response.message);
       })
-      .finally();
+      .finally(() => setLoading(false));
   };
 
   return (
     <div className="auth-box">
-      {loading && <Spin />}
+      <MySpin loading={loading} />
       <Row style={{ width: "100%" }}>
         <Col span={4}>
           <Image className="logo" width={"60px"} height={"60px"} src={logo} />
@@ -83,7 +84,12 @@ const Login = () => {
         </Form.Item>
         <Form.Item>
           <div className="center-content">
-            <Button htmlType="submit" type="primary" className="auth-btn">
+            <Button
+              htmlType="submit"
+              type="primary"
+              className="auth-btn"
+              disabled={loading}
+            >
               Login
             </Button>
           </div>
