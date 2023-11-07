@@ -1,7 +1,7 @@
 import { AppRouter } from "./routes/AppRouter";
 
-const CinePlus = () => {
+const TravelAgency = () => {
   return <AppRouter />;
 };
 
-export default CinePlus;
+export default TravelAgency;

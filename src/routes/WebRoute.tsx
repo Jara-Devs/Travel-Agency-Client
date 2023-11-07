@@ -7,25 +7,26 @@ import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import MyFooter from "../layout/Footer";
 import MyHeader from "../layout/Header";
+import { MainScreen } from "../pages/travelAgency/MainScreen";
 
 export const WebRouter = () => {
   return (
     <Layout className="layout">
-      <Header className="layout-header">
+      {/* <Header className="layout-header">
         <MyHeader user={null} home={true} />
-      </Header>
+      </Header> */}
       <Content>
         <Routes>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/ticket" element={<Ticket />}></Route>
           <Route path="/user" element={<User />}></Route>
-          <Route path="/web" element={<CinePlusWeb />}></Route>
+          <Route path="/web" element={<MainScreen />}></Route>
           <Route path="*" element={<Navigate to="/web" />}></Route>
         </Routes>
       </Content>
-      <Footer>
+      {/* <Footer>
         <MyFooter />
-      </Footer>
+      </Footer> */}
     </Layout>
   );
 };

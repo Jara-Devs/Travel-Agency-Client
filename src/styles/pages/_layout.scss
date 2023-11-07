@@ -2,8 +2,11 @@
   height: 100%;
 }
 
-.layout-footer {
-  text-align: center;
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2rem;
 }
 
 .layout-header {
