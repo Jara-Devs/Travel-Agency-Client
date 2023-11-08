@@ -1,14 +1,14 @@
-import {Sidebar} from "./Sidebar"
-import { Topbar } from './TopBar';
+// import {Sidebar} from "./Sidebar"
+// import { Topbar } from './TopBar';
 
 export const MainScreen = () => {
     return (
         <div className="main_screen_content">
 
-            <Sidebar/>
+            {/* <Sidebar/> */}
             <main>
 
-            <Topbar/>
+            {/* <Topbar/> */}
 
 
             </main>

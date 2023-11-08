@@ -1,9 +1,9 @@
-import {Sidebar} from "./pages/travelAgency/Sidebar";
+// import {Sidebar} from "./pages/travelAgency/Sidebar";
 
 const App = () => {
   return (
     
-    <Sidebar/>
+   <>F</> // <Sidebar/>
   );
 };
 

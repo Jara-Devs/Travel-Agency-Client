@@ -24,10 +24,7 @@ export const Topbar = () => {
                 </div>        
 
                     </div>
-            {/* <button className="btn">
-                Login/Register
-            </button> */}
-
+         
 
         </div>
     )

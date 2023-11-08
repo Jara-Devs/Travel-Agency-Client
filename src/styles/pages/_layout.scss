@@ -15,15 +15,33 @@
 
 .layout-header {
   width: 100%;
-  color: beige;
+  background-color: gray;
   align-items: center;
-  background-color: rgb(23, 31, 102);
 }
 
-.layout-header-title {
-  margin-left: 20px;
-  font-size: 20px;
+.layout-header-left-buttons{
+  margin: 15px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  
+  transition: color .3s ease;
+  &:hover {
+      color: rgb(6, 6, 83);
+  }
 }
+
+.layout-header-content{
+  display: flex;
+  align-items: center;
+  color: white;
+  justify-content: space-between;
+
+}
+
 
 .center-spin {
   position: fixed;
@@ -34,7 +52,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // text-align: center;
   background: rgba(0, 0, 0, 0.05);
   z-index: 9999;
 }

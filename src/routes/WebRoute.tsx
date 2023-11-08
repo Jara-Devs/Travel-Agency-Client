@@ -2,19 +2,21 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Admin from "../pages/home/Admin";
 import Ticket from "../pages/home/Ticket";
 import User from "../pages/home/User";
-import CinePlusWeb from "../pages/cine-plus/CinePlusWeb";
 import { Layout } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import MyFooter from "../layout/Footer";
 import MyHeader from "../layout/Header";
 import { MainScreen } from "../pages/travelAgency/MainScreen";
+import { Topbar } from "../layout/TopBar";
 
 export const WebRouter = () => {
   return (
     <Layout className="layout">
-      {/* <Header className="layout-header">
-        <MyHeader user={null} home={true} />
-      </Header> */}
+      
+      <Header className="layout-header">
+        <MyHeader/>
+      </Header>
+      
       <Content>
         <Routes>
           <Route path="/admin" element={<Admin />}></Route>
@@ -24,9 +26,10 @@ export const WebRouter = () => {
           <Route path="*" element={<Navigate to="/web" />}></Route>
         </Routes>
       </Content>
-      {/* <Footer>
+      
+      <Footer>
         <MyFooter />
-      </Footer> */}
+      </Footer>
     </Layout>
   );
 };
