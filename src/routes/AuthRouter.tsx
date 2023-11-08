@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Register from "../pages/auth/Register";
+import TouristRegister from "../pages/auth/TouristRegister";
+import AgencyRegister from "../pages/auth/AgencyRegister";
 import Login from "../pages/auth/Login";
 import Layout, { Content, Footer } from "antd/es/layout/layout";
 import Link from "antd/es/typography/Link";
@@ -10,7 +11,8 @@ export const AuthRouter = () => {
       <Content>
         <div className="auth-main">
           <Routes>
-            <Route path="/register" element={<Register />}></Route>
+            <Route path="/register/tourist" element={<TouristRegister />}></Route>
+            <Route path="/register/agency" element={<AgencyRegister />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route
               path="*"
@@ -20,7 +22,7 @@ export const AuthRouter = () => {
         </div>
       </Content>
       <Footer className="layout-footer">
-        Cine Plus ©2023 Created by <Link href="https://github.com/raudel25">raudel25</Link>
+        Travel Agency ©2023 Created by <Link href="https://github.com/Jara-Devs">JARA-Devs</Link>
       </Footer>
     </Layout>
   );
