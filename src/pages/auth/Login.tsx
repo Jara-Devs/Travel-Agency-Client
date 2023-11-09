@@ -31,7 +31,7 @@ const Login = () => {
       .then((response: ApiResponse<User>) => {
         if (response.ok) {
           login(response.value!);
-          console.log(response.value!)
+
           navigate("/");
         } else message.error(response.message);
       })
@@ -43,7 +43,13 @@ const Login = () => {
       <MySpin loading={loading} />
       <Row style={{ width: "100%" }}>
         <Col span={4}>
-          <Image className="logo" width={"60px"} height={"60px"} src={logo} />
+          <Image
+            className="logo m-1"
+            width={"60px"}
+            height={"60px"}
+            src={logo}
+            preview={false}
+          />
         </Col>
         <Col span={16}>
           <div className="center-content mt-5 mb-5">
