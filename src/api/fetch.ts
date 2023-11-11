@@ -1,3 +1,4 @@
+import buildQuery, { QueryOptions } from "odata-query";
 import { ApiResponse, HttpMethods } from "../types/api";
 
 const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
@@ -84,4 +85,44 @@ export async function apiNoToken<T1, T2>(
       message: "Connection error",
     };
   }
+}
+
+export async function apiOdataNoToken<T>(
+  endpoint: string,
+  odataQuery: Partial<QueryOptions<T>>
+): Promise<ApiResponse<T[]>> {
+  let query = buildQuery(odataQuery);
+
+  return await apiNoToken<{}, T[]>(`${endpoint}${query}`, {}, HttpMethods.GET);
+}
+
+export async function apiOdataWithToken<T>(
+  endpoint: string,
+  odataQuery: Partial<QueryOptions<T>>
+): Promise<ApiResponse<T[]>> {
+  let query = buildQuery(odataQuery);
+
+  return await apiWithToken<{}, T[]>(
+    `${endpoint}${query}`,
+    {},
+    HttpMethods.GET
+  );
+}
+
+export async function apiSingleOdataNoToken<T>(
+  endpoint: string,
+  odataQuery: Partial<QueryOptions<T>>
+): Promise<ApiResponse<T>> {
+  let query = buildQuery(odataQuery);
+
+  return await apiNoToken<{}, T>(`${endpoint}${query}`, {}, HttpMethods.GET);
+}
+
+export async function apiSingleOdataWithToken<T>(
+  endpoint: string,
+  odataQuery: Partial<QueryOptions<T>>
+): Promise<ApiResponse<T>> {
+  let query = buildQuery(odataQuery);
+
+  return await apiWithToken<{}, T>(`${endpoint}${query}`, {}, HttpMethods.GET);
 }
