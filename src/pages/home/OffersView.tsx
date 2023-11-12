@@ -21,7 +21,7 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
     </Space>
 );
 
-const HotelsOffers: React.FC = () => (
+const Offers: React.FC = () => (
     <List
         itemLayout="vertical"
         size="large"
@@ -73,4 +73,4 @@ const HotelsOffers: React.FC = () => (
     />
 );
 
-export default HotelsOffers;
+export default Offers;
