@@ -8,6 +8,7 @@ import MyHeader from "../layout/Header";
 import { Sidebar } from "../layout/Sidebar";
 import MainScreen from "../pages/MainScreen";
 import Sider from "antd/es/layout/Sider";
+import HotelsOffers from '../pages/home/TouristView';
 
 export const WebRouter = () => {
   return (
@@ -22,6 +23,11 @@ export const WebRouter = () => {
         </Header>
 
         <Content>
+          <div className="mt-10">
+            <HotelsOffers />
+
+          </div>
+
           <Routes>
             <Route path="/admin" element={<Admin />}></Route>
             <Route path="/ticket" element={<Ticket />}></Route>

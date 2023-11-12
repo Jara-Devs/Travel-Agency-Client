@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 import { Roles } from "../types/auth";
 import { Content, Footer } from "antd/es/layout/layout";
+import { Button } from 'antd/es/radio';
 interface Dpto {
   text: string;
   link: string;
@@ -21,6 +22,7 @@ export const Sidebar = () => {
   );
 
   const dptos: Dpto[] = [
+    { text: "Home", link: "" ,},
     { text: "Hotels", link: "" },
     { text: "Excursions", link: "" },
     { text: "Packages", link: "" },
