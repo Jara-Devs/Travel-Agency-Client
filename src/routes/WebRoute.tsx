@@ -8,7 +8,7 @@ import MyHeader from "../layout/Header";
 import { Sidebar } from "../layout/Sidebar";
 import MainScreen from "../pages/MainScreen";
 import Sider from "antd/es/layout/Sider";
-import Offers from '../pages/home/OffersView';
+import Offers from '../layout/OffersView';
 
 export const WebRouter = () => {
   return (
@@ -23,7 +23,7 @@ export const WebRouter = () => {
         </Header>
 
         <Content>
-          <div className="mt-10">
+          <div >
             <Offers />
 
           </div>
