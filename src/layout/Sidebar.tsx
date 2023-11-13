@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 import { Roles } from "../types/auth";
 import { Content, Footer } from "antd/es/layout/layout";
+import MyMenu, { ItemType, MenuType } from "./Menu";
 interface Dpto {
   text: string;
   link: string;
@@ -20,14 +21,24 @@ export const Sidebar = () => {
     </div>
   );
 
-  const dptos: Dpto[] = [
-    { text: "Home", link: "/Home" ,},
-    { text: "Hotels", link: "/Hotels" },
-    { text: "Excursions", link: "/Excursions" },
-    { text: "Flights", link: "/Flights"},
-    { text: "Packages", link: "/Packages" },
-    { text: "Offers", link: "/Offers" },
-
+  const items: (MenuType | ItemType)[] = [
+    { label: "Home", link: "/home" },
+    {
+      label: "Services",
+      items: [
+        { label: "Hotels", link: "/service/hotel" },
+        { label: "Excursions", link: "/service/excursion" },
+        { label: "Flights", link: "/service/flight" },
+      ],
+    },
+    {
+      label: "Offers",
+      items: [
+        { label: "Hotels", link: "/offer/hotel" },
+        { label: "Excursions", link: "/offer/excursion" },
+        { label: "Flights", link: "/offer/flight" },
+      ],
+    },
   ];
 
   const agency: Dpto = { text: "Agency", link: "" };
@@ -49,7 +60,9 @@ export const Sidebar = () => {
           <h1>Jara-Travel</h1>
         </div>
 
-        {dptos.map((p) => getDpto(p))}
+        <div className="center-content">
+          <MyMenu items={items} />
+        </div>
 
         <div className="mt-10">
           {(user?.role === Roles.AdminApp ||
