@@ -38,8 +38,8 @@ export const Sidebar = () => {
     const agencyManager: ItemType[] =
       user?.role === Roles.AdminAgency || user?.role === Roles.ManagerAgency
         ? [
-            { label: "Manage Offers", link: "/agency/offer" },
-            { label: "Manage Packages", link: "/agency/package" },
+            { label: "Offers", link: "/agency/offer" },
+            { label: "Packages", link: "/agency/package" },
           ]
         : [];
 
@@ -62,11 +62,11 @@ export const Sidebar = () => {
     const app: MenuType = {
       label: "App",
       items: [
-        { label: "Manage Hotels", link: "/app/hotel" },
-        { label: "Manage Excursions", link: "/app/excursion" },
-        { label: "Manage Flights", link: "/app/flight" },
-        { label: "Manage Places", link: "/app/place" },
-        { label: "Manage Activities", link: "/app/activity" },
+        { label: "Hotels", link: "/app/hotel" },
+        { label: "Excursions", link: "/app/excursion" },
+        { label: "Flights", link: "/app/flight" },
+        { label: "Places", link: "/app/place" },
+        { label: "Activities", link: "/app/activity" },
       ].concat(appAdmin),
     };
 

@@ -24,14 +24,15 @@ const TravelAgencyRouter = () => {
         .then((response: ApiResponse<User>) => {
           if (response.ok) {
             login(response.value!);
-          }
+          } else setLoading(false);
         })
-        .finally(() => {
-          console.log(user);
-          setLoading(false);
-        });
+        .catch(() => setLoading(false));
     }
   };
+
+  useEffect(() => {
+    if (user) setLoading(false);
+  }, [user]);
 
   useEffect(() => {
     checkRegister();
