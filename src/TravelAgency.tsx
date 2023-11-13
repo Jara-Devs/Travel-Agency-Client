@@ -1,11 +1,10 @@
 import { UserProvider } from "./context/UserProvider";
-import { AppRouter } from "./routes/AppRouter";
-
+import TravelAgencyRouter from "./routes/TravelAgencyRouter";
 
 const TravelAgency = () => {
   return (
     <UserProvider>
-      <AppRouter />
+      <TravelAgencyRouter />
     </UserProvider>
   );
 };
