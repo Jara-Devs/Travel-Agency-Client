@@ -8,7 +8,9 @@ import MyHeader from "../layout/Header";
 import { Sidebar } from "../layout/Sidebar";
 import MainScreen from "../pages/MainScreen";
 import Sider from "antd/es/layout/Sider";
-import Offers from '../layout/OffersView';
+import OfferRoute from "./OfferRoute";
+import ServiceRoute from "./ServiceRoute";
+import Packages from "../pages/home/packages/Packages";
 
 export const WebRouter = () => {
   return (
@@ -23,15 +25,13 @@ export const WebRouter = () => {
         </Header>
 
         <Content>
-          <div >
-            <Offers />
-
-          </div>
-
           <Routes>
             <Route path="/admin" element={<Admin />}></Route>
             <Route path="/ticket" element={<Ticket />}></Route>
             <Route path="/user" element={<User />}></Route>
+            <Route path="/offer/*" element={<OfferRoute />}></Route>
+            <Route path="/service/*" element={<ServiceRoute />}></Route>
+            <Route path="/package/*" element={<Packages />}></Route>
             <Route path="/" element={<MainScreen />}></Route>
             <Route path="*" element={<Navigate to="/" />}></Route>
           </Routes>

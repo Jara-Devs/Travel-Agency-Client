@@ -1,5 +1,5 @@
 const Packages = () => {
-    return <></>;
+    return <>Packages</>;
   };
   
   export default Packages;

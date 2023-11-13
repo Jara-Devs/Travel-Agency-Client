@@ -1,5 +1,5 @@
 const Flights = () => {
-    return <></>;
+    return <>Flights</>;
   };
   
   export default Flights;

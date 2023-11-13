@@ -1,5 +1,5 @@
 const Excursions = () => {
-    return <></>;
+    return <>Excursions</>;
   };
   
   export default Excursions;
