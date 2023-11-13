@@ -1,25 +1,13 @@
-import { Image, Layout } from "antd";
+import { Image, Layout} from "antd";
 import logo from "../assets/logo.jpg";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
 import { Roles } from "../types/auth";
 import { Content, Footer } from "antd/es/layout/layout";
 import MyMenu, { ItemType, MenuType } from "./Menu";
-interface Dpto {
-  text: string;
-  link: string;
-}
 
 export const Sidebar = () => {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  const getDpto = (body: Dpto) => (
-    <div className="layout-sidebar-button" onClick={() => navigate(body.link)}>
-      <p>{body.text}</p>
-    </div>
-  );
 
   const items: (MenuType | ItemType)[] = [
     { label: "Home", link: "/home" },
@@ -41,8 +29,36 @@ export const Sidebar = () => {
     },
   ];
 
-  const agency: Dpto = { text: "Agency", link: "" };
-  const app: Dpto = { text: "App", link: "" };
+  const agencyMenu = (): MenuType => {
+    const agencyAdmin: ItemType[] =
+      user?.role === Roles.AdminAgency
+        ? [{ label: "Users", link: "/agency/users" }]
+        : [];
+
+    const agencyManager: ItemType[] =
+      user?.role === Roles.AdminAgency || user?.role === Roles.ManagerAgency
+        ? [
+            { label: "Manage Offers", link: "/agency/offer" },
+            { label: "Manage Packages", link: "/agency/package" },
+          ]
+        : [];
+
+    const agency: MenuType = {
+      label: "Agency",
+      items: [{ label: "Ticket", link: "/agency/ticket" }]
+        .concat(agencyManager)
+        .concat(agencyAdmin),
+    };
+
+    return agency;
+  };
+
+  if (
+    user?.role === Roles.AdminAgency ||
+    user?.role === Roles.ManagerAgency ||
+    user?.role === Roles.EmployeeAgency
+  )
+    items.push(agencyMenu());
 
   return (
     <Layout className="layout-screen-sidebar">
@@ -62,16 +78,6 @@ export const Sidebar = () => {
 
         <div className="center-content">
           <MyMenu items={items} />
-        </div>
-
-        <div className="mt-10">
-          {(user?.role === Roles.AdminApp ||
-            user?.role === Roles.EmployeeApp) &&
-            getDpto(app)}
-          {(user?.role === Roles.AdminAgency ||
-            user?.role === Roles.EmployeeAgency ||
-            user?.role === Roles.ManagerAgency) &&
-            getDpto(agency)}
         </div>
       </Content>
 
