@@ -3,14 +3,13 @@ import { Layout } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import MyHeader from "../layout/Header";
 import { Sidebar } from "../layout/Sidebar";
-import Home from "../pages/Home";
 import Sider from "antd/es/layout/Sider";
 import OfferRoute from "./OfferRoute";
 import ServiceRoute from "./ServiceRoute";
 import Packages from "../pages/home/packages/Packages";
 import AppRoute from "./AppRouter";
 import AgencyRoute from "./AgencyRouter";
-import HomeView from "../layout/HomeView";
+import HomeView from "../pages/HomeView";
 
 export const WebRouter = () => {
   return (
@@ -24,7 +23,7 @@ export const WebRouter = () => {
           <MyHeader />
         </Header>
 
-        <Content >
+        <Content className="layout-content">
           <Routes>
             <Route path="/offer/*" element={<OfferRoute />}></Route>
             <Route path="/service/*" element={<ServiceRoute />}></Route>

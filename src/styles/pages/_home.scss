@@ -1,9 +1,22 @@
-.bottom_sign{
-    color: rgb(6, 6, 83);
-    justify-content: center;
-    display: flex;
-    font-size: 100px;
-    margin-top: 20px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    
+.bottom_sign {
+  color: rgb(6, 6, 83);
+  justify-content: center;
+  display: flex;
+  font-size: 100px;
+  margin-top: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+.ant-carousel .slick-slide img {
+  width: auto;
+  height: auto;
+  max-width: 75%;
+  max-height: 75%;
+  margin: auto;
+}
+
+.home-view {
+  background-color: gold;
+  height: 100%;
+  width: 100%;
 }
