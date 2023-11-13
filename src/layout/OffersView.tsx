@@ -6,11 +6,9 @@ import { Button } from 'antd/es/radio';
 const data = Array.from({ length: 23 }).map((_, i) => ({
     price: '500',
     href: 'https://ant.design',
-    title: `Offer ${i}`,
-    description:
+    Name: `Offer ${i}`,
+    Description:
         'Here goes the offer drescription',
-    content:
-        'Here goes the offer content such as blablabla...',
 }));
 
 const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
@@ -22,7 +20,7 @@ const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
 
 const Offers: React.FC = () => (
     <div className="offertable" >
-        <List
+        <List 
             itemLayout="vertical"
             size="small"
             bordered
@@ -40,9 +38,11 @@ const Offers: React.FC = () => (
             dataSource={data}
 
             renderItem={(item) => (
+                
                 <List.Item 
 
-                    key={item.title}
+                    key={item.Name}
+                    
                     actions={[
                         <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
                         <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
@@ -61,13 +61,11 @@ const Offers: React.FC = () => (
                     }
                 >
                     <List.Item.Meta 
-                        //   avatar={<Avatar src={item.avatar} />}
 
-                        title={<a href={item.href}>{item.title}</a>}
-                        description={item.description}
+                        title={<a href={item.href}>{item.Name}</a>}
+                        description={item.Description}
 
                     />
-                    {item.content}
                 </List.Item>
             )}
         />

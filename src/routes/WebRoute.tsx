@@ -9,6 +9,7 @@ import { Sidebar } from "../layout/Sidebar";
 import MainScreen from "../pages/MainScreen";
 import Sider from "antd/es/layout/Sider";
 import Offers from '../layout/OffersView';
+import HomeView from "../layout/HomeView";
 
 export const WebRouter = () => {
   return (
@@ -24,7 +25,8 @@ export const WebRouter = () => {
 
         <Content>
           <div >
-            <Offers />
+            {/* <Offers /> */}
+            <HomeView/>
 
           </div>
 
