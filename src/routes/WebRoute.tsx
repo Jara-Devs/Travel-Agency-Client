@@ -10,6 +10,7 @@ import ServiceRoute from "./ServiceRoute";
 import Packages from "../pages/home/packages/Packages";
 import AppRoute from "./AppRouter";
 import AgencyRoute from "./AgencyRouter";
+import HomeView from "../layout/HomeView";
 
 export const WebRouter = () => {
   return (
@@ -23,14 +24,14 @@ export const WebRouter = () => {
           <MyHeader />
         </Header>
 
-        <Content>
+        <Content >
           <Routes>
             <Route path="/offer/*" element={<OfferRoute />}></Route>
             <Route path="/service/*" element={<ServiceRoute />}></Route>
             <Route path="/package" element={<Packages />}></Route>
             <Route path="/app/*" element={<AppRoute />}></Route>
             <Route path="/agency/*" element={<AgencyRoute />}></Route>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<HomeView />}></Route>
             <Route path="*" element={<Navigate to="/" />}></Route>
           </Routes>
         </Content>
