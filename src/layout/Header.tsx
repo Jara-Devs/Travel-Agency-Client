@@ -1,32 +1,32 @@
 import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
-import { Col, Image, Row } from "antd";
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { UserContext } from "../context/UserProvider";
+import { useNavigate } from "react-router-dom";
 
-export interface MyHeaderProps {
-  user: string | null;
-  home: boolean;
-}
+const MyHeader: FC<{}> = () => {
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
-const MyHeader: FC<MyHeaderProps> = ({ user, home }) => {
   return (
-    <Row justify="space-between">
-      <Col>
-        <Image width={"40px"} height={"40px"} src={"/assets/movie.png"} />
-        <span className="layout-header-title">{home ? "Web" : "Home"}</span>
-      </Col>
-
-      <Col>
-        {user ? (
-          <span>
-            {user} <LogoutOutlined />
-          </span>
-        ) : (
-          <span>
-            Login <LoginOutlined />
-          </span>
-        )}
-      </Col>
-    </Row>
+    <div className="layout-header-content">
+      <div className="layout-header-left-buttons layout-header-effect">
+        <p className="ml-10">Contact</p>
+        <p className="ml-5 "> /</p>
+        <p className="ml-5">FAQ</p>
+      </div>
+      {user ? (
+        <div className="layout-header-effect" onClick={logout}>
+          logout <LogoutOutlined />
+        </div>
+      ) : (
+        <div
+          className="layout-header-effect"
+          onClick={() => navigate("/auth/login")}
+        >
+          login <LoginOutlined />
+        </div>
+      )}
+    </div>
   );
 };
 

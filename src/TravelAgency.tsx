@@ -1,12 +1,12 @@
 import { UserProvider } from "./context/UserProvider";
-import { AppRouter } from "./routes/AppRouter";
+import TravelAgencyRouter from "./routes/TravelAgencyRouter";
 
-const CinePlus = () => {
+const TravelAgency = () => {
   return (
     <UserProvider>
-      <AppRouter />
+      <TravelAgencyRouter />
     </UserProvider>
   );
 };
 
-export default CinePlus;
+export default TravelAgency;

@@ -1,31 +1,40 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Admin from "../pages/home/Admin";
-import Ticket from "../pages/home/Ticket";
-import User from "../pages/home/User";
-import CinePlusWeb from "../pages/cine-plus/CinePlusWeb";
 import { Layout } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
-import MyFooter from "../layout/Footer";
+import { Content, Header } from "antd/es/layout/layout";
 import MyHeader from "../layout/Header";
+import { Sidebar } from "../layout/Sidebar";
+import Sider from "antd/es/layout/Sider";
+import OfferRoute from "./OfferRoute";
+import ServiceRoute from "./ServiceRoute";
+import Packages from "../pages/home/packages/Packages";
+import AppRoute from "./AppRouter";
+import AgencyRoute from "./AgencyRouter";
+import HomeView from "../pages/HomeView";
 
 export const WebRouter = () => {
   return (
     <Layout className="layout">
-      <Header className="layout-header">
-        <MyHeader user={null} home={true} />
-      </Header>
-      <Content>
-        <Routes>
-          <Route path="/admin" element={<Admin />}></Route>
-          <Route path="/ticket" element={<Ticket />}></Route>
-          <Route path="/user" element={<User />}></Route>
-          <Route path="/web" element={<CinePlusWeb />}></Route>
-          <Route path="*" element={<Navigate to="/web" />}></Route>
-        </Routes>
-      </Content>
-      <Footer>
-        <MyFooter />
-      </Footer>
+      <Sider width={275}>
+        <Sidebar />
+      </Sider>
+
+      <Layout>
+        <Header className="layout-header">
+          <MyHeader />
+        </Header>
+
+        <Content className="layout-content">
+          <Routes>
+            <Route path="/offer/*" element={<OfferRoute />}></Route>
+            <Route path="/service/*" element={<ServiceRoute />}></Route>
+            <Route path="/package" element={<Packages />}></Route>
+            <Route path="/app/*" element={<AppRoute />}></Route>
+            <Route path="/agency/*" element={<AgencyRoute />}></Route>
+            <Route path="/" element={<HomeView />}></Route>
+            <Route path="*" element={<Navigate to="/" />}></Route>
+          </Routes>
+        </Content>
+      </Layout>
     </Layout>
   );
 };
