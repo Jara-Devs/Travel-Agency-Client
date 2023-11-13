@@ -5,10 +5,17 @@ import ActivityApp from "../pages/app/ActivityApp";
 import FlightApp from "../pages/app/FligthApp";
 import ExcursionApp from "../pages/app/ExcursionApp";
 import HotelApp from "../pages/app/HotelApp";
+import PrivateRoutes from "./PrivateRoutes";
+import { Roles } from "../types/auth";
 
 const AppRoute = () => (
   <Routes>
-    <Route path="/users" element={<UsersApp />}></Route>
+    <Route
+      path="/users"
+      element={
+        <PrivateRoutes component={UsersApp} requiredRoles={[Roles.AdminApp]} />
+      }
+    ></Route>
     <Route path="/hotel" element={<HotelApp />}></Route>
     <Route path="/excursion" element={<ExcursionApp />}></Route>
     <Route path="/flight" element={<FlightApp />}></Route>

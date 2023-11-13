@@ -15,8 +15,9 @@ const PrivateRoutes: FunctionComponent<Props> = ({
   const { user } = useContext(UserContext);
 
   const canAccess =
-    requiredRoles.indexOf(Roles.User) !== -1 &&
-    requiredRoles.indexOf(user!.role) !== -1;
+    user != null &&
+    (requiredRoles.indexOf(Roles.User) !== -1 ||
+      requiredRoles.indexOf(user.role) !== -1);
 
   return canAccess ? (
     <Component />

@@ -55,7 +55,7 @@ export const Sidebar = () => {
 
   const appMenu = (): MenuType => {
     const appAdmin: ItemType[] =
-      user?.role === Roles.AdminAgency
+      user?.role === Roles.AdminApp
         ? [{ label: "Users", link: "/app/users" }]
         : [];
 
