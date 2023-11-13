@@ -23,7 +23,7 @@ const MyMenu: FC<{ items: (MenuType | ItemType)[]; divider?: boolean }> = ({
   const navigate = useNavigate();
 
   return (
-    <div style={{ width: "120px" }}>
+    <div style={{ width: "150px" }}>
       {items.map((it, idx) => (
         <div key={idx}>
           {isMenu(it) ? (

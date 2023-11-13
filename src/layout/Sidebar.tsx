@@ -1,4 +1,4 @@
-import { Image, Layout} from "antd";
+import { Image, Layout } from "antd";
 import logo from "../assets/logo.jpg";
 import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
@@ -53,12 +53,35 @@ export const Sidebar = () => {
     return agency;
   };
 
+  const appMenu = (): MenuType => {
+    const appAdmin: ItemType[] =
+      user?.role === Roles.AdminAgency
+        ? [{ label: "Users", link: "/app/users" }]
+        : [];
+
+    const app: MenuType = {
+      label: "App",
+      items: [
+        { label: "Manage Hotels", link: "/app/hotel" },
+        { label: "Manage Excursions", link: "/app/excursion" },
+        { label: "Manage Flights", link: "/app/flight" },
+        { label: "Manage Places", link: "/app/place" },
+        { label: "Manage Activities", link: "/app/activity" },
+      ].concat(appAdmin),
+    };
+
+    return app;
+  };
+
   if (
     user?.role === Roles.AdminAgency ||
     user?.role === Roles.ManagerAgency ||
     user?.role === Roles.EmployeeAgency
   )
     items.push(agencyMenu());
+
+  if (user?.role === Roles.AdminApp || user?.role === Roles.EmployeeApp)
+    items.push(appMenu());
 
   return (
     <Layout className="layout-screen-sidebar">
