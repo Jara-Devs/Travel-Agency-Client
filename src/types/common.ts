@@ -1,5 +1,5 @@
 export interface Address {
-  country: string;
-  city: string;
-  description: string;
+  Country: string;
+  City: string;
+  Description: string;
 }

@@ -1,22 +1,190 @@
+import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import { touristPlace } from "../../api/services";
-import { useEffect } from "react";
+import { useState } from "react";
+import Title from "antd/es/typography/Title";
+import { TouristPlace, TouristPlaceForm } from "../../types/sevice";
+import TableEntities from "../../common/TableEntities";
+import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
+import { FilterValue } from "antd/es/table/interface";
+import { Filter } from "odata-query";
+import PlaceForm from "./PlaceForm";
 
 const PlaceApp = () => {
-  const { get } = touristPlace();
+  const { get, create, edit, remove } = touristPlace();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const load = async () => {
+  const [createModal, setCreateModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
+
+  const [selected, setSelected] = useState<TouristPlace>();
+
+  const [refresh, setRefresh] = useState<boolean>(false);
+
+  const load = async (
+    _: Record<string, FilterValue | null>,
+    search: string,
+    setDataValue: (data: TouristPlace[]) => void
+  ) => {
+    setLoading(true);
+
+    const searchFilter: Filter = { Name: { contains: search } };
+
     const response = await get({
-      select: ["address", "id", "name", "description"],
+      select: ["Id", "Description", "Name", "Address"],
+      filter: searchFilter,
     });
 
-    if (response.ok) console.log(response.value);
+    if (response.ok) {
+      const data = response.value || [];
+      setDataValue(data);
+    } else {
+      message.error(response.message);
+    }
+    setLoading(false);
+    if (refresh) setRefresh(false);
   };
 
-  useEffect(() => {
-    load();
-  }, []);
+  const createPlace = async (form: TouristPlaceForm) => {
+    setLoading(true);
+    const response = await create(form);
 
-  return <>Place App</>;
+    if (response.ok) {
+      message.success("Place created");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
+  };
+
+  const editPlace = async (form: TouristPlaceForm, id: number) => {
+    setLoading(true);
+    const response = await edit(form, id);
+
+    if (response.ok) {
+      message.success("Place edited");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
+  };
+
+  const deletePlace = async (id: number) => {
+    setLoading(true);
+    const response = await remove(id);
+
+    if (response.ok) {
+      message.success("Place deleted");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
+  };
+
+  return (
+    <>
+      <div className="m-5">
+        <Row justify="space-between" className="app-header">
+          <Col>
+            <Typography>
+              <Title>Places</Title>
+            </Typography>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              disabled={loading}
+              onClick={() => setCreateModal(true)}
+            >
+              Create
+            </Button>
+          </Col>
+        </Row>
+        <Row className="content-center m-10">
+          <Col span={24}>
+            <TableEntities
+              refresh={refresh}
+              title="Places"
+              loading={loading}
+              columns={[
+                {
+                  title: "Name",
+                  key: "name",
+                  render: (v: TouristPlace) => <>{v.Name}</>,
+                },
+                {
+                  title: "Description",
+                  key: "description",
+                  render: (v: TouristPlace) => <>{v.Description}</>,
+                },
+                {
+                  title: "Address",
+                  key: "address",
+                  render: (v: TouristPlace) => (
+                    <>{`${v.Address.Description}, ${v.Address.City}, ${v.Address.Country}`}</>
+                  ),
+                },
+                {
+                  title: "Actions",
+                  key: "Actions",
+                  render: (v: TouristPlace) => (
+                    <Row gutter={10}>
+                      <Col>
+                        <Tooltip title="Show">
+                          <EyeOutlined />
+                        </Tooltip>
+                      </Col>
+                      <Col>
+                        <Tooltip title="Edit">
+                          <EditOutlined
+                            onClick={() => {
+                              setSelected(v);
+                              setEditModal(true);
+                            }}
+                          />
+                        </Tooltip>
+                      </Col>
+                      <Col>
+                        <Tooltip title="Delete">
+                          <DeleteOutlined
+                            onClick={() => {
+                              deletePlace(v.Id);
+                            }}
+                          />
+                        </Tooltip>
+                      </Col>
+                    </Row>
+                  ),
+                },
+              ]}
+              load={load}
+            />
+          </Col>
+        </Row>
+      </div>
+      <PlaceForm
+        onOk={(form: TouristPlaceForm) => {
+          setCreateModal(false);
+          createPlace(form);
+        }}
+        onCancel={() => setCreateModal(false)}
+        open={createModal}
+      />
+      {selected && (
+        <PlaceForm
+          onOk={(form: TouristPlaceForm) => {
+            setEditModal(false);
+            editPlace(form, selected.Id);
+          }}
+          onCancel={() => setEditModal(false)}
+          open={editModal}
+          values={{
+            name: selected.Name,
+            description: selected.Description,
+            address: selected.Address.Description,
+            city: selected.Address.City,
+            country: selected.Address.Country,
+          }}
+        />
+      )}
+    </>
+  );
 };
 
 export default PlaceApp;

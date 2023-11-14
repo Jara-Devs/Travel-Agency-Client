@@ -93,7 +93,11 @@ export async function apiOdataNoToken<T>(
 ): Promise<ApiResponse<T[]>> {
   let query = buildQuery(odataQuery);
 
-  return await apiNoToken<{}, T[]>(`${endpoint}${query}`, {}, HttpMethods.GET);
+  return await apiNoToken<{}, T[]>(
+    `odata/${endpoint}${query}`,
+    {},
+    HttpMethods.GET
+  );
 }
 
 export async function apiOdataWithToken<T>(
@@ -103,7 +107,7 @@ export async function apiOdataWithToken<T>(
   let query = buildQuery(odataQuery);
 
   return await apiWithToken<{}, T[]>(
-    `${endpoint}${query}`,
+    `odata/${endpoint}${query}`,
     {},
     HttpMethods.GET
   );
@@ -115,7 +119,11 @@ export async function apiSingleOdataNoToken<T>(
 ): Promise<ApiResponse<T>> {
   let query = buildQuery(odataQuery);
 
-  return await apiNoToken<{}, T>(`${endpoint}${query}`, {}, HttpMethods.GET);
+  return await apiNoToken<{}, T>(
+    `odata/${endpoint}${query}`,
+    {},
+    HttpMethods.GET
+  );
 }
 
 export async function apiSingleOdataWithToken<T>(
@@ -124,5 +132,9 @@ export async function apiSingleOdataWithToken<T>(
 ): Promise<ApiResponse<T>> {
   let query = buildQuery(odataQuery);
 
-  return await apiWithToken<{}, T>(`${endpoint}${query}`, {}, HttpMethods.GET);
+  return await apiWithToken<{}, T>(
+    `odata/${endpoint}${query}`,
+    {},
+    HttpMethods.GET
+  );
 }
