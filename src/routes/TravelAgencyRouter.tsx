@@ -13,7 +13,7 @@ const TravelAgencyRouter = () => {
   const { login, user } = useContext(UserContext);
   const { renew } = authService();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const checkRegister = () => {
     const token = localStorage.getItem("token");
@@ -27,7 +27,7 @@ const TravelAgencyRouter = () => {
           } else setLoading(false);
         })
         .catch(() => setLoading(false));
-    }
+    } else setLoading(false);
   };
 
   useEffect(() => {
