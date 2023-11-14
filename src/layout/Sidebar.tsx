@@ -1,4 +1,4 @@
-import { Image, Layout} from "antd";
+import { Image, Layout } from "antd";
 import logo from "../assets/logo.jpg";
 import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
@@ -38,8 +38,8 @@ export const Sidebar = () => {
     const agencyManager: ItemType[] =
       user?.role === Roles.AdminAgency || user?.role === Roles.ManagerAgency
         ? [
-            { label: "Manage Offers", link: "/agency/offer" },
-            { label: "Manage Packages", link: "/agency/package" },
+            { label: "Offers", link: "/agency/offer" },
+            { label: "Packages", link: "/agency/package" },
           ]
         : [];
 
@@ -53,12 +53,35 @@ export const Sidebar = () => {
     return agency;
   };
 
+  const appMenu = (): MenuType => {
+    const appAdmin: ItemType[] =
+      user?.role === Roles.AdminApp
+        ? [{ label: "Users", link: "/app/users" }]
+        : [];
+
+    const app: MenuType = {
+      label: "App",
+      items: [
+        { label: "Hotels", link: "/app/hotel" },
+        { label: "Excursions", link: "/app/excursion" },
+        { label: "Flights", link: "/app/flight" },
+        { label: "Places", link: "/app/place" },
+        { label: "Activities", link: "/app/activity" },
+      ].concat(appAdmin),
+    };
+
+    return app;
+  };
+
   if (
     user?.role === Roles.AdminAgency ||
     user?.role === Roles.ManagerAgency ||
     user?.role === Roles.EmployeeAgency
   )
     items.push(agencyMenu());
+
+  if (user?.role === Roles.AdminApp || user?.role === Roles.EmployeeApp)
+    items.push(appMenu());
 
   return (
     <Layout className="layout-screen-sidebar">
