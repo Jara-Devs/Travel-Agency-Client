@@ -2,16 +2,23 @@ import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import { touristPlace } from "../../api/services";
 import { useState } from "react";
 import Title from "antd/es/typography/Title";
-import { TouristPlace } from "../../types/sevice";
-import MySpin from "../../layout/MySpin";
+import { TouristPlace, TouristPlaceForm } from "../../types/sevice";
 import TableEntities from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
+import PlaceForm from "./PlaceForm";
 
 const PlaceApp = () => {
-  const { get } = touristPlace();
+  const { get, create, edit, remove } = touristPlace();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [createModal, setCreateModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
+
+  const [selected, setSelected] = useState<TouristPlace>();
+
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const load = async (
     _: Record<string, FilterValue | null>,
@@ -34,11 +41,44 @@ const PlaceApp = () => {
       message.error(response.message);
     }
     setLoading(false);
+    if (refresh) setRefresh(false);
+  };
+
+  const createPlace = async (form: TouristPlaceForm) => {
+    setLoading(true);
+    const response = await create(form);
+
+    if (response.ok) {
+      message.success("Place created");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
+  };
+
+  const editPlace = async (form: TouristPlaceForm, id: number) => {
+    setLoading(true);
+    const response = await edit(form, id);
+
+    if (response.ok) {
+      message.success("Place edited");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
+  };
+
+  const deletePlace = async (id: number) => {
+    setLoading(true);
+    const response = await remove(id);
+
+    if (response.ok) {
+      message.success("Place deleted");
+      setRefresh(true);
+    } else message.error(response.message);
+    setLoading(false);
   };
 
   return (
     <>
-      {loading && <MySpin loading={loading} />}
       <div className="m-5">
         <Row justify="space-between" className="app-header">
           <Col>
@@ -47,7 +87,11 @@ const PlaceApp = () => {
             </Typography>
           </Col>
           <Col>
-            <Button type="primary" disabled={loading}>
+            <Button
+              type="primary"
+              disabled={loading}
+              onClick={() => setCreateModal(true)}
+            >
               Create
             </Button>
           </Col>
@@ -55,6 +99,7 @@ const PlaceApp = () => {
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
+              refresh={refresh}
               title="Places"
               loading={loading}
               columns={[
@@ -78,7 +123,7 @@ const PlaceApp = () => {
                 {
                   title: "Actions",
                   key: "Actions",
-                  render: () => (
+                  render: (v: TouristPlace) => (
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
@@ -87,12 +132,21 @@ const PlaceApp = () => {
                       </Col>
                       <Col>
                         <Tooltip title="Edit">
-                          <EditOutlined />
+                          <EditOutlined
+                            onClick={() => {
+                              setSelected(v);
+                              setEditModal(true);
+                            }}
+                          />
                         </Tooltip>
                       </Col>
                       <Col>
                         <Tooltip title="Delete">
-                          <DeleteOutlined />
+                          <DeleteOutlined
+                            onClick={() => {
+                              deletePlace(v.Id);
+                            }}
+                          />
                         </Tooltip>
                       </Col>
                     </Row>
@@ -104,6 +158,31 @@ const PlaceApp = () => {
           </Col>
         </Row>
       </div>
+      <PlaceForm
+        onOk={(form: TouristPlaceForm) => {
+          setCreateModal(false);
+          createPlace(form);
+        }}
+        onCancel={() => setCreateModal(false)}
+        open={createModal}
+      />
+      {selected && (
+        <PlaceForm
+          onOk={(form: TouristPlaceForm) => {
+            setEditModal(false);
+            editPlace(form, selected.Id);
+          }}
+          onCancel={() => setEditModal(false)}
+          open={editModal}
+          values={{
+            name: selected.Name,
+            description: selected.Description,
+            address: selected.Address.Description,
+            city: selected.Address.City,
+            country: selected.Address.Country,
+          }}
+        />
+      )}
     </>
   );
 };

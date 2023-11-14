@@ -6,3 +6,9 @@ export interface TouristPlace {
   Description: string;
   Address: Address;
 }
+
+export interface TouristPlaceForm {
+  Name: string;
+  Description: string;
+  Address: Address;
+}

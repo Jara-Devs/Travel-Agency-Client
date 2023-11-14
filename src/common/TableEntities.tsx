@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Row, Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { FilterValue } from "antd/es/table/interface";
 import Title from "antd/es/typography/Title";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { UndoOutlined } from "@ant-design/icons";
 
 export interface TableEntitiesProps<T> {
@@ -84,6 +84,7 @@ function TableEntities<T extends object>({
       <Row>
         <Col span={24}>
           <Table
+            loading={loading}
             pagination={false}
             rowKey="Id"
             dataSource={dataValue}
