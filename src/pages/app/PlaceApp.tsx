@@ -1,9 +1,9 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import { touristPlace } from "../../api/services";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import { TouristPlace, TouristPlaceForm } from "../../types/sevice";
-import TableEntities from "../../common/TableEntities";
+import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
@@ -18,7 +18,10 @@ const PlaceApp = () => {
 
   const [selected, setSelected] = useState<TouristPlace>();
 
-  const [refresh, setRefresh] = useState<boolean>(false);
+  const tableRef = useRef<TableEntitiesRef>({
+    reload: () => {},
+    reset: () => {},
+  });
 
   const load = async (
     _: Record<string, FilterValue | null>,
@@ -41,7 +44,7 @@ const PlaceApp = () => {
       message.error(response.message);
     }
     setLoading(false);
-    if (refresh) setRefresh(false);
+    // if (refresh) setRefresh(false);
   };
 
   const createPlace = async (form: TouristPlaceForm) => {
@@ -50,7 +53,7 @@ const PlaceApp = () => {
 
     if (response.ok) {
       message.success("Place created");
-      setRefresh(true);
+      tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
@@ -61,7 +64,7 @@ const PlaceApp = () => {
 
     if (response.ok) {
       message.success("Place edited");
-      setRefresh(true);
+      tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
@@ -72,7 +75,7 @@ const PlaceApp = () => {
 
     if (response.ok) {
       message.success("Place deleted");
-      setRefresh(true);
+      tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
@@ -99,7 +102,7 @@ const PlaceApp = () => {
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
-              refresh={refresh}
+              ref={tableRef}
               title="Places"
               loading={loading}
               columns={[
