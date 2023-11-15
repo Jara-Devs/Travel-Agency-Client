@@ -1,10 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import {
   ExcursionFormType,
+  Hotel,
   OverNighExcursionFormType,
+  TouristActivity,
+  TouristPlace,
 } from "../../types/sevice";
-import { Form, Input, Modal, Select, Typography } from "antd";
+import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
+import { hotel, touristActivity, touristPlace } from "../../api/services";
+import { ApiResponse } from "../../types/api";
 
 export interface ExcursionFormData {
   name: string;
@@ -31,10 +36,50 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
 
   const [isOverNight, setIsOverNight] = useState<boolean>(false);
 
+  const [places, setPlaces] = useState<TouristPlace[]>([]);
+  const [activities, setActivities] = useState<TouristActivity[]>([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  const load = async () => {
+    const responsePlaces = await touristPlace().get({ select: ["Id", "Name"] });
+    const responseActivities = await touristActivity().get({
+      select: ["Id", "Name"],
+    });
+    const responseHotels = await hotel().get({
+      select: ["Id", "Name"],
+    });
+
+    if (responsePlaces.ok && responseActivities.ok && responseActivities.ok) {
+      setPlaces(responsePlaces.value!);
+      setActivities(responseActivities.value!);
+      setHotels(responseHotels.value!);
+    } else {
+      let msg = "";
+
+      const aux = (response: ApiResponse<any>) => {
+        if (!responseActivities.ok) {
+          if (msg.length === 0) msg = response.message;
+          else msg = `${message}, ${response.message}`;
+        }
+      };
+
+      aux(responseActivities);
+      aux(responsePlaces);
+      aux(responseHotels);
+
+      message.error(msg);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
   useEffect(() => {
     if (open) form.resetFields();
     if (values) form.setFieldsValue({ ...values });
     if (values?.hotelId) setIsOverNight(true);
+    else setIsOverNight(false);
   }, [open, form, values]);
 
   return (
@@ -100,10 +145,12 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
               showSearch
               allowClear
               filterOption={(input, option) => option?.label === input}
-              options={[
-                { value: 1, label: "a" },
-                { value: 2, label: "b" },
-              ]}
+              options={hotels.map((x) => ({
+                value: x.Id,
+                label: x.Name,
+                key: x.Id,
+              }))}
+              placeholder="Select the hotel"
             />
           </Form.Item>
         )}
@@ -116,10 +163,12 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             mode="multiple"
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={[
-              { value: 1, label: "a" },
-              { value: 2, label: "b" },
-            ]}
+            options={places.map((x) => ({
+              value: x.Id,
+              label: x.Name,
+              key: x.Id,
+            }))}
+            placeholder="Select the places"
           />
         </Form.Item>
 
@@ -132,10 +181,12 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             mode="multiple"
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={[
-              { value: 1, label: "a" },
-              { value: 2, label: "b" },
-            ]}
+            options={activities.map((x) => ({
+              value: x.Id,
+              label: x.Name,
+              key: x.Id,
+            }))}
+            placeholder="Select the activities"
           />
         </Form.Item>
       </Form>

@@ -19,6 +19,11 @@ export interface TouristActivity {
   Description: string;
 }
 
+export interface TouristActivityFormType {
+  Name: string;
+  Description: string;
+}
+
 export interface Excursion {
   Id: number;
   Name: string;
@@ -44,5 +49,9 @@ export interface OverNighExcursionFormType extends ExcursionFormType {
 
 export interface Hotel {
   Id: number;
+  Name: string;
+}
+
+export interface HotelFormType {
   Name: string;
 }

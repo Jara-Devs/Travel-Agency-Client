@@ -2,8 +2,12 @@ import { QueryOptions } from "odata-query";
 import {
   Excursion,
   ExcursionFormType,
+  Hotel,
+  HotelFormType,
   OverNighExcursion,
   OverNighExcursionFormType,
+  TouristActivity,
+  TouristActivityFormType,
   TouristPlace,
   TouristPlaceFormType,
 } from "../types/sevice";
@@ -30,6 +34,11 @@ export const serviceController = <T1, T2>(controller: string) => {
 export const touristPlace = () =>
   serviceController<TouristPlace, TouristPlaceFormType>("touristPlace");
 
+export const touristActivity = () =>
+  serviceController<TouristActivity, TouristActivityFormType>(
+    "touristActivity"
+  );
+
 export const excursion = () =>
   serviceController<Excursion, ExcursionFormType>("excursion");
 
@@ -37,3 +46,5 @@ export const overNighExcursion = () =>
   serviceController<OverNighExcursion, OverNighExcursionFormType>(
     "overNightExcursion"
   );
+
+export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");

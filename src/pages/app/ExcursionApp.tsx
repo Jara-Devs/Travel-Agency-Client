@@ -46,10 +46,12 @@ const ExcursionApp = () => {
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = {
+      and: [{ Name: { contains: search } }, { IsOverNight: { eq: false } }],
+    };
 
     const response = await get({
-      select: ["Name", "Id"],
+      select: ["Name", "Id", "IsOverNight"],
       expand: {
         Activities: {
           select: ["Id", "Name"],
@@ -80,7 +82,7 @@ const ExcursionApp = () => {
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await getOverNight({
-      select: ["Name", "Id", "HotelId"],
+      select: ["Name", "Id", "HotelId", "IsOverNight"],
       expand: {
         Activities: {
           select: ["Id", "Name"],
@@ -196,7 +198,7 @@ const ExcursionApp = () => {
             <Tooltip title="Delete">
               <DeleteOutlined
                 onClick={() => {
-                  deleteExcursion(v.Id);
+                  deleteExcursion(v.Id, v.IsOverNight);
                 }}
               />
             </Tooltip>
@@ -254,32 +256,34 @@ const ExcursionApp = () => {
       </div>
       <ExcursionForm
         onOk={(form: ExcursionFormType, isOverNight: boolean) => {
-          setCreateModal(false);
-          createExcursion(form, isOverNight);
-        }}
-        create={true}
-        onCancel={() => setCreateModal(false)}
-        open={createModal}
-      />
-      {selected && (
-        <ExcursionForm
-          create={false}
-          onOk={(form: ExcursionFormType, isOverNight: boolean) => {
+          if (createModal) {
+            setCreateModal(false);
+            createExcursion(form, isOverNight);
+          }
+          if (editModal && selected != null) {
             setEditModal(false);
             editExcursion(form, selected.Id, isOverNight);
-          }}
-          onCancel={() => setEditModal(false)}
-          open={editModal}
-          values={{
-            name: selected.Name,
-            places: selected.Places.map((x) => x.Id),
-            activities: selected.Activities.map((x) => x.Id),
-            hotelId: selected.IsOverNight
-              ? (selected as OverNighExcursion).HotelId
-              : undefined,
-          }}
-        />
-      )}
+          }
+        }}
+        create={createModal}
+        onCancel={() => {
+          if (createModal) setCreateModal(false);
+          if (editModal) setEditModal(false);
+        }}
+        open={createModal || editModal}
+        values={
+          editModal && selected != null
+            ? {
+                name: selected.Name,
+                places: selected.Places.map((x) => x.Id),
+                activities: selected.Activities.map((x) => x.Id),
+                hotelId: selected.IsOverNight
+                  ? (selected as OverNighExcursion).HotelId
+                  : undefined,
+              }
+            : undefined
+        }
+      />
     </>
   );
 };
