@@ -10,17 +10,23 @@ export interface ExcursionFormData {
   name: string;
   places: number[];
   activities: number[];
-  idHotel?: number;
+  hotelId?: number;
 }
 export interface ExcursionFormProps {
-  onOk0: (form: ExcursionFormType) => void;
-  onOk1: (form: OverNighExcursionFormType) => void;
+  onOk: (form: ExcursionFormType, isOverNight: boolean) => void;
   onCancel: () => void;
   values?: ExcursionFormData;
+  create: boolean;
   open: boolean;
 }
 
-const ExcursionForm: FC<ExcursionFormProps> = ({ onCancel, values, open }) => {
+const ExcursionForm: FC<ExcursionFormProps> = ({
+  onCancel,
+  values,
+  open,
+  create,
+  onOk,
+}) => {
   const [form] = Form.useForm<ExcursionFormData>();
 
   const [isOverNight, setIsOverNight] = useState<boolean>(false);
@@ -28,6 +34,7 @@ const ExcursionForm: FC<ExcursionFormProps> = ({ onCancel, values, open }) => {
   useEffect(() => {
     if (open) form.resetFields();
     if (values) form.setFieldsValue({ ...values });
+    if (values?.hotelId) setIsOverNight(true);
   }, [open, form, values]);
 
   return (
@@ -46,15 +53,21 @@ const ExcursionForm: FC<ExcursionFormProps> = ({ onCancel, values, open }) => {
         style={{ marginTop: "20px" }}
         form={form}
         onFinish={(values: ExcursionFormData) => {
-          //   onOk({
-          //     Name: values.name,
-          //     Description: values.description,
-          //     Address: {
-          //       Description: values.address,
-          //       Country: values.country,
-          //       City: values.city,
-          //     },
-          //   });
+          onOk(
+            isOverNight
+              ? ({
+                  Name: values.name,
+                  Places: values.places,
+                  Activities: values.activities,
+                  HotelId: values.hotelId!,
+                } as OverNighExcursionFormType)
+              : {
+                  Name: values.name,
+                  Places: values.places,
+                  Activities: values.activities,
+                },
+            isOverNight
+          );
         }}
       >
         <Form.Item
@@ -64,17 +77,19 @@ const ExcursionForm: FC<ExcursionFormProps> = ({ onCancel, values, open }) => {
         >
           <Input placeholder="Introduce the name" />
         </Form.Item>
-        <Form.Item label="Type">
-          <Select
-            defaultValue={false}
-            value={isOverNight}
-            options={[
-              { value: false, label: "Excursion" },
-              { value: true, label: "OverNight Excursion" },
-            ]}
-            onChange={(v) => setIsOverNight(v)}
-          />
-        </Form.Item>
+        {create && (
+          <Form.Item label="Type">
+            <Select
+              defaultValue={false}
+              value={isOverNight}
+              options={[
+                { value: false, label: "Excursion" },
+                { value: true, label: "OverNight Excursion" },
+              ]}
+              onChange={(v) => setIsOverNight(v)}
+            />
+          </Form.Item>
+        )}
         {isOverNight && (
           <Form.Item
             label="Hotel"

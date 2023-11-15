@@ -1,5 +1,5 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { excursion, overNighExcursion, touristPlace } from "../../api/services";
+import { excursion, overNighExcursion } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import {
@@ -23,7 +23,7 @@ const ExcursionApp = () => {
     remove: removeOverNight,
   } = overNighExcursion();
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [loadingOverNight, setLoadingOverNight] = useState<boolean>(false);
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
@@ -75,7 +75,7 @@ const ExcursionApp = () => {
     search: string,
     setDataValue: (data: OverNighExcursion[]) => void
   ) => {
-    setLoading(true);
+    setLoadingOverNight(true);
 
     const searchFilter: Filter = { Name: { contains: search } };
 
@@ -101,41 +101,69 @@ const ExcursionApp = () => {
     } else {
       message.error(response.message);
     }
-    setLoading(false);
+    setLoadingOverNight(false);
   };
 
-  //   const createPlace = async (form: TouristPlaceForm) => {
-  //     setLoading(true);
-  //     const response = await create(form);
+  const createExcursion = async (
+    form: ExcursionFormType,
+    isOverNight: boolean = false
+  ) => {
+    if (isOverNight) setLoadingOverNight(true);
+    else setLoading(true);
 
-  //     if (response.ok) {
-  //       message.success("Place created");
-  //       tableRef.current.reload();
-  //     } else message.error(response.message);
-  //     setLoading(false);
-  //   };
+    const response = await (isOverNight
+      ? createOverNight(form as OverNighExcursionFormType)
+      : create(form));
 
-  //   const editPlace = async (form: TouristPlaceForm, id: number) => {
-  //     setLoading(true);
-  //     const response = await edit(form, id);
+    if (response.ok) {
+      message.success("Excursion created");
 
-  //     if (response.ok) {
-  //       message.success("Place edited");
-  //       tableRef.current.reload();
-  //     } else message.error(response.message);
-  //     setLoading(false);
-  //   };
+      if (isOverNight) tableRefOverNight.current.reload();
+      else tableRef.current.reload();
+    } else message.error(response.message);
 
-  //   const deletePlace = async (id: number) => {
-  //     setLoading(true);
-  //     const response = await remove(id);
+    if (isOverNight) setLoadingOverNight(false);
+    else setLoading(false);
+  };
 
-  //     if (response.ok) {
-  //       message.success("Place deleted");
-  //       tableRef.current.reload();
-  //     } else message.error(response.message);
-  //     setLoading(false);
-  //   };
+  const editExcursion = async (
+    form: ExcursionFormType,
+    id: number,
+    isOverNight: boolean = false
+  ) => {
+    if (isOverNight) setLoadingOverNight(true);
+    else setLoading(true);
+
+    const response = await (isOverNight
+      ? editOverNight(form as OverNighExcursionFormType, id)
+      : edit(form, id));
+
+    if (response.ok) {
+      message.success("Excursion edited");
+
+      if (isOverNight) tableRefOverNight.current.reload();
+      else tableRef.current.reload();
+    } else message.error(response.message);
+
+    if (isOverNight) setLoadingOverNight(false);
+    else setLoading(false);
+  };
+
+  const deleteExcursion = async (id: number, isOverNight: boolean = false) => {
+    if (isOverNight) setLoadingOverNight(true);
+    else setLoading(true);
+    const response = await (isOverNight ? removeOverNight(id) : remove(id));
+
+    if (response.ok) {
+      message.success("Excursion deleted");
+
+      if (isOverNight) tableRefOverNight.current.reload();
+      else tableRef.current.reload();
+    } else message.error(response.message);
+
+    if (isOverNight) setLoadingOverNight(false);
+    else setLoading(false);
+  };
 
   const getTable = (isOverNight: boolean) => {
     const nameColumn = {
@@ -168,7 +196,7 @@ const ExcursionApp = () => {
             <Tooltip title="Delete">
               <DeleteOutlined
                 onClick={() => {
-                  //   deletePlace(v.Id);
+                  deleteExcursion(v.Id);
                 }}
               />
             </Tooltip>
@@ -191,7 +219,7 @@ const ExcursionApp = () => {
       <TableEntities
         ref={isOverNight ? tableRefOverNight : tableRef}
         title={isOverNight ? "OverNight Excursions" : "Excursions"}
-        loading={loading}
+        loading={isOverNight ? loadingOverNight : loading}
         columns={columns}
         load={isOverNight ? loadOverNight : load}
       />
@@ -204,7 +232,7 @@ const ExcursionApp = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Places</Title>
+              <Title>Excursions</Title>
             </Typography>
           </Col>
           <Col>
@@ -225,34 +253,33 @@ const ExcursionApp = () => {
         </Row>
       </div>
       <ExcursionForm
-        onOk0={(form: ExcursionFormType) => {
+        onOk={(form: ExcursionFormType, isOverNight: boolean) => {
           setCreateModal(false);
-          //   createPlace(form);
+          createExcursion(form, isOverNight);
         }}
-        onOk1={(form: OverNighExcursionFormType) => {
-          setCreateModal(false);
-          //   createPlace(form);
-        }}
+        create={true}
         onCancel={() => setCreateModal(false)}
         open={createModal}
       />
-      {/* {selected && (
-        <PlaceForm
-          onOk={(form: TouristPlaceForm) => {
+      {selected && (
+        <ExcursionForm
+          create={false}
+          onOk={(form: ExcursionFormType, isOverNight: boolean) => {
             setEditModal(false);
-            editPlace(form, selected.Id);
+            editExcursion(form, selected.Id, isOverNight);
           }}
           onCancel={() => setEditModal(false)}
           open={editModal}
           values={{
             name: selected.Name,
-            description: selected.Description,
-            address: selected.Address.Description,
-            city: selected.Address.City,
-            country: selected.Address.Country,
+            places: selected.Places.map((x) => x.Id),
+            activities: selected.Activities.map((x) => x.Id),
+            hotelId: selected.IsOverNight
+              ? (selected as OverNighExcursion).HotelId
+              : undefined,
           }}
         />
-      )} */}
+      )}
     </>
   );
 };
