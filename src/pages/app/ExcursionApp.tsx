@@ -1,4 +1,4 @@
-import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
 import { excursion, overNighExcursion } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
@@ -174,6 +174,34 @@ const ExcursionApp = () => {
       render: (v: Excursion) => <>{v.Name}</>,
     };
 
+    const placesColumn = {
+      title: "Places",
+      key: "places",
+      render: (v: Excursion) => (
+        <>
+          {v.Places.map((x, ids) => (
+            <Tag key={ids} color="blue">
+              {x.Name}
+            </Tag>
+          ))}
+        </>
+      ),
+    };
+
+    const activitiesColumn = {
+      title: "Activities",
+      key: "activities",
+      render: (v: Excursion) => (
+        <>
+          {v.Activities.map((x, ids) => (
+            <Tag key={ids} color="green">
+              {x.Name}
+            </Tag>
+          ))}
+        </>
+      ),
+    };
+
     const actionsColumn = {
       title: "Actions",
       key: "Actions",
@@ -214,8 +242,8 @@ const ExcursionApp = () => {
     };
 
     const columns = isOverNight
-      ? [nameColumn, hotelColumn, actionsColumn]
-      : [nameColumn, actionsColumn];
+      ? [nameColumn, placesColumn, activitiesColumn, hotelColumn, actionsColumn]
+      : [nameColumn, placesColumn, activitiesColumn, actionsColumn];
 
     return (
       <TableEntities
