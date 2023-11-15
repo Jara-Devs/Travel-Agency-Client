@@ -1,11 +1,11 @@
 import { QueryOptions } from "odata-query";
 import {
   Excursion,
-  ExcursionForm,
+  ExcursionFormType,
   OverNighExcursion,
-  OverNighExcursionForm,
+  OverNighExcursionFormType,
   TouristPlace,
-  TouristPlaceForm,
+  TouristPlaceFormType,
 } from "../types/sevice";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
@@ -28,12 +28,12 @@ export const serviceController = <T1, T2>(controller: string) => {
 };
 
 export const touristPlace = () =>
-  serviceController<TouristPlace, TouristPlaceForm>("touristPlace");
+  serviceController<TouristPlace, TouristPlaceFormType>("touristPlace");
 
 export const excursion = () =>
-  serviceController<Excursion, ExcursionForm>("excursion");
+  serviceController<Excursion, ExcursionFormType>("excursion");
 
 export const overNighExcursion = () =>
-  serviceController<OverNighExcursion, OverNighExcursionForm>(
+  serviceController<OverNighExcursion, OverNighExcursionFormType>(
     "overNightExcursion"
   );

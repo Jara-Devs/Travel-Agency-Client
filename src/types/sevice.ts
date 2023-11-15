@@ -1,4 +1,3 @@
-import { excursion } from "../api/services";
 import { Address } from "./common";
 
 export interface TouristPlace {
@@ -8,7 +7,7 @@ export interface TouristPlace {
   Address: Address;
 }
 
-export interface TouristPlaceForm {
+export interface TouristPlaceFormType {
   Name: string;
   Description: string;
   Address: Address;
@@ -23,28 +22,23 @@ export interface TouristActivity {
 export interface Excursion {
   Id: number;
   Name: string;
+  IsOverNight: boolean;
   Places: TouristPlace[];
   Activities: TouristActivity[];
 }
-
-export const isOverNightExcursion = (excursion: Excursion) => {
-  const e = excursion as OverNighExcursion;
-
-  return e?.HotelId != null;
-};
 
 export interface OverNighExcursion extends Excursion {
   HotelId: number;
   Hotel: Hotel;
 }
 
-export interface ExcursionForm {
+export interface ExcursionFormType {
   Name: string;
   Places: number[];
   Activities: number[];
 }
 
-export interface OverNighExcursionForm extends ExcursionForm {
+export interface OverNighExcursionFormType extends ExcursionFormType {
   HotelId: number;
 }
 

@@ -4,13 +4,15 @@ import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import {
   Excursion,
+  ExcursionFormType,
   OverNighExcursion,
-  isOverNightExcursion,
+  OverNighExcursionFormType,
 } from "../../types/sevice";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
+import ExcursionForm from "./ExcursionForm";
 
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();
@@ -222,15 +224,19 @@ const ExcursionApp = () => {
           <Col span={24}>{getTable(true)}</Col>
         </Row>
       </div>
-      {/* <PlaceForm
-        onOk={(form: TouristPlaceForm) => {
+      <ExcursionForm
+        onOk0={(form: ExcursionFormType) => {
           setCreateModal(false);
-          createPlace(form);
+          //   createPlace(form);
+        }}
+        onOk1={(form: OverNighExcursionFormType) => {
+          setCreateModal(false);
+          //   createPlace(form);
         }}
         onCancel={() => setCreateModal(false)}
         open={createModal}
       />
-      {selected && (
+      {/* {selected && (
         <PlaceForm
           onOk={(form: TouristPlaceForm) => {
             setEditModal(false);
