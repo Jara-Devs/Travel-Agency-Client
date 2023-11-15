@@ -42,7 +42,7 @@ const TravelAgencyRouter = () => {
   return (
     <>
       {loading ? (
-        <MySpin loading={loading} />
+        <MySpin loading={loading} initial={true} />
       ) : (
         <BrowserRouter>
           <Routes>
