@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { TouristPlaceForm } from "../../types/sevice";
+import { TouristPlaceFormType } from "../../types/services";
 import { Form, Input, Modal, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 
@@ -11,7 +11,7 @@ export interface PlaceFormData {
   country: string;
 }
 export interface PlaceFormProps {
-  onOk: (form: TouristPlaceForm) => void;
+  onOk: (form: TouristPlaceFormType) => void;
   onCancel: () => void;
   values?: PlaceFormData;
   open: boolean;

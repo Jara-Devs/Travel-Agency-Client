@@ -2,7 +2,7 @@ import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import { touristPlace } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { TouristPlace, TouristPlaceForm } from "../../types/sevice";
+import { TouristPlace, TouristPlaceFormType } from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
@@ -44,10 +44,9 @@ const PlaceApp = () => {
       message.error(response.message);
     }
     setLoading(false);
-    // if (refresh) setRefresh(false);
   };
 
-  const createPlace = async (form: TouristPlaceForm) => {
+  const createPlace = async (form: TouristPlaceFormType) => {
     setLoading(true);
     const response = await create(form);
 
@@ -58,7 +57,7 @@ const PlaceApp = () => {
     setLoading(false);
   };
 
-  const editPlace = async (form: TouristPlaceForm, id: number) => {
+  const editPlace = async (form: TouristPlaceFormType, id: number) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -162,7 +161,7 @@ const PlaceApp = () => {
         </Row>
       </div>
       <PlaceForm
-        onOk={(form: TouristPlaceForm) => {
+        onOk={(form: TouristPlaceFormType) => {
           setCreateModal(false);
           createPlace(form);
         }}
@@ -171,7 +170,7 @@ const PlaceApp = () => {
       />
       {selected && (
         <PlaceForm
-          onOk={(form: TouristPlaceForm) => {
+          onOk={(form: TouristPlaceFormType) => {
             setEditModal(false);
             editPlace(form, selected.Id);
           }}
