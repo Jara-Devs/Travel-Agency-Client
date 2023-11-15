@@ -44,7 +44,6 @@ const PlaceApp = () => {
       message.error(response.message);
     }
     setLoading(false);
-    // if (refresh) setRefresh(false);
   };
 
   const createPlace = async (form: TouristPlaceForm) => {
