@@ -7,7 +7,7 @@ import {
   ExcursionFormType,
   OverNighExcursion,
   OverNighExcursionFormType,
-} from "../../types/sevice";
+} from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";

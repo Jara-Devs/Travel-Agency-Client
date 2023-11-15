@@ -5,7 +5,7 @@ import {
   OverNighExcursionFormType,
   TouristActivity,
   TouristPlace,
-} from "../../types/sevice";
+} from "../../types/services";
 import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
 import { hotel, touristActivity, touristPlace } from "../../api/services";

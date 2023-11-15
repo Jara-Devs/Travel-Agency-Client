@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { TouristPlaceFormType } from "../../types/sevice";
+import { TouristPlaceFormType } from "../../types/services";
 import { Form, Input, Modal, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 

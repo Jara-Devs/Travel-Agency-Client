@@ -10,7 +10,7 @@ import {
   TouristActivityFormType,
   TouristPlace,
   TouristPlaceFormType,
-} from "../types/sevice";
+} from "../types/services";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
 

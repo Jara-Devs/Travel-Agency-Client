@@ -2,7 +2,7 @@ import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import { touristPlace } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { TouristPlace, TouristPlaceFormType } from "../../types/sevice";
+import { TouristPlace, TouristPlaceFormType } from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
