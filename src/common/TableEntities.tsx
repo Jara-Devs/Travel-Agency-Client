@@ -2,11 +2,16 @@ import { Button, Col, Form, Input, Row, Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { FilterValue } from "antd/es/table/interface";
 import Title from "antd/es/typography/Title";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UndoOutlined } from "@ant-design/icons";
+import React, { forwardRef, useImperativeHandle } from "react";
+
+export interface TableEntitiesRef {
+  reset: () => void;
+  reload: () => void;
+}
 
 export interface TableEntitiesProps<T> {
-  data?: T[];
   title: string;
   loading: boolean;
   load: (
@@ -15,34 +20,35 @@ export interface TableEntitiesProps<T> {
     setDataValue: (data: T[]) => void
   ) => void;
   columns: ColumnsType<T>;
-  refresh?: boolean;
 }
 
-function TableEntities<T extends object>({
-  data = [],
-  load,
-  columns,
-  title,
-  loading,
-  refresh = false,
-}: TableEntitiesProps<T>) {
+const TableEntities = <T extends object>(
+  { load, columns, title, loading }: TableEntitiesProps<T>,
+  ref?: React.Ref<TableEntitiesRef>
+) => {
   const [filters, setFilters] = useState<Record<string, FilterValue | null>>(
     {}
   );
   const [search, setSearch] = useState<string>("");
 
-  const [dataValue, setDataValue] = useState<T[]>(data);
+  const [dataValue, setDataValue] = useState<T[]>([]);
   const [form] = Form.useForm();
+
+  const reset = () => {
+    setFilters({});
+    setSearch("");
+    form.resetFields();
+  };
+
+  useImperativeHandle(ref, () => ({
+    reset: reset,
+    reload: () => load(filters, search, setDataValue),
+  }));
 
   useEffect(() => {
     load(filters, search, setDataValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, filters]);
-
-  useEffect(() => {
-    if (refresh) load(filters, search, setDataValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refresh]);
 
   return (
     <>
@@ -65,14 +71,7 @@ function TableEntities<T extends object>({
               </Col>
               <Col>
                 <Form.Item>
-                  <Button
-                    disabled={loading}
-                    onClick={() => {
-                      setFilters({});
-                      setSearch("");
-                      form.resetFields();
-                    }}
-                  >
+                  <Button disabled={loading} onClick={reset}>
                     <UndoOutlined />
                   </Button>
                 </Form.Item>
@@ -97,6 +96,6 @@ function TableEntities<T extends object>({
       </Row>
     </>
   );
-}
+};
 
-export default TableEntities;
+export default forwardRef(TableEntities);
