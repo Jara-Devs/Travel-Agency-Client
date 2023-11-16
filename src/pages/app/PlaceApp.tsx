@@ -8,6 +8,7 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import PlaceForm from "./PlaceForm";
+import ShowPlace from "../show/ShowPlace";
 
 const PlaceApp = () => {
   const { get, create, edit, remove } = touristPlace();
@@ -17,6 +18,7 @@ const PlaceApp = () => {
   const [editModal, setEditModal] = useState<boolean>(false);
 
   const [selected, setSelected] = useState<TouristPlace>();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
     reload: () => {},
@@ -129,7 +131,12 @@ const PlaceApp = () => {
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
-                          <EyeOutlined />
+                          <EyeOutlined
+                            onClick={() => {
+                              setSelected(v);
+                              setShowModal(true);
+                            }}
+                          />
                         </Tooltip>
                       </Col>
                       <Col>
@@ -183,6 +190,15 @@ const PlaceApp = () => {
             city: selected.Address.City,
             country: selected.Address.Country,
           }}
+        />
+      )}
+      {selected && (
+        <ShowPlace
+          open={showModal}
+          onOk={() => {
+            setShowModal(false);
+          }}
+          place={selected}
         />
       )}
     </>
