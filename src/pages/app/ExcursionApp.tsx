@@ -13,6 +13,7 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ExcursionForm from "./ExcursionForm";
+import ShowExcursion from "../show/ShowExcursion";
 
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();
@@ -28,6 +29,7 @@ const ExcursionApp = () => {
   const [editModal, setEditModal] = useState<boolean>(false);
 
   const [selected, setSelected] = useState<Excursion>();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
     reload: () => {},
@@ -54,10 +56,10 @@ const ExcursionApp = () => {
       select: ["Name", "Id", "IsOverNight"],
       expand: {
         Activities: {
-          select: ["Id", "Name"],
+          select: ["Id", "Name", "Description"],
         },
         Places: {
-          select: ["Id", "Name"],
+          select: ["Id", "Name", "Description"],
         },
       },
       filter: searchFilter,
@@ -85,10 +87,10 @@ const ExcursionApp = () => {
       select: ["Name", "Id", "HotelId", "IsOverNight"],
       expand: {
         Activities: {
-          select: ["Id", "Name"],
+          select: ["Id", "Name", "Description"],
         },
         Places: {
-          select: ["Id", "Name"],
+          select: ["Id", "Name", "Description"],
         },
         Hotel: {
           select: ["Id", "Name"],
@@ -209,7 +211,12 @@ const ExcursionApp = () => {
         <Row gutter={10}>
           <Col>
             <Tooltip title="Show">
-              <EyeOutlined />
+              <EyeOutlined
+                onClick={() => {
+                  setSelected(v);
+                  setShowModal(true);
+                }}
+              />
             </Tooltip>
           </Col>
           <Col>
@@ -312,6 +319,16 @@ const ExcursionApp = () => {
             : undefined
         }
       />
+      {selected && (
+        <ShowExcursion
+          open={showModal}
+          onOk={() => {
+            setSelected(undefined);
+            setShowModal(false);
+          }}
+          excursion={selected}
+        />
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Alert, Col, Image, Modal, Row, Typography } from "antd";
+import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { TouristPlace } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -12,9 +12,10 @@ export interface ShowPlaceProps {
 const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
   return (
     <Modal
+      width={800}
       title={
         <Typography>
-          <Title level={3}>{place.Name}</Title>
+          <Title level={2}>{place.Name}</Title>
         </Typography>
       }
       open={open}
@@ -25,7 +26,9 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
     >
       <Row className="m-5">
         <Col span={24}>
-          <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+          <Card className="center-content">
+            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+          </Card>
         </Col>
       </Row>
       <Row className="m-5">
@@ -41,7 +44,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
         <Col span={24}>
           <Alert
             type="success"
-            message="Address"
+            message="Address:"
             description={`${place.Address.Description}, ${place.Address.City}, ${place.Address.Country}`}
           />
         </Col>
