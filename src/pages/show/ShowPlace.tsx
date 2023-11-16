@@ -9,6 +9,20 @@ export interface ShowPlaceProps {
   place: TouristPlace;
 }
 
+export const ShowMiniPlace: FC<{ place: TouristPlace }> = ({ place }) => (
+  <Card
+    hoverable
+    cover={
+      <img
+        alt="example"
+        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+      />
+    }
+  >
+    <Card.Meta title={place.Name} description={place.Description} />
+  </Card>
+);
+
 const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
   return (
     <Modal
