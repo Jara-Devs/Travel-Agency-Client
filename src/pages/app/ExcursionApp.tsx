@@ -53,13 +53,13 @@ const ExcursionApp = () => {
     };
 
     const response = await get({
-      select: ["Name", "Id", "IsOverNight"],
+      select: ["name", "id", "isOverNight"],
       expand: {
-        Activities: {
-          select: ["Id", "Name", "Description"],
+        activities: {
+          select: ["id", "name", "description"],
         },
-        Places: {
-          select: ["Id", "Name", "Description"],
+        places: {
+          select: ["id", "name", "description"],
         },
       },
       filter: searchFilter,
@@ -84,16 +84,16 @@ const ExcursionApp = () => {
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await getOverNight({
-      select: ["Name", "Id", "HotelId", "IsOverNight"],
+      select: ["name", "id", "hotelId", "isOverNight"],
       expand: {
-        Activities: {
-          select: ["Id", "Name", "Description"],
+        activities: {
+          select: ["id", "name", "description"],
         },
-        Places: {
-          select: ["Id", "Name", "Description"],
+        places: {
+          select: ["id", "name", "description"],
         },
-        Hotel: {
-          select: ["Id", "Name"],
+        hotel: {
+          select: ["id", "name"],
         },
       },
       filter: searchFilter,
@@ -173,7 +173,7 @@ const ExcursionApp = () => {
     const nameColumn = {
       title: "Name",
       key: "name",
-      render: (v: Excursion) => <>{v.Name}</>,
+      render: (v: Excursion) => <>{v.name}</>,
     };
 
     const placesColumn = {
@@ -181,9 +181,9 @@ const ExcursionApp = () => {
       key: "places",
       render: (v: Excursion) => (
         <>
-          {v.Places.map((x, ids) => (
+          {v.places.map((x, ids) => (
             <Tag key={ids} color="blue">
-              {x.Name}
+              {x.name}
             </Tag>
           ))}
         </>
@@ -195,9 +195,9 @@ const ExcursionApp = () => {
       key: "activities",
       render: (v: Excursion) => (
         <>
-          {v.Activities.map((x, ids) => (
+          {v.activities.map((x, ids) => (
             <Tag key={ids} color="green">
-              {x.Name}
+              {x.name}
             </Tag>
           ))}
         </>
@@ -233,7 +233,7 @@ const ExcursionApp = () => {
             <Tooltip title="Delete">
               <DeleteOutlined
                 onClick={() => {
-                  deleteExcursion(v.Id, v.IsOverNight);
+                  deleteExcursion(v.id, v.isOverNight);
                 }}
               />
             </Tooltip>
@@ -245,7 +245,7 @@ const ExcursionApp = () => {
     const hotelColumn = {
       title: "Hotel",
       key: "hotel",
-      render: (v: OverNighExcursion) => <>{v.Hotel.Name}</>,
+      render: (v: OverNighExcursion) => <>{v.hotel.name}</>,
     };
 
     const columns = isOverNight
@@ -297,7 +297,7 @@ const ExcursionApp = () => {
           }
           if (editModal && selected != null) {
             setEditModal(false);
-            editExcursion(form, selected.Id, isOverNight);
+            editExcursion(form, selected.id, isOverNight);
           }
         }}
         create={createModal}
@@ -309,11 +309,11 @@ const ExcursionApp = () => {
         values={
           editModal && selected != null
             ? {
-                name: selected.Name,
-                places: selected.Places.map((x) => x.Id),
-                activities: selected.Activities.map((x) => x.Id),
-                hotelId: selected.IsOverNight
-                  ? (selected as OverNighExcursion).HotelId
+                name: selected.name,
+                places: selected.places.map((x) => x.id),
+                activities: selected.activities.map((x) => x.id),
+                hotelId: selected.isOverNight
+                  ? (selected as OverNighExcursion).hotelId
                   : undefined,
               }
             : undefined

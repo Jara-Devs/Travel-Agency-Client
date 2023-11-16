@@ -35,7 +35,7 @@ const PlaceApp = () => {
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await get({
-      select: ["Id", "Description", "Name", "Address"],
+      select: ["id", "description", "name", "address"],
       filter: searchFilter,
     });
 
@@ -110,18 +110,18 @@ const PlaceApp = () => {
                 {
                   title: "Name",
                   key: "name",
-                  render: (v: TouristPlace) => <>{v.Name}</>,
+                  render: (v: TouristPlace) => <>{v.name}</>,
                 },
                 {
                   title: "Description",
                   key: "description",
-                  render: (v: TouristPlace) => <>{v.Description}</>,
+                  render: (v: TouristPlace) => <>{v.description}</>,
                 },
                 {
                   title: "Address",
                   key: "address",
                   render: (v: TouristPlace) => (
-                    <>{`${v.Address.Description}, ${v.Address.City}, ${v.Address.Country}`}</>
+                    <>{`${v.address.description}, ${v.address.city}, ${v.address.country}`}</>
                   ),
                 },
                 {
@@ -153,7 +153,7 @@ const PlaceApp = () => {
                         <Tooltip title="Delete">
                           <DeleteOutlined
                             onClick={() => {
-                              deletePlace(v.Id);
+                              deletePlace(v.id);
                             }}
                           />
                         </Tooltip>
@@ -179,16 +179,16 @@ const PlaceApp = () => {
         <PlaceForm
           onOk={(form: TouristPlaceFormType) => {
             setEditModal(false);
-            editPlace(form, selected.Id);
+            editPlace(form, selected.id);
           }}
           onCancel={() => setEditModal(false)}
           open={editModal}
           values={{
-            name: selected.Name,
-            description: selected.Description,
-            address: selected.Address.Description,
-            city: selected.Address.City,
-            country: selected.Address.Country,
+            name: selected.name,
+            description: selected.description,
+            address: selected.address.description,
+            city: selected.address.city,
+            country: selected.address.country,
           }}
         />
       )}

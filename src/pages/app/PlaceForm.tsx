@@ -42,12 +42,12 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
         form={form}
         onFinish={(values: PlaceFormData) => {
           onOk({
-            Name: values.name,
-            Description: values.description,
-            Address: {
-              Description: values.address,
-              Country: values.country,
-              City: values.city,
+            name: values.name,
+            description: values.description,
+            address: {
+              description: values.address,
+              country: values.country,
+              city: values.city,
             },
           });
         }}

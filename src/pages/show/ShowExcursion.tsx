@@ -23,8 +23,8 @@ export const ShowMiniExcursion: FC<{ excursion: Excursion }> = ({
     }
   >
     <Card.Meta
-      title={excursion.Name}
-      description={excursion.IsOverNight ? "OverNight Excursion" : "Excursion"}
+      title={excursion.name}
+      description={excursion.isOverNight ? "OverNight Excursion" : "Excursion"}
     />
   </Card>
 );
@@ -35,7 +35,7 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       width={800}
       title={
         <Typography>
-          <Title level={2}>{excursion.Name}</Title>
+          <Title level={2}>{excursion.name}</Title>
         </Typography>
       }
       open={open}
@@ -54,7 +54,7 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card title="Places">
-            {excursion.Places.map((p, idx) => (
+            {excursion.places.map((p, idx) => (
               <div key={idx}>
                 <Card.Grid style={{ width: "50%" }}>
                   <ShowMiniPlace place={p} />
@@ -67,10 +67,10 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card title="Activities">
-            {excursion.Activities.map((a, idx) => (
+            {excursion.activities.map((a, idx) => (
               <div key={idx}>
                 <Card.Grid style={{ width: "50%" }}>
-                  <Card title={a.Name}>{a.Description}</Card>
+                  <Card title={a.name}>{a.description}</Card>
                 </Card.Grid>
               </div>
             ))}

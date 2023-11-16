@@ -19,7 +19,7 @@ export const ShowMiniPlace: FC<{ place: TouristPlace }> = ({ place }) => (
       />
     }
   >
-    <Card.Meta title={place.Name} description={place.Description} />
+    <Card.Meta title={place.name} description={place.description} />
   </Card>
 );
 
@@ -29,7 +29,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
       width={800}
       title={
         <Typography>
-          <Title level={2}>{place.Name}</Title>
+          <Title level={2}>{place.name}</Title>
         </Typography>
       }
       open={open}
@@ -50,7 +50,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
           <Alert
             type="info"
             message="Description:"
-            description={place.Description}
+            description={place.description}
           />
         </Col>
       </Row>
@@ -59,7 +59,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
           <Alert
             type="success"
             message="Address:"
-            description={`${place.Address.Description}, ${place.Address.City}, ${place.Address.Country}`}
+            description={`${place.address.description}, ${place.address.city}, ${place.address.country}`}
           />
         </Col>
       </Row>

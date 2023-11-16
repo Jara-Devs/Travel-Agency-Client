@@ -41,12 +41,12 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
   const load = async () => {
-    const responsePlaces = await touristPlace().get({ select: ["Id", "Name"] });
+    const responsePlaces = await touristPlace().get({ select: ["id", "name"] });
     const responseActivities = await touristActivity().get({
-      select: ["Id", "Name"],
+      select: ["id", "name"],
     });
     const responseHotels = await hotel().get({
-      select: ["Id", "Name"],
+      select: ["id", "name"],
     });
 
     if (responsePlaces.ok && responseActivities.ok && responseActivities.ok) {
@@ -101,15 +101,15 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
           onOk(
             isOverNight
               ? ({
-                  Name: values.name,
-                  Places: values.places,
-                  Activities: values.activities,
-                  HotelId: values.hotelId!,
+                  name: values.name,
+                  places: values.places,
+                  activities: values.activities,
+                  hotelId: values.hotelId!,
                 } as OverNighExcursionFormType)
               : {
-                  Name: values.name,
-                  Places: values.places,
-                  Activities: values.activities,
+                  name: values.name,
+                  places: values.places,
+                  activities: values.activities,
                 },
             isOverNight
           );
@@ -146,9 +146,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
               allowClear
               filterOption={(input, option) => option?.label === input}
               options={hotels.map((x) => ({
-                value: x.Id,
-                label: x.Name,
-                key: x.Id,
+                value: x.id,
+                label: x.name,
+                key: x.id,
               }))}
               placeholder="Select the hotel"
             />
@@ -164,9 +164,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             allowClear
             filterOption={(input, option) => option?.label === input}
             options={places.map((x) => ({
-              value: x.Id,
-              label: x.Name,
-              key: x.Id,
+              value: x.id,
+              label: x.name,
+              key: x.id,
             }))}
             placeholder="Select the places"
           />
@@ -182,9 +182,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             allowClear
             filterOption={(input, option) => option?.label === input}
             options={activities.map((x) => ({
-              value: x.Id,
-              label: x.Name,
-              key: x.Id,
+              value: x.id,
+              label: x.name,
+              key: x.id,
             }))}
             placeholder="Select the activities"
           />

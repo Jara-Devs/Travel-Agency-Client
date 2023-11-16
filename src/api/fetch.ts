@@ -1,4 +1,5 @@
 import buildQuery, { QueryOptions } from "odata-query";
+import camelcaseKeys from "camelcase-keys";
 import { ApiResponse, HttpMethods } from "../types/api";
 
 const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
@@ -60,7 +61,9 @@ export async function apiWithToken<T1, T2>(
     const resp = await fetchWithToken(endpoint, data, method);
     const body = await resp.json();
 
-    return body;
+    const camelCasedBody = camelcaseKeys(body, { deep: true });
+
+    return camelCasedBody;
   } catch {
     return {
       ok: false,
@@ -77,8 +80,9 @@ export async function apiNoToken<T1, T2>(
   try {
     const resp = await fetchNoToken(endpoint, data, method);
     const body = await resp.json();
+    const camelCasedBody = camelcaseKeys(body, { deep: true });
 
-    return body;
+    return camelCasedBody;
   } catch {
     return {
       ok: false,

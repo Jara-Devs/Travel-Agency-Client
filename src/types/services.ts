@@ -1,57 +1,57 @@
 import { Address } from "./common";
 
 export interface TouristPlace {
-  Id: number;
-  Name: string;
-  Description: string;
-  Address: Address;
+  id: number;
+  name: string;
+  description: string;
+  address: Address;
 }
 
 export interface TouristPlaceFormType {
-  Name: string;
-  Description: string;
-  Address: Address;
+  name: string;
+  description: string;
+  address: Address;
 }
 
 export interface TouristActivity {
-  Id: number;
-  Name: string;
-  Description: string;
+  id: number;
+  name: string;
+  description: string;
 }
 
 export interface TouristActivityFormType {
-  Name: string;
-  Description: string;
+  name: string;
+  description: string;
 }
 
 export interface Excursion {
-  Id: number;
-  Name: string;
-  IsOverNight: boolean;
-  Places: TouristPlace[];
-  Activities: TouristActivity[];
+  id: number;
+  name: string;
+  isOverNight: boolean;
+  places: TouristPlace[];
+  activities: TouristActivity[];
 }
 
 export interface OverNighExcursion extends Excursion {
-  HotelId: number;
-  Hotel: Hotel;
+  hotelId: number;
+  hotel: Hotel;
 }
 
 export interface ExcursionFormType {
-  Name: string;
-  Places: number[];
-  Activities: number[];
+  name: string;
+  places: number[];
+  activities: number[];
 }
 
 export interface OverNighExcursionFormType extends ExcursionFormType {
-  HotelId: number;
+  hotelId: number;
 }
 
 export interface Hotel {
-  Id: number;
-  Name: string;
+  id: number;
+  name: string;
 }
 
 export interface HotelFormType {
-  Name: string;
+  name: string;
 }
