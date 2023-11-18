@@ -37,7 +37,7 @@ const HotelApp = () => {
     const response = await get({
       select: ["id", "category", "name", "touristPlaceid"],
       expand: {
-        touristPlace: {Select: ["name", "address"]}
+        touristPlace: {select: ["id" ,"name", "address"]}
       },
       filter: searchFilter,
     });

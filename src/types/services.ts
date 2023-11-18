@@ -53,11 +53,12 @@ export interface Hotel {
   name: string;
   category: number;
   touristPlaceid: number
+  touristPlace: TouristPlace
 }
 
 export interface HotelFormType {
   name: string;
   category: number;
-  touristPlaceid: number
+  touristPlaceid: number;
 
 }
