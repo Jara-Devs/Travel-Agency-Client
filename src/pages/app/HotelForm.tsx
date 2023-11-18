@@ -106,7 +106,7 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                 </Form.Item>
 
                 <Form.Item
-                    name="place"
+                    name="touristPlaceId"
                     label="Place"
                     rules={[{ required: true, message: "Select the place" }]}
                 >

@@ -53,6 +53,7 @@ const HotelApp = () => {
 
   const createHotel = async (form: HotelFormType) => {
     setLoading(true);
+    console.log(form);
     const response = await create(form);
 
     if (response.ok) {
