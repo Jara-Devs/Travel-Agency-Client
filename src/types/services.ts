@@ -33,6 +33,7 @@ export interface Excursion {
   isOverNight: boolean;
   places: TouristPlace[];
   activities: TouristActivity[];
+  image: Image;
 }
 
 export interface OverNighExcursion extends Excursion {
@@ -44,6 +45,7 @@ export interface ExcursionFormType {
   name: string;
   places: number[];
   activities: number[];
+  imageId: number;
 }
 
 export interface OverNighExcursionFormType extends ExcursionFormType {

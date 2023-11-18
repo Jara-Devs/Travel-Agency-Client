@@ -86,11 +86,13 @@ const ExcursionApp = () => {
     const response = await getOverNight({
       select: ["name", "id", "hotelId", "isOverNight"],
       expand: {
+        image: { select: ["id", "name", "url"] },
         activities: {
           select: ["id", "name", "description"],
         },
         places: {
           select: ["id", "name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
         },
         hotel: {
           select: ["id", "name"],
@@ -315,6 +317,7 @@ const ExcursionApp = () => {
                 hotelId: selected.isOverNight
                   ? (selected as OverNighExcursion).hotelId
                   : undefined,
+                image: selected.image,
               }
             : undefined
         }

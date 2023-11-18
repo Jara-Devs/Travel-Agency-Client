@@ -36,9 +36,13 @@ const Excursions = () => {
     const resultOverNight = await getOverNight({
       select: ["id", "name", "isOverNight"],
       expand: {
-        places: { select: ["name", "description", "address"] },
+        places: {
+          select: ["name", "description", "address"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
         activities: { select: ["name", "description"] },
         hotel: { select: ["name"] },
+        image: { select: ["id", "name", "url"] },
       },
     });
 
@@ -99,6 +103,7 @@ const Excursions = () => {
         ]}
         convert={(value: Excursion) => ({
           title: value.name,
+          image: value.image,
         })}
       />
       {selected && (

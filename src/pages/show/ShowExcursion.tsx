@@ -54,7 +54,7 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+            <Image src={excursion.image.url} />
           </Card>
         </Col>
       </Row>

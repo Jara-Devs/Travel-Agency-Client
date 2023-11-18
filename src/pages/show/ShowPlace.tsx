@@ -11,33 +11,11 @@ export interface ShowPlaceProps {
 
 export interface ShowMiniPlaceProps {
   place: TouristPlace;
-  mini?: boolean;
 }
 
-export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({
-  place,
-  mini = false,
-}) => (
-  <Card
-    style={mini ? { width: "100px", height: "100px" } : {}}
-    hoverable
-    cover={
-      <img
-        alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-      />
-    }
-  >
-    {mini ? (
-      <Typography.Text style={{ fontSize: "10px" }}>
-        {place.name}
-      </Typography.Text>
-    ) : (
-      <Card.Meta
-        title={place.name}
-        description={mini ? undefined : place.description}
-      />
-    )}
+export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place }) => (
+  <Card hoverable cover={<img alt="example" src={place.image.url} />}>
+    <Card.Meta title={place.name} description={place.description} />
   </Card>
 );
 
@@ -59,7 +37,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+            <Image src={place.image.url} />
           </Card>
         </Col>
       </Row>

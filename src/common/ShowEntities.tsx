@@ -1,6 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
 import { Avatar, Image, List } from "antd";
 import logo from "../assets/logo.jpg";
+import { Image as ApiImage } from "../types/api";
 
 export interface ShowEntitiesProps<T> {
   data: T[];
@@ -11,6 +12,7 @@ export interface ShowEntitiesProps<T> {
     avatar?: ReactNode;
     title?: string;
     description?: string;
+    image: ApiImage;
   };
   imageStyles?: CSSProperties;
 }
@@ -41,8 +43,8 @@ function ShowEntities<T>({
                 <Image
                   style={imageStyles}
                   width={250}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                  alt={entity.image.name}
+                  src={entity.image.url}
                 />
               }
             >

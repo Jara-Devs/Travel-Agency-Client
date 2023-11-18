@@ -34,7 +34,8 @@ const UploadImage: FC<{
           setFileList([info.file]);
         }
         if (info.file.status === "removed") {
-          setImage(undefined);
+          if (image) setImage(undefined);
+          else setFileList([]);
         }
         if (info.file.status === "done") {
           message.success(`${info.file.name} file uploaded successfully`);
@@ -42,9 +43,11 @@ const UploadImage: FC<{
         }
         if (info.file.status === "error") {
           message.error(`${info.file.response.message}`);
+          setFileList([info.file]);
         }
       } catch {
         message.error("Connection error");
+        setFileList([info.file]);
       }
     },
   };
