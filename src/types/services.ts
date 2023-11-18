@@ -69,3 +69,11 @@ export interface AgencyUser{
   role: string
   agencyId: number
 }
+
+export interface AgencyUserFormType {
+  name: string
+  email: string
+  password: string
+  role: string
+  agencyId: number
+}
