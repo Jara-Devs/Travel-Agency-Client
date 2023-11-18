@@ -52,13 +52,13 @@ export interface Hotel {
   id: number;
   name: string;
   category: number;
-  touristPlaceid: number
-  touristPlace: TouristPlace
+  touristPlaceId: number;
+  touristPlace: TouristPlace;
 }
 
 export interface HotelFormType {
   name: string;
   category: number;
-  touristPlaceid: number;
+  touristPlaceId: number;
 
 }

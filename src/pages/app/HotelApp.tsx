@@ -35,7 +35,7 @@ const HotelApp = () => {
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await get({
-      select: ["id", "category", "name", "touristPlaceid"],
+      select: ["id", "category", "name", "touristPlaceId"],
       expand: {
         touristPlace: {select: ["id" ,"name", "address"]}
       },
@@ -189,7 +189,7 @@ const HotelApp = () => {
           values={{
             name: selected.name,
             category: selected.category,
-            touristPlaceid: selected.touristPlaceid,
+            touristPlaceId: selected.touristPlaceId,
           }}
         />
       )}
