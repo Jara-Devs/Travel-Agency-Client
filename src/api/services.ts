@@ -1,5 +1,7 @@
 import { QueryOptions } from "odata-query";
 import {
+  AgencyUser,
+  AgencyUserFormType,
   Excursion,
   ExcursionFormType,
   Hotel,
@@ -48,3 +50,6 @@ export const overNighExcursion = () =>
   );
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
+
+export const agencyUser = () =>
+  serviceController<AgencyUser, AgencyUserFormType>("agencyUser");
