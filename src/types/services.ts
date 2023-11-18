@@ -1,3 +1,4 @@
+import { Image } from "./api";
 import { Address } from "./common";
 
 export interface TouristPlace {
@@ -5,12 +6,14 @@ export interface TouristPlace {
   name: string;
   description: string;
   address: Address;
+  image: Image;
 }
 
 export interface TouristPlaceFormType {
   name: string;
   description: string;
   address: Address;
+  imageId: number;
 }
 
 export interface TouristActivity {
