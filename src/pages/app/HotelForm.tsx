@@ -8,8 +8,7 @@ import { ApiResponse } from '../../types/api';
 export interface HotelFormData {
     name: string;
     category: number;
-    touristPlaceID: number;
-    touristPlace: TouristPlace;
+    touristPlaceid: number;
 }
 
 export interface HotelFormProps {
@@ -77,8 +76,7 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                     onOk({
                         name: values.name,
                         category: values.category,
-                        touristPlace: values.touristPlace,
-                        touristPlaceID: values.touristPlace.id,
+                        touristPlaceid: values.touristPlaceid,
                     });
                 }}
             >

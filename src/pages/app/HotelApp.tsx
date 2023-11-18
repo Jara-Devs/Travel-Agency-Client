@@ -1,4 +1,4 @@
-import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { Button, Col, Row, Tooltip, Typography, message, Select } from 'antd';
 import { hotel } from '../../api/services';
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
@@ -35,7 +35,10 @@ const HotelApp = () => {
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await get({
-      select: ["id", "category", "name", "touristPlace"],
+      select: ["id", "category", "name", "touristPlaceid"],
+      expand: {
+        touristPlace: {Select: ["name", "address"]}
+      },
       filter: searchFilter,
     });
 
@@ -53,7 +56,7 @@ const HotelApp = () => {
     const response = await create(form);
 
     if (response.ok) {
-      message.success("Place created");
+      message.success("Hotel created");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -64,7 +67,7 @@ const HotelApp = () => {
     const response = await edit(form, id);
 
     if (response.ok) {
-      message.success("Place edited");
+      message.success("Hotel edited");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -75,7 +78,7 @@ const HotelApp = () => {
     const response = await remove(id);
 
     if (response.ok) {
-      message.success("Place deleted");
+      message.success("Hotel deleted");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -186,8 +189,7 @@ const HotelApp = () => {
           values={{
             name: selected.name,
             category: selected.category,
-            touristPlace: selected.touristPlace,
-            touristPlaceID: selected.touristPlace.id,
+            touristPlaceid: selected.touristPlaceid,
           }}
         />
       )}
