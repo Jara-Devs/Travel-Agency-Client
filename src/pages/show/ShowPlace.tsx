@@ -9,8 +9,17 @@ export interface ShowPlaceProps {
   place: TouristPlace;
 }
 
-export const ShowMiniPlace: FC<{ place: TouristPlace }> = ({ place }) => (
+export interface ShowMiniPlaceProps {
+  place: TouristPlace;
+  mini?: boolean;
+}
+
+export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({
+  place,
+  mini = false,
+}) => (
   <Card
+    style={mini ? { width: "100px", height: "100px" } : {}}
     hoverable
     cover={
       <img
@@ -19,7 +28,16 @@ export const ShowMiniPlace: FC<{ place: TouristPlace }> = ({ place }) => (
       />
     }
   >
-    <Card.Meta title={place.name} description={place.description} />
+    {mini ? (
+      <Typography.Text style={{ fontSize: "10px" }}>
+        {place.name}
+      </Typography.Text>
+    ) : (
+      <Card.Meta
+        title={place.name}
+        description={mini ? undefined : place.description}
+      />
+    )}
   </Card>
 );
 

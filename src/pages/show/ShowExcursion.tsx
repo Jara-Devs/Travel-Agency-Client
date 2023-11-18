@@ -1,5 +1,5 @@
-import { Card, Col, Image, Modal, Row, Typography } from "antd";
-import { FC } from "react";
+import { Card, Col, Divider, Image, List, Modal, Row, Typography } from "antd";
+import { FC, CSSProperties } from "react";
 import { Excursion } from "../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
@@ -10,10 +10,17 @@ export interface ShowExcursionProps {
   excursion: Excursion;
 }
 
-export const ShowMiniExcursion: FC<{ excursion: Excursion }> = ({
+export interface ShowMiniExcursionProps {
+  excursion: Excursion;
+  styles?: CSSProperties;
+}
+
+export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
+  styles,
 }) => (
   <Card
+    style={styles}
     hoverable
     cover={
       <img
@@ -53,28 +60,33 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card title="Places">
-            {excursion.places.map((p, idx) => (
-              <div key={idx}>
-                <Card.Grid style={{ width: "50%" }}>
-                  <ShowMiniPlace place={p} />
-                </Card.Grid>
-              </div>
-            ))}
-          </Card>
+          <Title level={4}>Places</Title>
+          <Divider />
+          <List
+            grid={{ gutter: 16, column: 4 }}
+            dataSource={excursion.places}
+            renderItem={(item) => (
+              <List.Item>
+                <ShowMiniPlace place={item} />
+              </List.Item>
+            )}
+          />
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card title="Activities">
-            {excursion.activities.map((a, idx) => (
-              <div key={idx}>
-                <Card.Grid style={{ width: "50%" }}>
-                  <Card title={a.name}>{a.description}</Card>
-                </Card.Grid>
-              </div>
-            ))}
-          </Card>
+          <Title level={4}>Places</Title>
+          <Divider />
+
+          <List
+            grid={{ gutter: 16, column: 4 }}
+            dataSource={excursion.activities}
+            renderItem={(item) => (
+              <List.Item>
+                <Card title={item.name}>{item.description}</Card>
+              </List.Item>
+            )}
+          />
         </Col>
       </Row>
     </Modal>

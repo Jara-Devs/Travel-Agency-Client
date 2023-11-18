@@ -9,7 +9,7 @@ import {
 import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
 import { hotel, touristActivity, touristPlace } from "../../api/services";
-import { ApiResponse } from "../../types/api";
+import { buildMessage } from "../../common/functions";
 
 export interface ExcursionFormData {
   name: string;
@@ -54,20 +54,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
       setActivities(responseActivities.value!);
       setHotels(responseHotels.value!);
     } else {
-      let msg = "";
-
-      const aux = (response: ApiResponse<any>) => {
-        if (!responseActivities.ok) {
-          if (msg.length === 0) msg = response.message;
-          else msg = `${message}, ${response.message}`;
-        }
-      };
-
-      aux(responseActivities);
-      aux(responsePlaces);
-      aux(responseHotels);
-
-      message.error(msg);
+      message.error(
+        buildMessage([responseActivities, responseHotels, responsePlaces])
+      );
     }
   };
 
