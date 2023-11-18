@@ -36,6 +36,7 @@ const PlaceApp = () => {
 
     const response = await get({
       select: ["id", "description", "name", "address"],
+      expand: { image: { select: ["id", "url", "name"] } },
       filter: searchFilter,
     });
 
@@ -189,6 +190,7 @@ const PlaceApp = () => {
             address: selected.address.description,
             city: selected.address.city,
             country: selected.address.country,
+            image: selected.image,
           }}
         />
       )}

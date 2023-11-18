@@ -85,7 +85,7 @@ const TableEntities = <T extends object>(
           <Table
             loading={loading}
             pagination={false}
-            rowKey="Id"
+            rowKey="id"
             dataSource={dataValue}
             columns={columns}
             onChange={(_, filters) => {

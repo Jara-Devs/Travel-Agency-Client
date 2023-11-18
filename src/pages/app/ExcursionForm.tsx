@@ -9,13 +9,16 @@ import {
 import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
 import { hotel, touristActivity, touristPlace } from "../../api/services";
-import { ApiResponse } from "../../types/api";
+import { buildMessage } from "../../common/functions";
+import { Image } from "../../types/api";
+import UploadImage from "../../common/UploadImage";
 
 export interface ExcursionFormData {
   name: string;
   places: number[];
   activities: number[];
   hotelId?: number;
+  image: Image;
 }
 export interface ExcursionFormProps {
   onOk: (form: ExcursionFormType, isOverNight: boolean) => void;
@@ -40,6 +43,8 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
   const [activities, setActivities] = useState<TouristActivity[]>([]);
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
+  const [image, setImage] = useState<Image>();
+
   const load = async () => {
     const responsePlaces = await touristPlace().get({ select: ["id", "name"] });
     const responseActivities = await touristActivity().get({
@@ -54,20 +59,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
       setActivities(responseActivities.value!);
       setHotels(responseHotels.value!);
     } else {
-      let msg = "";
-
-      const aux = (response: ApiResponse<any>) => {
-        if (!responseActivities.ok) {
-          if (msg.length === 0) msg = response.message;
-          else msg = `${message}, ${response.message}`;
-        }
-      };
-
-      aux(responseActivities);
-      aux(responsePlaces);
-      aux(responseHotels);
-
-      message.error(msg);
+      message.error(
+        buildMessage([responseActivities, responseHotels, responsePlaces])
+      );
     }
   };
 
@@ -98,21 +92,25 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
         style={{ marginTop: "20px" }}
         form={form}
         onFinish={(values: ExcursionFormData) => {
-          onOk(
-            isOverNight
-              ? ({
-                  name: values.name,
-                  places: values.places,
-                  activities: values.activities,
-                  hotelId: values.hotelId!,
-                } as OverNighExcursionFormType)
-              : {
-                  name: values.name,
-                  places: values.places,
-                  activities: values.activities,
-                },
-            isOverNight
-          );
+          if (image) {
+            onOk(
+              isOverNight
+                ? ({
+                    name: values.name,
+                    places: values.places,
+                    activities: values.activities,
+                    hotelId: values.hotelId!,
+                    imageId: image?.id,
+                  } as OverNighExcursionFormType)
+                : {
+                    name: values.name,
+                    places: values.places,
+                    activities: values.activities,
+                    imageId: image?.id,
+                  },
+              isOverNight
+            );
+          } else message.error("You must upload an image");
         }}
       >
         <Form.Item
@@ -189,6 +187,7 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             placeholder="Select the activities"
           />
         </Form.Item>
+        <UploadImage image={image} setImage={setImage} />
       </Form>
     </Modal>
   );

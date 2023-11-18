@@ -4,6 +4,12 @@ export interface ApiResponse<T> {
   value?: T;
 }
 
+export interface Image {
+  id: number;
+  name: string;
+  url: string;
+}
+
 export enum HttpMethods {
   GET = "GET",
   POST = "POST",

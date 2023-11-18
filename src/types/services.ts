@@ -1,3 +1,4 @@
+import { Image } from "./api";
 import { Address } from "./common";
 import { touristPlace } from '../api/services';
 
@@ -6,12 +7,14 @@ export interface TouristPlace {
   name: string;
   description: string;
   address: Address;
+  image: Image;
 }
 
 export interface TouristPlaceFormType {
   name: string;
   description: string;
   address: Address;
+  imageId: number;
 }
 
 export interface TouristActivity {
@@ -31,6 +34,7 @@ export interface Excursion {
   isOverNight: boolean;
   places: TouristPlace[];
   activities: TouristActivity[];
+  image: Image;
 }
 
 export interface OverNighExcursion extends Excursion {
@@ -42,6 +46,7 @@ export interface ExcursionFormType {
   name: string;
   places: number[];
   activities: number[];
+  imageId: number;
 }
 
 export interface OverNighExcursionFormType extends ExcursionFormType {
