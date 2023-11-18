@@ -1,14 +1,19 @@
 import { FC, useEffect, useState } from 'react';
-import {  HotelFormType, TouristPlace } from '../../types/services';
+import { HotelFormType, TouristPlace } from '../../types/services';
 import { Form, Input, Modal, Typography, message, Select } from 'antd';
 import Title from "antd/es/typography/Title";
 import { touristPlace } from '../../api/services';
 import { ApiResponse } from '../../types/api';
+import { Image } from "../../types/api";
+import UploadImage from '../../common/UploadImage';
+
 
 export interface HotelFormData {
     name: string;
     category: number;
     touristPlaceId: number;
+    image: Image;
+
 }
 
 export interface HotelFormProps {
@@ -25,8 +30,14 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
 
     useEffect(() => {
         if (open) form.resetFields();
-        if (values) form.setFieldsValue({ ...values });
+        if (values) {
+            form.setFieldsValue({ ...values });
+            setImage(values.image);
+        };
+
     }, [open, form, values]);
+    const [image, setImage] = useState<Image>();
+
 
 
     const load = async () => {
@@ -73,11 +84,20 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                 style={{ marginTop: "20px" }}
                 form={form}
                 onFinish={(values: HotelFormData) => {
-                    onOk({
-                        name: values.name,
-                        category: values.category,
-                        touristPlaceId: values.touristPlaceId,
-                    });
+                    if (image)
+                        onOk({
+                            name: values.name,
+                            category: values.category,
+                            touristPlaceId: values.touristPlaceId,
+                            imageId: image.id,
+
+
+                        });
+
+                    else {
+                        message.error("You must upload an image");
+                    }
+
                 }}
             >
                 <Form.Item
@@ -96,9 +116,9 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                     <Select
                         allowClear
                         filterOption={(input, option) => option?.label === input}
-                        options={[1,2,3,4,5].map((x) => ({
+                        options={[1, 2, 3, 4, 5].map((x) => ({
                             value: x,
-                            label:  `${x} stars`,
+                            label: `${x} stars`,
                             key: x,
                         }))}
                         placeholder="Select the category"
@@ -121,8 +141,10 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                         placeholder="Select the place"
                     />
                 </Form.Item>
+                <UploadImage setImage={setImage} image={image} />
 
-                
+
+
             </Form>
         </Modal>
     );

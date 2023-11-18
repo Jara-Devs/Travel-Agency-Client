@@ -59,11 +59,15 @@ export interface Hotel {
   category: number;
   touristPlaceId: number;
   touristPlace: TouristPlace;
+  image: Image;
+
 }
 
 export interface HotelFormType {
   name: string;
   category: number;
   touristPlaceId: number;
+  imageId: number;
+
 
 }

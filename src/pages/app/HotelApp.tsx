@@ -191,6 +191,8 @@ const HotelApp = () => {
             name: selected.name,
             category: selected.category,
             touristPlaceId: selected.touristPlaceId,
+            image: selected.image,
+
           }}
         />
       )}
