@@ -1,4 +1,5 @@
 import { Address } from "./common";
+import { touristPlace } from '../api/services';
 
 export interface TouristPlace {
   id: number;
@@ -50,8 +51,15 @@ export interface OverNighExcursionFormType extends ExcursionFormType {
 export interface Hotel {
   id: number;
   name: string;
+  category: number;
+  touristPlace: TouristPlace;
+  touristPlaceID: number
 }
 
 export interface HotelFormType {
   name: string;
+  category: number;
+  touristPlace: TouristPlace;
+  touristPlaceID: number
+
 }
