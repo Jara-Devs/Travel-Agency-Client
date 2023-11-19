@@ -20,11 +20,15 @@ export interface TouristActivity {
   id: number;
   name: string;
   description: string;
+  image: Image;
+
 }
 
 export interface TouristActivityFormType {
   name: string;
   description: string;
+  imageId: number;
+
 }
 
 export interface Excursion {

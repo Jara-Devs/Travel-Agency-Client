@@ -48,3 +48,5 @@ export const overNighExcursion = () =>
   );
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
+
+export const activity = () => serviceController<TouristActivity, TouristActivityFormType>("touristactivity")
