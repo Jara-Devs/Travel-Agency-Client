@@ -1,16 +1,16 @@
 import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { Hotel, TouristActivity } from "../../types/services";
+import { Flight, Hotel, TouristActivity } from "../../types/services";
 import Title from "antd/es/typography/Title";
-import { touristActivity } from '../../api/services';
+import {  flight } from '../../api/services';
 
-export interface ShowTouristActivityProps {
+export interface ShowFlightProps {
   open: boolean;
   onOk: () => void;
-  touristActivity: TouristActivity;
+  flight: Flight;
 }
 
-export const ShowMiniTouristActivity: FC<{ touristActivity: TouristActivity }> = ({ touristActivity }) => (
+export const ShowminiFlight: FC<{ flight: Flight }> = ({ flight }) => (
   <Card
     hoverable
     cover={
@@ -20,17 +20,17 @@ export const ShowMiniTouristActivity: FC<{ touristActivity: TouristActivity }> =
       />
     }
   >
-    <Card.Meta title={touristActivity.name} description={touristActivity.description} />
+    <Card.Meta title={flight.company} description={flight.company} />
   </Card>
 );
 
-const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, touristActivity }) => {
+const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
   return (
     <Modal
       width={800}
       title={
         <Typography>
-          <Title level={2}>{touristActivity.name}</Title>
+          <Title level={2}>{flight.company}</Title>
         </Typography>
       }
       open={open}
@@ -51,7 +51,7 @@ const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, tourist
           <Alert 
             type="info"
             message="Description:"
-            description={touristActivity.description}
+            description={flight.category}
           />
         </Col>
       </Row>
@@ -60,4 +60,4 @@ const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, tourist
   );
 };
 
-export default ShowTouristActivity;
+export default ShowFlight;

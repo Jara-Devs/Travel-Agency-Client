@@ -12,8 +12,8 @@ export interface FlightFormData {
     company: string;
     category: number;
     duration: number;
-    origin: TouristPlace;
-    destination: TouristPlace;
+    originId: number;
+    destinationId: number;
 
 }
 
@@ -24,7 +24,8 @@ export interface FlightFormProps {
     open: boolean;
 }
 
-const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
+const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
+    const [place, setPlace] = useState<TouristPlace[]>([]);
 
     const [form] = Form.useForm<FlightFormData>();
 
@@ -35,6 +36,34 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
         };
 
     }, [open, form, values]);
+
+    const load = async () => {
+        const responsePlace = await touristPlace().get({ select: ["id", "name"] });
+
+
+
+        if (responsePlace.ok) {
+            setPlace(responsePlace.value!);
+
+        } else {
+            let msg = "";
+
+            const aux = (response: ApiResponse<any>) => {
+                if (!responsePlace.ok) {
+                    if (msg.length === 0) msg = response.message;
+                    else msg = `${message}, ${response.message}`;
+                }
+            };
+
+            aux(responsePlace);
+
+            message.error(msg);
+        }
+    };
+
+    useEffect(() => {
+        load();
+    }, []);
 
 
 
@@ -57,8 +86,8 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
                         onOk({
                             company: values.company,
                             category: values.category,
-                            originId: values.origin,
-                            destinationId: values.destination,
+                            originId: values.originId,
+                            destinationId: values.destinationId,
                             duration: values.duration
 
 
@@ -77,16 +106,66 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
                 </Form.Item>
 
                 <Form.Item
-                    name="description"
-                    label="Description"
-                    rules={[{ required: true, message: "Select the description" }]}
+                    name="duration"
+                    label="Duration"
+                    rules={[{ required: true, message: "Introduce the duration" }]}
                 >
-                    <Input placeholder="Introduce the description" />
+                    <Input placeholder="Introduce the duration" />
                     
                 </Form.Item>
 
+                <Form.Item
+                    name="category"
+                    label="Category"
+                    rules={[{ required: true, message: "Select the category" }]}
+                >
+                    <Select
+                        allowClear
+                        filterOption={(input, option) => option?.label === input}
+                        options={[1, 2, 3, 4, 5].map((x) => ({
+                            value: x,
+                            label: `${x} stars`,
+                            key: x,
+                        }))}
+                        placeholder="Select the category"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="originId"
+                    label="Origin"
+                    rules={[{ required: true, message: "Select the origin" }]}
+                >
+                    <Select
+                        allowClear
+                        filterOption={(input, option) => option?.label === input}
+                        options={place.map((x) => ({
+                            value: x.id,
+                            label: x.name,
+                            key: x.id,
+                        }))}
+                        placeholder="Select the origin"
+                    />
+                </Form.Item>
+
+                <Form.Item
+                    name="destinationId"
+                    label="Destination"
+                    rules={[{ required: true, message: "Select the destination" }]}
+                >
+                    <Select
+                        allowClear
+                        filterOption={(input, option) => option?.label === input}
+                        options={place.map((x) => ({
+                            value: x.id,
+                            label: x.name,
+                            key: x.id,
+                        }))}
+                        placeholder="Select the destination"
+                    />
+                </Form.Item>
+
                 
-                <UploadImage setImage={setImage} image={image} />
 
 
 
@@ -95,4 +174,4 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
     );
 };
 
-export default TouristActivityForm;
+export default FlightForm;

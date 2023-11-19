@@ -8,6 +8,7 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ShowFlight from '../show/ShowFlight';
+import FlightForm from './FlightForm';
 
 const FlightApp = () => {
   const { get, create, edit, remove } = flight();
@@ -197,8 +198,8 @@ const FlightApp = () => {
             company: selected.company,
             category: selected.category,
             duration: selected.duration,
-            origin: selected.origin,
-            destination: selected.destination,
+            originId: selected.originId,
+            destinationId: selected.destinationId,
 
 
           }}
