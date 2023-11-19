@@ -64,3 +64,21 @@ export interface Hotel {
 export interface HotelFormType {
   name: string;
 }
+
+export interface Flight{
+  id: number;
+  company: string;
+  origin: TouristPlace;
+  destination: TouristPlace;
+  duration: number;
+  category: number;
+
+}
+
+export interface FlightFormType{
+  company: string;
+  originId: number;
+  destinationId: number;
+  category: number;
+  duration: number
+}
