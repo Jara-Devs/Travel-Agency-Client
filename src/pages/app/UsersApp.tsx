@@ -173,7 +173,7 @@ const UsersApp = () =>{
         return (
           <TableEntities
             ref={tableRef}
-            title={"Excursions"}
+            title={"AgencyUser"}
             loading={loading}
             columns={columns}
             load={load}
@@ -187,7 +187,7 @@ const UsersApp = () =>{
             <Row justify="space-between" className="app-header">
               <Col>
                 <Typography>
-                  <Title>Agency Users</Title>
+                  <Title>Users</Title>
                 </Typography>
               </Col>
               <Col>
@@ -199,9 +199,6 @@ const UsersApp = () =>{
                   Create
                 </Button>
               </Col>
-            </Row>
-            <Row className="content-center m-10">
-              <Col span={24}>{getTable()}</Col>
             </Row>
             <Row className="content-center m-10">
               <Col span={24}>{getTable()}</Col>
