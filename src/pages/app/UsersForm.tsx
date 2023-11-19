@@ -18,4 +18,17 @@ export interface AgencyUserFormProps {
     values?: AgencyUserFormData;
     create: boolean;
     open: boolean;
-  }
+}
+
+const AgencyUserForm: FC<AgencyUserFormProps> = ({
+    onCancel,
+    values,
+    open,
+    create,
+    onOk,
+    }) => {
+        
+    }
+
+export default AgencyUserForm;
+
