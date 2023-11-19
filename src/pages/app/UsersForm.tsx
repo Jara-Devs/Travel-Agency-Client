@@ -11,3 +11,11 @@ export interface AgencyUserFormData {
     role: string;
     agencyId: number;
 }
+
+export interface AgencyUserFormProps {
+    onOk: (form: AgencyUserFormType) => void;
+    onCancel: () => void;
+    values?: AgencyUserFormData;
+    create: boolean;
+    open: boolean;
+  }
