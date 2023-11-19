@@ -28,7 +28,7 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
     if (values) {
       form.setFieldsValue({ ...values });
       setImage(values.image);
-    }
+    } else setImage(undefined);
   }, [open, form, values]);
 
   const [image, setImage] = useState<Image>();
