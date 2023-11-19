@@ -68,6 +68,8 @@ export interface HotelFormType {
 export interface Flight{
   id: number;
   company: string;
+  originId: number;
+  destinationId: number;
   origin: TouristPlace;
   destination: TouristPlace;
   duration: number;

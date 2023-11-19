@@ -32,11 +32,9 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
         if (open) form.resetFields();
         if (values) {
             form.setFieldsValue({ ...values });
-            setImage(values.image);
         };
 
     }, [open, form, values]);
-    const [image, setImage] = useState<Image>();
 
 
 
@@ -56,27 +54,26 @@ const TouristActivityForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open
                 style={{ marginTop: "20px" }}
                 form={form}
                 onFinish={(values: FlightFormData) => {
-                    if (image)
                         onOk({
-                            name: values.name,
-                            description: values.description,
-                            imageId: image.id,
+                            company: values.company,
+                            category: values.category,
+                            originId: values.origin,
+                            destinationId: values.destination,
+                            duration: values.duration
 
 
                         });
 
-                    else {
-                        message.error("You must upload an image");
-                    }
+                    
 
                 }}
             >
                 <Form.Item
-                    name="name"
-                    label="Name"
-                    rules={[{ required: true, message: "Introduce the name" }]}
+                    name="company"
+                    label="Company"
+                    rules={[{ required: true, message: "Introduce the company" }]}
                 >
-                    <Input placeholder="Introduce the name" />
+                    <Input placeholder="Introduce the company" />
                 </Form.Item>
 
                 <Form.Item
