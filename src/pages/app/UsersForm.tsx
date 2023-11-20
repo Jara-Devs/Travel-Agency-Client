@@ -8,7 +8,6 @@ export interface UserSystemFormData {
     email: string;
     password: string;
     role: string;
-    agencyId: number;
 }
 
 export interface UserSystemFormProps {
