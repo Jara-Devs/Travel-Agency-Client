@@ -53,3 +53,18 @@ export interface UserAgencyFormType {
   role: string
   agencyId: number
 }
+
+export interface UserSystem{
+  id: number
+  name: string
+  email: string
+  password: string
+  role: string
+}
+
+export interface UserSystemFormType {
+  name: string
+  email: string
+  password: string
+  role: string
+}
