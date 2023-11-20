@@ -12,7 +12,7 @@ import {
 } from "../../types/auth";
 import UserAgencyForm from "./UsersAgencyForm";
 
-const UsersApp = () =>{
+const UsersAgency = () =>{
     const { get, create, edit, remove } = userAgency();
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -214,4 +214,4 @@ const UsersApp = () =>{
 
 };
 
-export default UsersApp;
+export default UsersAgency;
