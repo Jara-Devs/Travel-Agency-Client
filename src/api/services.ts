@@ -51,5 +51,3 @@ export const overNighExcursion = () =>
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
 
-export const agencyUser = () =>
-  serviceController<AgencyUser, AgencyUserFormType>("agencyUser");

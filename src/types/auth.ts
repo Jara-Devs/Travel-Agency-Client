@@ -36,3 +36,20 @@ export enum Roles {
   AdminApp = "AdminApp",
   EmployeeApp = "EmployeeApp",
 }
+
+export interface UserAgency{
+  id: number
+  name: string
+  email: string
+  password: string
+  role: string
+  agencyId: number
+}
+
+export interface UserAgencyFormType {
+  name: string
+  email: string
+  password: string
+  role: string
+  agencyId: number
+}
