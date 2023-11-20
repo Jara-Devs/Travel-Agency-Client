@@ -4,6 +4,8 @@ import {
   LoginForm,
   TouristRegisterForm,
   User,
+  UserSystem,
+  UserSystemFormType,
 } from "../types/auth";
 import { apiNoToken, apiWithToken, apiOdataNoToken, apiSingleOdataNoToken, apiSingleOdataWithToken, apiOdataWithToken } from "./fetch";
 import { QueryOptions } from "odata-query";
@@ -45,3 +47,6 @@ export const usersController = <T1, T2>(controller: string) => {
 
 export const userAgency = () =>
 usersController<UserAgency, UserAgencyFormType>("userAgency");
+
+export const userSystem = () =>
+usersController<UserSystem, UserSystemFormType>("userApp");
