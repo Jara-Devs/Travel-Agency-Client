@@ -50,7 +50,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
           <Alert 
             type="info"
             message="Description:"
-            description={flight.category}
+            description={flight.flightcategory}
           />
         </Col>
       </Row>

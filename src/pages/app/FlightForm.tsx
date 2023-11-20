@@ -10,7 +10,7 @@ import UploadImage from '../../common/UploadImage';
 
 export interface FlightFormData {
     company: string;
-    category: number;
+    flightcategory: number;
     duration: number;
     originId: number;
     destinationId: number;
@@ -64,6 +64,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
     useEffect(() => {
         load();
     }, []);
+    const flightcategories = ['One star', 'Two stars', 'Three stars', 'Four stars', 'Five stars'];
 
 
 
@@ -85,7 +86,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 onFinish={(values: FlightFormData) => {
                         onOk({
                             company: values.company,
-                            category: values.category,
+                            flightcategory: values.flightcategory,
                             originId: values.originId,
                             destinationId: values.destinationId,
                             duration: values.duration
@@ -115,16 +116,16 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 </Form.Item>
 
                 <Form.Item
-                    name="category"
+                    name="flightcategory"
                     label="Category"
                     rules={[{ required: true, message: "Select the category" }]}
                 >
                     <Select
                         allowClear
                         filterOption={(input, option) => option?.label === input}
-                        options={[1, 2, 3, 4, 5].map((x) => ({
-                            value: x,
-                            label: `${x} stars`,
+                        options={flightcategories.map((x) => ({
+                            value: (flightcategories.indexOf(x) + 1),
+                            label: x,
                             key: x,
                         }))}
                         placeholder="Select the category"

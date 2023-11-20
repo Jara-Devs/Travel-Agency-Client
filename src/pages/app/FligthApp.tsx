@@ -32,10 +32,10 @@ const FlightApp = () => {
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = { Company: { contains: search } };
 
     const response = await get({
-      select: ["id", "duration", "category", "company", "origin" , "destination"],
+      select: ["id", "duration", "flightcategory", "company"],
       
       filter: searchFilter,
     });
@@ -116,8 +116,8 @@ const FlightApp = () => {
                 },
                 {
                   title: "Category",
-                  key: "category",
-                  render: (v: Flight) => <>{v.category}</>,
+                  key: "flightcategory",
+                  render: (v: Flight) => <>{v.flightcategory}</>,
                 },
                 {
                   title: "Origin",
@@ -196,7 +196,7 @@ const FlightApp = () => {
           open={editModal}
           values={{
             company: selected.company,
-            category: selected.category,
+            flightcategory: selected.flightcategory,
             duration: selected.duration,
             originId: selected.originId,
             destinationId: selected.destinationId,
