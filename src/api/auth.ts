@@ -7,7 +7,7 @@ import {
 } from "../types/auth";
 import { apiNoToken, apiWithToken, apiOdataNoToken, apiSingleOdataNoToken, apiSingleOdataWithToken, apiOdataWithToken } from "./fetch";
 import { QueryOptions } from "odata-query";
-import {AgencyUser, AgencyUserFormType} from "../types/services";
+import {UserAgency, UserAgencyFormType} from "../types/auth";
 
 
 export const authService = () => {
@@ -43,5 +43,5 @@ export const usersController = <T1, T2>(controller: string) => {
   return { get, getById, create, edit, remove };
 };
 
-export const agencyUser = () =>
-usersController<AgencyUser, AgencyUserFormType>("userAgency");
+export const userAgency = () =>
+usersController<UserAgency, UserAgencyFormType>("userAgency");

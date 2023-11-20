@@ -1,5 +1,5 @@
-import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { agencyUser } from "../../api/auth";
+import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { userAgency } from "../../api/auth";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
@@ -13,13 +13,11 @@ import {
 import UserAgencyForm from "./UsersAgencyForm";
 
 const UsersApp = () =>{
-    const { get, create, edit, remove } = agencyUser();
+    const { get, create, edit, remove } = userAgency();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [createModal, setCreateModal] = useState<boolean>(false);
-    const [editModal, setEditModal] = useState<boolean>(false);
     const [selected, setSelected] = useState<UserAgency>();
-    const [showModal, setShowModal] = useState<boolean>(false);
 
     const tableRef = useRef<TableEntitiesRef>({
         reload: () => {},
@@ -136,26 +134,6 @@ const UsersApp = () =>{
           render: (v: UserAgency) => (
             <Row gutter={10}>
               <Col>
-                <Tooltip title="Show">
-                  <EyeOutlined
-                    onClick={() => {
-                      setSelected(v);
-                      setShowModal(true);
-                    }}
-                  />
-                </Tooltip>
-              </Col>
-              <Col>
-                <Tooltip title="Edit">
-                  <EditOutlined
-                    onClick={() => {
-                      setSelected(v);
-                      setEditModal(true);
-                    }}
-                  />
-                </Tooltip>
-              </Col>
-              <Col>
                 <Tooltip title="Delete">
                   <DeleteOutlined
                     onClick={() => {
@@ -210,19 +188,17 @@ const UsersApp = () =>{
                 setCreateModal(false);
                 createAgencyUser(form);
               }
-              if (editModal && selected != null) {
-                setEditModal(false);
+              if (selected != null) {
                 editAgencyUser(form, selected.id);
               }
             }}
             create={createModal}
             onCancel={() => {
               if (createModal) setCreateModal(false);
-              if (editModal) setEditModal(false);
             }}
-            open={createModal || editModal}
+            open={createModal}
             values={
-              editModal && selected != null
+              selected != null
                 ? {
                     name: selected.name,
                     email: selected.email,

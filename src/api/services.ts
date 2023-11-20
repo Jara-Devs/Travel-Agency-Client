@@ -1,7 +1,5 @@
 import { QueryOptions } from "odata-query";
 import {
-  AgencyUser,
-  AgencyUserFormType,
   Excursion,
   ExcursionFormType,
   Hotel,
