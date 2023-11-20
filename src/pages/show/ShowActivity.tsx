@@ -16,7 +16,7 @@ export const ShowMiniTouristActivity: FC<{ touristActivity: TouristActivity }> =
     cover={
       <img
         alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+        src= {touristActivity.image.url}
       />
     }
   >
@@ -42,7 +42,7 @@ const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, tourist
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+            <Image src={touristActivity.image.url} />
           </Card>
         </Col>
       </Row>

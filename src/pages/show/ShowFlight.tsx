@@ -1,8 +1,7 @@
 import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { Flight, Hotel, TouristActivity } from "../../types/services";
+import { Flight } from "../../types/services";
 import Title from "antd/es/typography/Title";
-import {  flight } from '../../api/services';
 
 export interface ShowFlightProps {
   open: boolean;

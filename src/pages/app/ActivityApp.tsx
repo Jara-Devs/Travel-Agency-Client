@@ -36,6 +36,7 @@ const ActivityApp = () => {
 
     const response = await get({
       select: ["id", "description", "name"],
+      expand: { image: { select: ["id", "url", "name"] } },
       
       filter: searchFilter,
     });
