@@ -9,18 +9,24 @@ export interface ShowHotelProps {
   hotel: Hotel;
 }
 
-export const ShowMiniHotel: FC<{ hotel: Hotel }> = ({ hotel }) => (
+export interface ShowminiHotelProps{
+  hotel: Hotel;
+}
+
+export const ShowMiniHotel: FC< ShowminiHotelProps > = ({ hotel }) => (
   <Card
     hoverable
     cover={
       <img
         alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+        src= {hotel.image.url}
       />
     }
   >
     <Card.Meta title={hotel.name} description={hotel.category} />
   </Card>
+
+  
 );
 
 const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
@@ -41,7 +47,7 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
+            <Image src= {hotel.image.url} />
           </Card>
         </Col>
       </Row>

@@ -116,9 +116,9 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                     <Select
                         allowClear
                         filterOption={(input, option) => option?.label === input}
-                        options={[1, 2, 3, 4, 5].map((x) => ({
+                        options={['One star', 'Two stars', 'Three stars', 'Four stars', 'Five stars'].map((x) => ({
                             value: x,
-                            label: `${x} stars`,
+                            label: x,
                             key: x,
                         }))}
                         placeholder="Select the category"

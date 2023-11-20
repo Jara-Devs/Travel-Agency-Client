@@ -1,4 +1,4 @@
-import { Button, Col, Row, Tooltip, Typography, message, Select } from 'antd';
+import { Button, Col, Row, Tooltip, Typography, message } from 'antd';
 import { hotel } from '../../api/services';
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
@@ -9,6 +9,7 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
 import ShowHotel from '../show/ShowHotel';
+import { Image } from '../../types/api';
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
@@ -37,7 +38,8 @@ const HotelApp = () => {
     const response = await get({
       select: ["id", "category", "name", "touristPlaceId"],
       expand: {
-        touristPlace: {select: ["id" ,"name", "address"]}
+        touristPlace: {select: ["id" ,"name", "address"]},
+        image : {select: ["id", "url", "name"] }
       },
       filter: searchFilter,
     });
@@ -53,7 +55,6 @@ const HotelApp = () => {
 
   const createHotel = async (form: HotelFormType) => {
     setLoading(true);
-    console.log(form);
     const response = await create(form);
 
     if (response.ok) {
