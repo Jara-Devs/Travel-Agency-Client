@@ -68,6 +68,9 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
         load();
     }, []);
 
+
+    const categories = ['One star', 'Two stars', 'Three stars', 'Four stars', 'Five stars'];
+
     return (
         <Modal
             open={open}
@@ -116,8 +119,8 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
                     <Select
                         allowClear
                         filterOption={(input, option) => option?.label === input}
-                        options={['One star', 'Two stars', 'Three stars', 'Four stars', 'Five stars'].map((x) => ({
-                            value: x,
+                        options={categories.map((x) => ({
+                            value: categories.indexOf(x) + 1,
                             label: x,
                             key: x,
                         }))}

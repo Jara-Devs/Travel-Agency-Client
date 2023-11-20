@@ -9,7 +9,6 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
 import ShowHotel from '../show/ShowHotel';
-import { Image } from '../../types/api';
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
