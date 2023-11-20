@@ -1,8 +1,8 @@
-import { Button, Col, Row, Tooltip, Typography, message, Select } from 'antd';
-import { flight, hotel, touristActivity } from '../../api/services';
+import { Button, Col, Row, Tooltip, Typography, message } from 'antd';
+import { flight } from '../../api/services';
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Flight, FlightFormType, Hotel, HotelFormType, TouristActivity, TouristActivityFormType } from '../../types/services';
+import { Flight, FlightFormType } from '../../types/services';
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
@@ -35,7 +35,9 @@ const FlightApp = () => {
     const searchFilter: Filter = { Company: { contains: search } };
 
     const response = await get({
-      select: ["id", "duration", "flightcategory", "company"],
+      select: ["id", "duration", "flightCategory", "company"],
+      expand: {origin: {select: ["id", "name", "address"]},
+               destination: {select: ["id", "name", "address"]}},
       
       filter: searchFilter,
     });
@@ -116,18 +118,18 @@ const FlightApp = () => {
                 },
                 {
                   title: "Category",
-                  key: "flightcategory",
-                  render: (v: Flight) => <>{v.flightcategory}</>,
+                  key: "flightCategory",
+                  render: (v: Flight) => <>{v.flightCategory}</>,
                 },
                 {
                   title: "Origin",
                   key: "origin",
-                  render: (v: Flight) => <>{v.origin}</>,
+                  render: (v: Flight) => <>{v.origin.name}</>,
                 },
                 {
                   title: "Destination",
                   key: "destination",
-                  render: (v: Flight) => <>{v.destination}</>,
+                  render: (v: Flight) => <>{v.destination.name}</>,
                 },
                 {
                   title: "Duration",
@@ -196,7 +198,7 @@ const FlightApp = () => {
           open={editModal}
           values={{
             company: selected.company,
-            flightcategory: selected.flightcategory,
+            flightCategory: selected.flightCategory,
             duration: selected.duration,
             originId: selected.originId,
             destinationId: selected.destinationId,

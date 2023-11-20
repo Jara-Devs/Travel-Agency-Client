@@ -71,7 +71,9 @@ export interface Flight{
   origin: TouristPlace;
   destination: TouristPlace;
   duration: number;
-  flightcategory: number;
+  flightCategory: number;
+  originId: number;
+  destinationId: number;
 
 }
 
@@ -79,6 +81,6 @@ export interface FlightFormType{
   company: string;
   originId: number;
   destinationId: number;
-  flightcategory: number;
+  flightCategory: number;
   duration: number
 }

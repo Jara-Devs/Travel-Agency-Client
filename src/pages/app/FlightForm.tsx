@@ -1,16 +1,14 @@
 import { FC, useEffect, useState } from 'react';
-import { HotelFormType, TouristPlace, TouristActivity, TouristActivityFormType, FlightFormType } from '../../types/services';
+import { TouristPlace,  FlightFormType } from '../../types/services';
 import { Form, Input, Modal, Typography, message, Select } from 'antd';
 import Title from "antd/es/typography/Title";
 import { touristPlace } from '../../api/services';
 import { ApiResponse } from '../../types/api';
-import { Image } from "../../types/api";
-import UploadImage from '../../common/UploadImage';
 
 
 export interface FlightFormData {
     company: string;
-    flightcategory: number;
+    flightCategory: number;
     duration: number;
     originId: number;
     destinationId: number;
@@ -86,7 +84,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 onFinish={(values: FlightFormData) => {
                         onOk({
                             company: values.company,
-                            flightcategory: values.flightcategory,
+                            flightCategory: values.flightCategory,
                             originId: values.originId,
                             destinationId: values.destinationId,
                             duration: values.duration
@@ -116,7 +114,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 </Form.Item>
 
                 <Form.Item
-                    name="flightcategory"
+                    name="flightCategory"
                     label="Category"
                     rules={[{ required: true, message: "Select the category" }]}
                 >

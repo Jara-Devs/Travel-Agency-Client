@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Alert, Col, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Flight } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -9,19 +9,7 @@ export interface ShowFlightProps {
   flight: Flight;
 }
 
-export const ShowminiFlight: FC<{ flight: Flight }> = ({ flight }) => (
-  <Card
-    hoverable
-    cover={
-      <img
-        alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-      />
-    }
-  >
-    <Card.Meta title={flight.company} description={flight.company} />
-  </Card>
-);
+
 
 const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
   return (
@@ -38,19 +26,22 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
       cancelButtonProps={{ style: { display: "none" } }}
       okText="Cerrar"
     >
+      
       <Row className="m-5">
         <Col span={24}>
-          <Card className="center-content">
-            <Image src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
-          </Card>
+          <Alert 
+            type="info"
+            message="Category:"
+            description={flight.flightCategory}
+          />
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
           <Alert 
             type="info"
-            message="Description:"
-            description={flight.flightcategory}
+            message="Info:"
+            description={`From ${flight.origin.name} to ${flight.destination.name}, duration: ${flight.duration}`}
           />
         </Col>
       </Row>
