@@ -120,14 +120,7 @@ const UsersAgency = () =>{
             key: "role",
             render: (v: UserAgency) => <>{v.role}</>,
         };
-
-        const agencyColumn = {
-            title: "Agency",
-            key: "agency",
-            render: (v: UserAgency) => <>{v.agencyId}</>,
-        };
-    
-    
+        
         const actionsColumn = {
           title: "Actions",
           key: "Actions",
@@ -146,7 +139,7 @@ const UsersAgency = () =>{
           ),
         };
 
-        const columns = [nameColumn, emailColumn, passwordColumn, roleColumn, agencyColumn, actionsColumn];
+        const columns = [nameColumn, emailColumn, passwordColumn, roleColumn, actionsColumn];
     
         return (
           <TableEntities
