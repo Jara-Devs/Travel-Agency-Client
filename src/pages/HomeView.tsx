@@ -36,8 +36,11 @@ const HomeView: React.FC = () => {
     const response = await getRandomImage();
 
     if (response.ok) {
-      console.log(response.value!);
-      setImages((x) => x.concat(response.value!));
+      setImages((x) => {
+        let l = x.concat(response.value!);
+        l.sort(() => Math.random() - 0.5);
+        return l;
+      });
     }
   };
 
