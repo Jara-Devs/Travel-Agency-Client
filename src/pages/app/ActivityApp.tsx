@@ -1,14 +1,19 @@
-import { Button, Col, Row, Tooltip, Typography, message, Select } from 'antd';
-import { hotel, touristActivity } from '../../api/services';
+import { Button, Col, Row, Tooltip, Typography, message, Select } from "antd";
+import { hotel, touristActivity } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Hotel, HotelFormType, TouristActivity, TouristActivityFormType } from '../../types/services';
+import {
+  Hotel,
+  HotelFormType,
+  TouristActivity,
+  TouristActivityFormType,
+} from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import ShowActivity from '../show/ShowActivity';
-import TouristActivityForm from './ActivityForm';
+import ShowActivity from "../show/ShowActivity";
+import TouristActivityForm from "./ActivityForm";
 
 const ActivityApp = () => {
   const { get, create, edit, remove } = touristActivity();
@@ -37,7 +42,7 @@ const ActivityApp = () => {
     const response = await get({
       select: ["id", "description", "name"],
       expand: { image: { select: ["id", "url", "name"] } },
-      
+
       filter: searchFilter,
     });
 
@@ -62,7 +67,10 @@ const ActivityApp = () => {
     setLoading(false);
   };
 
-  const editTouristActivity = async (form: TouristActivityFormType, id: number) => {
+  const editTouristActivity = async (
+    form: TouristActivityFormType,
+    id: number
+  ) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -120,7 +128,7 @@ const ActivityApp = () => {
                   key: "Description",
                   render: (v: TouristActivity) => <>{v.description}</>,
                 },
-                
+
                 {
                   title: "Actions",
                   key: "Actions",
@@ -184,7 +192,6 @@ const ActivityApp = () => {
             name: selected.name,
             description: selected.description,
             image: selected.image,
-
           }}
         />
       )}

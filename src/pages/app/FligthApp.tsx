@@ -1,14 +1,14 @@
-import { Button, Col, Row, Tooltip, Typography, message } from 'antd';
-import { flight } from '../../api/services';
+import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { flight } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Flight, FlightFormType } from '../../types/services';
+import { Flight, FlightFormType } from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import ShowFlight from '../show/ShowFlight';
-import FlightForm from './FlightForm';
+import ShowFlight from "../show/ShowFlight";
+import FlightForm from "./FlightForm";
 
 const FlightApp = () => {
   const { get, create, edit, remove } = flight();
@@ -36,9 +36,11 @@ const FlightApp = () => {
 
     const response = await get({
       select: ["id", "duration", "flightCategory", "company"],
-      expand: {origin: {select: ["id", "name", "address"]},
-               destination: {select: ["id", "name", "address"]}},
-      
+      expand: {
+        origin: { select: ["id", "name", "address"] },
+        destination: { select: ["id", "name", "address"] },
+      },
+
       filter: searchFilter,
     });
 
@@ -136,7 +138,7 @@ const FlightApp = () => {
                   key: "duration",
                   render: (v: Flight) => <>{v.duration}</>,
                 },
-                
+
                 {
                   title: "Actions",
                   key: "Actions",
@@ -202,8 +204,6 @@ const FlightApp = () => {
             duration: selected.duration,
             originId: selected.originId,
             destinationId: selected.destinationId,
-
-
           }}
         />
       )}

@@ -9,8 +9,6 @@ export interface ShowFlightProps {
   flight: Flight;
 }
 
-
-
 const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
   return (
     <Modal
@@ -26,10 +24,9 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
       cancelButtonProps={{ style: { display: "none" } }}
       okText="Cerrar"
     >
-      
       <Row className="m-5">
         <Col span={24}>
-          <Alert 
+          <Alert
             type="info"
             message="Category:"
             description={flight.flightCategory}
@@ -38,14 +35,13 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert 
+          <Alert
             type="info"
             message="Info:"
             description={`From ${flight.origin.name} to ${flight.destination.name}, duration: ${flight.duration}`}
           />
         </Col>
       </Row>
-      
     </Modal>
   );
 };

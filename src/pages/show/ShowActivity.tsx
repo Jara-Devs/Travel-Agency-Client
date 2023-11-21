@@ -2,7 +2,7 @@ import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Hotel, TouristActivity } from "../../types/services";
 import Title from "antd/es/typography/Title";
-import { touristActivity } from '../../api/services';
+import { touristActivity } from "../../api/services";
 
 export interface ShowTouristActivityProps {
   open: boolean;
@@ -10,21 +10,22 @@ export interface ShowTouristActivityProps {
   touristActivity: TouristActivity;
 }
 
-export const ShowMiniTouristActivity: FC<{ touristActivity: TouristActivity }> = ({ touristActivity }) => (
-  <Card
-    hoverable
-    cover={
-      <img
-        alt="example"
-        src= {touristActivity.image.url}
-      />
-    }
-  >
-    <Card.Meta title={touristActivity.name} description={touristActivity.description} />
+export const ShowMiniTouristActivity: FC<{
+  touristActivity: TouristActivity;
+}> = ({ touristActivity }) => (
+  <Card hoverable cover={<img alt="example" src={touristActivity.image.url} />}>
+    <Card.Meta
+      title={touristActivity.name}
+      description={touristActivity.description}
+    />
   </Card>
 );
 
-const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, touristActivity }) => {
+const ShowTouristActivity: FC<ShowTouristActivityProps> = ({
+  open,
+  onOk,
+  touristActivity,
+}) => {
   return (
     <Modal
       width={800}
@@ -48,14 +49,13 @@ const ShowTouristActivity: FC<ShowTouristActivityProps> = ({ open, onOk, tourist
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert 
+          <Alert
             type="info"
             message="Description:"
             description={touristActivity.description}
           />
         </Col>
       </Row>
-      
     </Modal>
   );
 };
