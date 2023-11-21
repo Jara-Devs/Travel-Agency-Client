@@ -71,7 +71,10 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
 
   useEffect(() => {
     if (open) form.resetFields();
-    if (values) form.setFieldsValue({ ...values });
+    if (values) {
+      form.setFieldsValue({ ...values });
+      setImage(values.image);
+    } else setImage(undefined);
     if (values?.hotelId) setIsOverNight(true);
     else setIsOverNight(false);
   }, [open, form, values]);

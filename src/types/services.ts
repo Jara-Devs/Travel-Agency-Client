@@ -1,5 +1,6 @@
 import { Image } from "./api";
 import { Address } from "./common";
+import { touristPlace } from '../api/services';
 
 export interface TouristPlace {
   id: number;
@@ -20,11 +21,15 @@ export interface TouristActivity {
   id: number;
   name: string;
   description: string;
+  image: Image;
+
 }
 
 export interface TouristActivityFormType {
   name: string;
   description: string;
+  imageId: number;
+
 }
 
 export interface Excursion {
@@ -55,8 +60,38 @@ export interface OverNighExcursionFormType extends ExcursionFormType {
 export interface Hotel {
   id: number;
   name: string;
+  category: number;
+  touristPlaceId: number;
+  touristPlace: TouristPlace;
+  image: Image;
+
 }
 
 export interface HotelFormType {
   name: string;
+  category: number;
+  touristPlaceId: number;
+  imageId: number;
+
+
+}
+
+export interface Flight{
+  id: number;
+  company: string;
+  origin: TouristPlace;
+  destination: TouristPlace;
+  duration: number;
+  flightCategory: number;
+  originId: number;
+  destinationId: number;
+
+}
+
+export interface FlightFormType{
+  company: string;
+  originId: number;
+  destinationId: number;
+  flightCategory: number;
+  duration: number
 }

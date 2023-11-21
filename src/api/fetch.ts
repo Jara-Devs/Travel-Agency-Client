@@ -1,5 +1,5 @@
 import buildQuery, { QueryOptions } from "odata-query";
-import camelcaseKeys from "camelcase-keys";
+import camelcaseKeys from 'camelcase-keys';
 import { ApiResponse, HttpMethods } from "../types/api";
 
 const baseUrl: string | undefined = process.env.REACT_APP_API_URL;
