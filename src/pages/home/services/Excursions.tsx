@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { excursion, overNighExcursion } from "../../../api/services";
 import {
   Excursion,
@@ -7,14 +7,17 @@ import {
   TouristActivity,
   TouristPlace,
 } from "../../../types/services";
-import { Col, Row, Tooltip, message, Tag } from "antd";
+import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
 import ShowExcursion from "../../show/ShowExcursion";
 import { buildMessage } from "../../../common/functions";
-import ShowPlace from "../../show/ShowPlace";
-import ShowTouristActivity from "../../show/ShowActivity";
-import ShowHotel from "../../show/ShowHotel";
+import ShowPlace, { ShowMiniPlace } from "../../show/ShowPlace";
+import ShowTouristActivity, {
+  ShowMiniTouristActivity,
+} from "../../show/ShowActivity";
+import ShowHotel, { ShowMiniHotel } from "../../show/ShowHotel";
+import SlideCard from "../../../common/SlideCard";
 
 const Excursions = () => {
   const { get } = excursion();
@@ -94,51 +97,37 @@ const Excursions = () => {
       <ShowEntities
         loading={loading}
         data={data}
-        content={(value: Excursion) => (
-          <>
-            <Row>
-              {value.places.map((p, idx) => (
-                <Col key={idx}>
-                  <Tag
-                    color="blue"
-                    className="home-tag-label"
-                    onClick={() => setSelectedPlace(p)}
-                  >
-                    {p.name}
-                  </Tag>
-                </Col>
-              ))}
-            </Row>
-            <Row gutter={5} className="mt-1">
-              {value.activities.map((a, idx) => (
-                <Col key={idx}>
-                  <Tag
-                    color="green"
-                    className="home-tag-label"
-                    onClick={() => setSelectedActivity(a)}
-                  >
-                    {a.name}
-                  </Tag>
-                </Col>
-              ))}
-            </Row>
-            {value.isOverNight && (
-              <Row className="mt-1">
-                <Col>
-                  <Tag
-                    color="cyan"
-                    className="home-tag-label"
-                    onClick={() =>
-                      setSelectedHotel((value as OverNighExcursion).hotel)
-                    }
-                  >
-                    {(value as OverNighExcursion).hotel.name}
-                  </Tag>
-                </Col>
-              </Row>
-            )}
-          </>
-        )}
+        content={(value: Excursion) => {
+          let node: ReactNode[] = [];
+
+          const places = value.places.map((p) => (
+            <div onClick={() => setSelectedPlace(p)}>
+              <ShowMiniPlace place={p} />
+            </div>
+          ));
+          const activities = value.activities.map((a) => (
+            <div onClick={() => setSelectedActivity(a)}>
+              <ShowMiniTouristActivity touristActivity={a} />
+            </div>
+          ));
+
+          node = node.concat(places);
+          node = node.concat(activities);
+
+          if (value.isOverNight) {
+            node.push(
+              <div
+                onClick={() =>
+                  setSelectedHotel((value as OverNighExcursion).hotel)
+                }
+              >
+                <ShowMiniHotel hotel={(value as OverNighExcursion).hotel} />
+              </div>
+            );
+          }
+
+          return <SlideCard data={node} size="4" />;
+        }}
         actions={(value: Excursion) => [
           <Tooltip title="Show Excursion">
             <EyeOutlined onClick={() => setSelected(value)} />

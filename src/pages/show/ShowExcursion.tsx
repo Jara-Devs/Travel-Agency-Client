@@ -4,7 +4,6 @@ import {
   Col,
   Divider,
   Image,
-  List,
   Modal,
   Row,
   Typography,
@@ -15,6 +14,7 @@ import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
 import { ShowMiniTouristActivity } from "./ShowActivity";
 import { ShowMiniHotel } from "./ShowHotel";
+import SlideCard from "../../common/SlideCard";
 
 export interface ShowExcursionProps {
   open: boolean;
@@ -68,14 +68,11 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
         <Col span={24}>
           <Title level={4}>Places</Title>
           <Divider />
-          <List
-            grid={{ gutter: 16, column: 4 }}
-            dataSource={excursion.places}
-            renderItem={(item) => (
-              <List.Item>
-                <ShowMiniPlace place={item} />
-              </List.Item>
-            )}
+          <SlideCard
+            data={excursion.places.map((p) => (
+              <ShowMiniPlace place={p} />
+            ))}
+            size={"2"}
           />
         </Col>
       </Row>
@@ -84,12 +81,11 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
           <Title level={4}>Activities</Title>
           <Divider />
 
-          <List
-            grid={{ gutter: 16, column: 4 }}
-            dataSource={excursion.activities}
-            renderItem={(item) => (
-              <ShowMiniTouristActivity touristActivity={item} />
-            )}
+          <SlideCard
+            data={excursion.activities.map((a) => (
+              <ShowMiniTouristActivity touristActivity={a} />
+            ))}
+            size={"2"}
           />
         </Col>
       </Row>

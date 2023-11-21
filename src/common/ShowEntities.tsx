@@ -39,6 +39,7 @@ function ShowEntities<T>({
               actions={actions ? actions(item) : undefined}
               extra={
                 <Image
+                  preview={false}
                   className="show-mini-image"
                   alt={entity.image.name}
                   src={entity.image.url}
@@ -46,7 +47,13 @@ function ShowEntities<T>({
               }
             >
               <List.Item.Meta
-                avatar={entity.avatar ? entity.avatar : <Avatar src={logo} />}
+                avatar={
+                  entity.avatar ? (
+                    entity.avatar
+                  ) : (
+                    <Avatar size={40} src={logo} />
+                  )
+                }
                 title={entity.title}
                 description={entity.description}
               />

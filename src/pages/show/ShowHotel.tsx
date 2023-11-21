@@ -42,14 +42,14 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
     >
       <Row className="m-5">
         <Col span={24}>
-          <Card className="center-content">
+          <Card className="center-content" hoverable>
             <Image src={hotel.image.url} className="show-image" />
           </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card title="Category">
+          <Card title="Category" hoverable>
             {getCategory(hotel.category, { fontSize: "20px" })}
           </Card>
         </Col>
