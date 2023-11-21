@@ -9,24 +9,14 @@ export interface ShowHotelProps {
   hotel: Hotel;
 }
 
-export interface ShowminiHotelProps{
+export interface ShowminiHotelProps {
   hotel: Hotel;
 }
 
-export const ShowMiniHotel: FC< ShowminiHotelProps > = ({ hotel }) => (
-  <Card
-    hoverable
-    cover={
-      <img
-        alt="example"
-        src= {hotel.image.url}
-      />
-    }
-  >
+export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
+  <Card hoverable cover={<img alt="example" src={hotel.image.url} />}>
     <Card.Meta title={hotel.name} description={hotel.category} />
   </Card>
-
-  
 );
 
 const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
@@ -47,17 +37,13 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src= {hotel.image.url} />
+            <Image src={hotel.image.url} />
           </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert 
-            type="info"
-            message="Category:"
-            description={hotel.category}
-          />
+          <Alert type="info" message="Category:" description={hotel.category} />
         </Col>
       </Row>
       <Row className="m-5">

@@ -1,5 +1,5 @@
-import { Button, Col, Row, Tooltip, Typography, message } from 'antd';
-import { hotel } from '../../api/services';
+import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { hotel } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import { Hotel, HotelFormType } from "../../types/services";
@@ -8,7 +8,7 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
-import ShowHotel from '../show/ShowHotel';
+import ShowHotel from "../show/ShowHotel";
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
@@ -37,8 +37,8 @@ const HotelApp = () => {
     const response = await get({
       select: ["id", "category", "name", "touristPlaceId"],
       expand: {
-        touristPlace: {select: ["id" ,"name", "address"]},
-        image : {select: ["id", "url", "name"] }
+        touristPlace: { select: ["id", "name", "address"] },
+        image: { select: ["id", "url", "name"] },
       },
       filter: searchFilter,
     });
@@ -192,7 +192,6 @@ const HotelApp = () => {
             category: selected.category,
             touristPlaceId: selected.touristPlaceId,
             image: selected.image,
-
           }}
         />
       )}
