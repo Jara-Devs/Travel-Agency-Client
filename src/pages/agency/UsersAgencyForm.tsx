@@ -72,7 +72,10 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, message: "Introduce the email " }]}
+          rules={[{ required: true, 
+          message: "Introduce the email ", 
+          type: "email"
+          }]}
         >
           <Input placeholder="Introduce the email" />
         </Form.Item>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect} from "react";
 import {UserSystemFormType} from "../../types/auth";
 import { Form, Input, Modal, Typography} from "antd";
 import Title from "antd/es/typography/Title";
@@ -70,7 +70,11 @@ const UserForm: FC<UserSystemFormProps> = ({
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, message: "Introduce the email " }]}
+          rules={[{ 
+            required: true, 
+            message: "Introduce the email ", 
+            type: "email"
+          }]}
         >
           <Input placeholder="Introduce the email" />
         </Form.Item>
