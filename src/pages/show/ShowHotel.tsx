@@ -1,4 +1,4 @@
-import { Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Hotel } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -16,12 +16,12 @@ export interface ShowminiHotelProps {
 }
 
 export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
-  <Card
-    hoverable
-    className="show-mini-image"
-    cover={<img alt="example" src={hotel.image.url} />}
-  >
-    <Card.Meta title={hotel.name} description={getCategory(hotel.category)} />
+  <Card hoverable>
+    <Card.Meta
+      avatar={<Avatar size={50} src={hotel.image.url} />}
+      title={hotel.name}
+      description={getCategory(hotel.category)}
+    />
   </Card>
 );
 

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { excursion, overNighExcursion } from "../../../api/services";
 import {
   Excursion,
+  Hotel,
   OverNighExcursion,
+  TouristActivity,
   TouristPlace,
 } from "../../../types/services";
 import { Col, Row, Tooltip, message, Tag } from "antd";
@@ -11,6 +13,8 @@ import ShowEntities from "../../../common/ShowEntities";
 import ShowExcursion from "../../show/ShowExcursion";
 import { buildMessage } from "../../../common/functions";
 import ShowPlace from "../../show/ShowPlace";
+import ShowTouristActivity from "../../show/ShowActivity";
+import ShowHotel from "../../show/ShowHotel";
 
 const Excursions = () => {
   const { get } = excursion();
@@ -19,6 +23,8 @@ const Excursions = () => {
   const [data, setData] = useState<Excursion[]>([]);
   const [selected, setSelected] = useState<Excursion>();
   const [selectedPlace, setSelectedPlace] = useState<TouristPlace>();
+  const [selectedActivity, setSelectedActivity] = useState<TouristActivity>();
+  const [selectedHotel, setSelectedHotel] = useState<Hotel>();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,8 +33,15 @@ const Excursions = () => {
     const result = await get({
       select: ["id", "name", "isOverNight"],
       expand: {
-        places: { select: ["name", "description", "address"] },
-        activities: { select: ["name", "description"] },
+        places: {
+          select: ["name", "description", "address"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
+        activities: {
+          select: ["name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
+        image: { select: ["id", "name", "url"] },
       },
       filter: { isOverNight: { eq: false } },
     });
@@ -40,8 +53,26 @@ const Excursions = () => {
           select: ["name", "description", "address"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
-        activities: { select: ["name", "description"] },
-        hotel: { select: ["name"] },
+        activities: {
+          select: ["name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
+        hotel: {
+          select: ["name", "category"],
+          expand: {
+            image: {
+              select: ["id", "name", "url"],
+            },
+            touristPlace: {
+              select: ["name", "description"],
+              expand: {
+                image: {
+                  select: ["id", "name", "url"],
+                },
+              },
+            },
+          },
+        },
         image: { select: ["id", "name", "url"] },
       },
     });
@@ -65,12 +96,12 @@ const Excursions = () => {
         data={data}
         content={(value: Excursion) => (
           <>
-            <Row gutter={5}>
+            <Row>
               {value.places.map((p, idx) => (
                 <Col key={idx}>
                   <Tag
                     color="blue"
-                    className="pointer"
+                    className="home-tag-label"
                     onClick={() => setSelectedPlace(p)}
                   >
                     {p.name}
@@ -81,14 +112,26 @@ const Excursions = () => {
             <Row gutter={5} className="mt-1">
               {value.activities.map((a, idx) => (
                 <Col key={idx}>
-                  <Tag color="green">{a.name}</Tag>
+                  <Tag
+                    color="green"
+                    className="home-tag-label"
+                    onClick={() => setSelectedActivity(a)}
+                  >
+                    {a.name}
+                  </Tag>
                 </Col>
               ))}
             </Row>
             {value.isOverNight && (
               <Row className="mt-1">
                 <Col>
-                  <Tag color="cyan">
+                  <Tag
+                    color="cyan"
+                    className="home-tag-label"
+                    onClick={() =>
+                      setSelectedHotel((value as OverNighExcursion).hotel)
+                    }
+                  >
                     {(value as OverNighExcursion).hotel.name}
                   </Tag>
                 </Col>
@@ -115,9 +158,23 @@ const Excursions = () => {
       )}
       {selectedPlace && (
         <ShowPlace
-          open={true}
           place={selectedPlace}
+          open={true}
           onOk={() => setSelectedPlace(undefined)}
+        />
+      )}
+      {selectedActivity && (
+        <ShowTouristActivity
+          open={true}
+          touristActivity={selectedActivity}
+          onOk={() => setSelectedActivity(undefined)}
+        />
+      )}
+      {selectedHotel && (
+        <ShowHotel
+          open={true}
+          hotel={selectedHotel}
+          onOk={() => setSelectedHotel(undefined)}
         />
       )}
     </div>

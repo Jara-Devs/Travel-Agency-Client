@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
+import { ReactNode } from "react";
 import { Avatar, Image, List } from "antd";
 import logo from "../assets/logo.jpg";
 import { Image as ApiImage } from "../types/api";
@@ -14,13 +14,11 @@ export interface ShowEntitiesProps<T> {
     description?: string;
     image: ApiImage;
   };
-  imageStyles?: CSSProperties;
 }
 
 function ShowEntities<T>({
   data,
   actions,
-  imageStyles,
   content,
   convert,
   loading,
@@ -41,8 +39,7 @@ function ShowEntities<T>({
               actions={actions ? actions(item) : undefined}
               extra={
                 <Image
-                  style={imageStyles}
-                  width={250}
+                  className="show-mini-image"
                   alt={entity.image.name}
                   src={entity.image.url}
                 />

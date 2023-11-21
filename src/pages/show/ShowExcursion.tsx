@@ -1,8 +1,20 @@
-import { Card, Col, Divider, Image, List, Modal, Row, Typography } from "antd";
+import {
+  Avatar,
+  Card,
+  Col,
+  Divider,
+  Image,
+  List,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import { FC, CSSProperties } from "react";
-import { Excursion } from "../../types/services";
+import { Excursion, OverNighExcursion } from "../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
+import { ShowMiniTouristActivity } from "./ShowActivity";
+import { ShowMiniHotel } from "./ShowHotel";
 
 export interface ShowExcursionProps {
   open: boolean;
@@ -17,21 +29,11 @@ export interface ShowMiniExcursionProps {
 
 export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
-  styles,
 }) => (
-  <Card
-    style={styles}
-    hoverable
-    cover={
-      <img
-        alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-      />
-    }
-  >
+  <Card hoverable>
     <Card.Meta
+      avatar={<Avatar size={50} src={excursion.image.url} />}
       title={excursion.name}
-      description={excursion.isOverNight ? "OverNight Excursion" : "Excursion"}
     />
   </Card>
 );
@@ -53,8 +55,12 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
     >
       <Row className="m-5">
         <Col span={24}>
-          <Card className="center-content">
-            <Image src={excursion.image.url} />
+          <Card hoverable className="center-content">
+            <Image
+              src={excursion.image.url}
+              className="show-image"
+              preview={false}
+            />
           </Card>
         </Col>
       </Row>
@@ -75,20 +81,28 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Title level={4}>Places</Title>
+          <Title level={4}>Activities</Title>
           <Divider />
 
           <List
             grid={{ gutter: 16, column: 4 }}
             dataSource={excursion.activities}
             renderItem={(item) => (
-              <List.Item>
-                <Card title={item.name}>{item.description}</Card>
-              </List.Item>
+              <ShowMiniTouristActivity touristActivity={item} />
             )}
           />
         </Col>
       </Row>
+      {excursion.isOverNight && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Hotel</Title>
+            <Divider />
+
+            <ShowMiniHotel hotel={(excursion as OverNighExcursion).hotel} />
+          </Col>
+        </Row>
+      )}
     </Modal>
   );
 };

@@ -57,10 +57,13 @@ const ExcursionApp = () => {
       expand: {
         activities: {
           select: ["id", "name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
         },
         places: {
           select: ["id", "name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
         },
+        image: { select: ["id", "name", "url"] },
       },
       filter: searchFilter,
     });
@@ -89,13 +92,15 @@ const ExcursionApp = () => {
         image: { select: ["id", "name", "url"] },
         activities: {
           select: ["id", "name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
         },
         places: {
           select: ["id", "name", "description"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         hotel: {
-          select: ["id", "name"],
+          select: ["id", "name", "category"],
+          expand: { image: { select: ["id", "name", "url"] } },
         },
       },
       filter: searchFilter,

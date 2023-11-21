@@ -1,4 +1,4 @@
-import { Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { TouristActivity } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -12,12 +12,9 @@ export interface ShowTouristActivityProps {
 export const ShowMiniTouristActivity: FC<{
   touristActivity: TouristActivity;
 }> = ({ touristActivity }) => (
-  <Card
-    hoverable
-    className="show-mini-image"
-    cover={<img alt="example" src={touristActivity.image.url} />}
-  >
+  <Card hoverable>
     <Card.Meta
+      avatar={<Avatar size={50} src={touristActivity.image.url} />}
       title={touristActivity.name}
       description={touristActivity.description}
     />
@@ -45,14 +42,18 @@ const ShowTouristActivity: FC<ShowTouristActivityProps> = ({
     >
       <Row className="m-5">
         <Col span={24}>
-          <Card className="center-content">
-            <Image src={touristActivity.image.url} className="show-image" />
+          <Card className="center-content" hoverable>
+            <Image
+              src={touristActivity.image.url}
+              className="show-image"
+              preview={false}
+            />
           </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card>
+          <Card hoverable>
             <Card.Meta
               title="Description"
               description={touristActivity.description}
