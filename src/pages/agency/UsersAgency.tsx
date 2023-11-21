@@ -109,12 +109,6 @@ const UsersAgency = () =>{
           render: (v: UserAgency) => <>{v.email}</>,
         };
 
-        const passwordColumn = {
-            title: "Password",
-            key: "password",
-            render: (v: UserAgency) => <>{v.password}</>,
-        };
-
         const roleColumn = {
             title: "Role",
             key: "role",
@@ -139,7 +133,7 @@ const UsersAgency = () =>{
           ),
         };
 
-        const columns = [nameColumn, emailColumn, passwordColumn, roleColumn, actionsColumn];
+        const columns = [nameColumn, emailColumn, roleColumn, actionsColumn];
     
         return (
           <TableEntities
