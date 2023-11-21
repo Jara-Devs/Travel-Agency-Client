@@ -1,6 +1,6 @@
 import { FC, useEffect} from "react";
 import {UserAgencyFormType} from "../../types/auth";
-import { Form, Input, Modal, Typography} from "antd";
+import { Form, Input, Modal, Typography, Select} from "antd";
 import Title from "antd/es/typography/Title";
 
 export interface UserAgencyFormData {
@@ -18,6 +18,10 @@ export interface UserAgencyFormProps {
     create: boolean;
     open: boolean;
 }
+
+const handleChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 
 const UserAgencyForm: FC<UserAgencyFormProps> = ({
     onCancel,
@@ -102,9 +106,17 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         <Form.Item
           name="role"
           label="Role"
-          rules={[{ required: true, message: "Introduce the role" }]}
+          rules={[{required: true}]}
         >
-          <Input placeholder="Introduce the role" />
+        <Select
+          defaultValue="EmployeeAgency"
+          style={{ width: 120 }}
+          onChange={handleChange}
+          options={[
+            { value: 'ManagerAgency', label: 'Manager' },
+            { value: 'EmployeeAgency', label: 'Employee'},
+          ]}
+        />
         </Form.Item>
       </Form>
     </Modal>
