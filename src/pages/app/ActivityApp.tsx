@@ -1,13 +1,8 @@
-import { Button, Col, Row, Tooltip, Typography, message, Select } from "antd";
-import { hotel, touristActivity } from "../../api/services";
+import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { touristActivity } from "../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import {
-  Hotel,
-  HotelFormType,
-  TouristActivity,
-  TouristActivityFormType,
-} from "../../types/services";
+import { TouristActivity, TouristActivityFormType } from "../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
