@@ -21,11 +21,15 @@ export interface TouristActivity {
   id: number;
   name: string;
   description: string;
+  image: Image;
+
 }
 
 export interface TouristActivityFormType {
   name: string;
   description: string;
+  imageId: number;
+
 }
 
 export interface Excursion {
@@ -70,4 +74,24 @@ export interface HotelFormType {
   imageId: number;
 
 
+}
+
+export interface Flight{
+  id: number;
+  company: string;
+  origin: TouristPlace;
+  destination: TouristPlace;
+  duration: number;
+  flightCategory: number;
+  originId: number;
+  destinationId: number;
+
+}
+
+export interface FlightFormType{
+  company: string;
+  originId: number;
+  destinationId: number;
+  flightCategory: number;
+  duration: number
 }
