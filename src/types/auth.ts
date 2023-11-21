@@ -43,7 +43,6 @@ export interface UserAgency{
   email: string
   password: string
   role: string
-  agencyId: number
 }
 
 export interface UserAgencyFormType {
@@ -51,7 +50,6 @@ export interface UserAgencyFormType {
   email: string
   password: string
   role: string
-  agencyId: number
 }
 
 export interface UserSystem{

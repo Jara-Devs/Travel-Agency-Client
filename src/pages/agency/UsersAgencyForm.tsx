@@ -59,7 +59,6 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
                 email: values.email,
                 password: values.password,
                 role: values.role,
-                agencyId: values.agencyId
                 },
             );
           }

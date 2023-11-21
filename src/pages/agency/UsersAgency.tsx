@@ -37,7 +37,7 @@ const UsersAgency = () =>{
         };
 
         const response = await get({
-            select: ["id", "name", "email", "role", "agencyId"],
+            select: ["id", "name", "email", "role"],
             filter: searchFilter,
           });
 
@@ -196,8 +196,7 @@ const UsersAgency = () =>{
                     name: selected.name,
                     email: selected.email,
                     password: selected.password,
-                    role: selected.role,
-                    agencyId: selected.agencyId
+                    role: selected.role
                   }
                 : undefined
             }
