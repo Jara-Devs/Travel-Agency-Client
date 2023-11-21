@@ -106,14 +106,6 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         >
           <Input placeholder="Introduce the role" />
         </Form.Item>
-
-        <Form.Item
-          name="agencyId"
-          label="Agency"
-          rules={[{ required: true, message: "Introduce the agency id" }]}
-        >
-          <Input placeholder="Introduce the agency id" />
-        </Form.Item>
       </Form>
     </Modal>
     )
