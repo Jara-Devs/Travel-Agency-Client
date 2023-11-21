@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect} from "react";
 import {UserAgencyFormType} from "../../types/auth";
-import { Form, Input, Modal, Select, Typography, message } from "antd";
+import { Form, Input, Modal, Typography} from "antd";
 import Title from "antd/es/typography/Title";
 
 export interface UserAgencyFormData {

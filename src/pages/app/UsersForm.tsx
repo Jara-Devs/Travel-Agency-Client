@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import {UserSystemFormType} from "../../types/auth";
-import { Form, Input, Modal, Select, Typography, message } from "antd";
+import { Form, Input, Modal, Typography} from "antd";
 import Title from "antd/es/typography/Title";
 
 export interface UserSystemFormData {
@@ -38,7 +38,7 @@ const UserForm: FC<UserSystemFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Agency User</Title>
+          <Title level={3}>Create User</Title>
         </Typography>
       }
       onOk={form.submit}
