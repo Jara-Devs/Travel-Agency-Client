@@ -8,7 +8,6 @@ export interface UserAgencyFormData {
     email: string;
     password: string;
     role: string;
-    agencyId: number;
 }
 
 export interface UserAgencyFormProps {
@@ -108,10 +107,11 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
           rules={[{required: true}]}
         >
         <Select
-          defaultValue="EmployeeAgency"
+          defaultValue="None"
           style={{ width: 120 }}
           onChange={handleChange}
           options={[
+            { value: 'None', label: 'Select Role'},
             { value: 'ManagerAgency', label: 'Manager' },
             { value: 'EmployeeAgency', label: 'Employee'},
           ]}
