@@ -9,6 +9,7 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
 import ShowHotel from "../show/ShowHotel";
+import { getCategory } from "../../common/functions";
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
@@ -37,7 +38,10 @@ const HotelApp = () => {
     const response = await get({
       select: ["id", "category", "name", "touristPlaceId"],
       expand: {
-        touristPlace: { select: ["id", "name", "address"] },
+        touristPlace: {
+          select: ["id", "name", "address"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
         image: { select: ["id", "url", "name"] },
       },
       filter: searchFilter,
@@ -119,7 +123,7 @@ const HotelApp = () => {
                 {
                   title: "Category",
                   key: "category",
-                  render: (v: Hotel) => <>{v.category}</>,
+                  render: (v: Hotel) => getCategory(v.category),
                 },
                 {
                   title: "Place",

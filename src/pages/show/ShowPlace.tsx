@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { TouristPlace } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -14,7 +14,11 @@ export interface ShowMiniPlaceProps {
 }
 
 export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place }) => (
-  <Card hoverable cover={<img alt="example" src={place.image.url} />}>
+  <Card
+    className="show-mini-image"
+    hoverable
+    cover={<img alt="example" src={place.image.url} />}
+  >
     <Card.Meta title={place.name} description={place.description} />
   </Card>
 );
@@ -37,26 +41,25 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src={place.image.url} />
+            <Image src={place.image.url} className="show-image" />
           </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert
-            type="info"
-            message="Description:"
-            description={place.description}
-          />
+          <Card>
+            <Card.Meta title="Description" description={place.description} />
+          </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert
-            type="success"
-            message="Address:"
-            description={`${place.address.description}, ${place.address.city}, ${place.address.country}`}
-          />
+          <Card>
+            <Card.Meta
+              title="Address"
+              description={`${place.address.description}, ${place.address.city}, ${place.address.country}`}
+            />
+          </Card>
         </Col>
       </Row>
     </Modal>

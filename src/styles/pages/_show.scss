@@ -1,6 +1,11 @@
 .show-image {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.show-mini-image {
+  max-width: 150px;
+  max-height: 150px;
 }
 
 .show-description {
@@ -15,6 +20,6 @@
   width: 100%;
 }
 
-.show-address-text{
-    width: 100%;
+.show-address-text {
+  width: 100%;
 }

@@ -1,7 +1,9 @@
-import { Alert, Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Hotel } from "../../types/services";
 import Title from "antd/es/typography/Title";
+import { getCategory } from "../../common/functions";
+import { ShowMiniPlace } from "./ShowPlace";
 
 export interface ShowHotelProps {
   open: boolean;
@@ -14,8 +16,12 @@ export interface ShowminiHotelProps {
 }
 
 export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
-  <Card hoverable cover={<img alt="example" src={hotel.image.url} />}>
-    <Card.Meta title={hotel.name} description={hotel.category} />
+  <Card
+    hoverable
+    className="show-mini-image"
+    cover={<img alt="example" src={hotel.image.url} />}
+  >
+    <Card.Meta title={hotel.name} description={getCategory(hotel.category)} />
   </Card>
 );
 
@@ -37,22 +43,20 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content">
-            <Image src={hotel.image.url} />
+            <Image src={hotel.image.url} className="show-image" />
           </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert type="info" message="Category:" description={hotel.category} />
+          <Card title="Category">
+            {getCategory(hotel.category, { fontSize: "20px" })}
+          </Card>
         </Col>
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Alert
-            type="success"
-            message="Address:"
-            description={`${hotel.touristPlace.name},  ${hotel.touristPlace.address.country}`}
-          />
+          <ShowMiniPlace place={hotel.touristPlace} />
         </Col>
       </Row>
     </Modal>

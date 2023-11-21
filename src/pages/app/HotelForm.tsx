@@ -1,11 +1,16 @@
 import { FC, useEffect, useState } from "react";
-import { HotelFormType, TouristPlace } from "../../types/services";
+import {
+  HotelCategory,
+  HotelFormType,
+  TouristPlace,
+} from "../../types/services";
 import { Form, Input, Modal, Typography, message, Select } from "antd";
 import Title from "antd/es/typography/Title";
 import { touristPlace } from "../../api/services";
 import { ApiResponse } from "../../types/api";
 import { Image } from "../../types/api";
 import UploadImage from "../../common/UploadImage";
+import { getCategory } from "../../common/functions";
 
 export interface HotelFormData {
   name: string;
@@ -62,14 +67,6 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
     load();
   }, []);
 
-  const categories = [
-    "One star",
-    "Two stars",
-    "Three stars",
-    "Four stars",
-    "Five stars",
-  ];
-
   return (
     <Modal
       open={open}
@@ -113,10 +110,15 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
         >
           <Select
             allowClear
-            filterOption={(input, option) => option?.label === input}
-            options={categories.map((x) => ({
-              value: categories.indexOf(x) + 1,
-              label: x,
+            options={[
+              HotelCategory.OneStar,
+              HotelCategory.TwoStars,
+              HotelCategory.ThreeStars,
+              HotelCategory.FourStars,
+              HotelCategory.FiveStars,
+            ].map((x) => ({
+              value: x,
+              label: getCategory(x),
               key: x,
             }))}
             placeholder="Select the category"
