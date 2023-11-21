@@ -98,14 +98,6 @@ const UserForm: FC<UserSystemFormProps> = ({
         >
           <Input placeholder="Introduce the password" />
         </Form.Item>
-
-        <Form.Item
-          name="role"
-          label="Role"
-          rules={[{ required: true, message: "Introduce the role" }]}
-        >
-          <Input placeholder="Introduce the role" />
-        </Form.Item>
       </Form>
     </Modal>
     )
