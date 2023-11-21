@@ -82,7 +82,19 @@ const UserForm: FC<UserSystemFormProps> = ({
         <Form.Item
           name="password"
           label="Password"
-          rules={[{ required: true, message: "Introduce the password" }]}
+          rules={[{ required: true, message: "Introduce the password",},
+          {
+            validator(_, value: string) {
+              if (value.length <= 5)
+                return Promise.reject(
+                  new Error(
+                    "The length of the password no more than 6 characters"
+                  )
+                );
+              return Promise.resolve();
+            },
+          },
+        ]}
         >
           <Input placeholder="Introduce the password" />
         </Form.Item>
