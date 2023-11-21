@@ -7,10 +7,14 @@ import {
   UserSystem,
   UserSystemFormType,
 } from "../types/auth";
-import { apiNoToken, apiWithToken, apiOdataNoToken, apiSingleOdataNoToken, apiSingleOdataWithToken, apiOdataWithToken } from "./fetch";
+import {
+  apiNoToken,
+  apiWithToken,
+  apiSingleOdataWithToken,
+  apiOdataWithToken,
+} from "./fetch";
 import { QueryOptions } from "odata-query";
-import {UserAgency, UserAgencyFormType} from "../types/auth";
-
+import { UserAgency, UserAgencyFormType } from "../types/auth";
 
 export const authService = () => {
   function method<T>(data: T, endpoint: string) {
@@ -31,22 +35,18 @@ export const authService = () => {
 export const usersController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
     apiOdataWithToken<T1>(controller, odataQuery);
-  const getById = (
-    odataQuery: Partial<QueryOptions<T1>>,
-    id: number
-  ) => apiSingleOdataWithToken<T1>(`${controller}/${id}`, odataQuery);
+  const getById = (odataQuery: Partial<QueryOptions<T1>>, id: number) =>
+    apiSingleOdataWithToken<T1>(`${controller}/${id}`, odataQuery);
 
   const create = (form: T2) => apiWithToken(controller, form, HttpMethods.POST);
-  const edit = (form: T2, id: number) =>
-    apiWithToken(`${controller}/${id}`, form, HttpMethods.PUT);
   const remove = (id: number) =>
     apiWithToken(`${controller}/${id}`, {}, HttpMethods.DELETE);
 
-  return { get, getById, create, edit, remove };
+  return { get, getById, create, remove };
 };
 
 export const userAgency = () =>
-usersController<UserAgency, UserAgencyFormType>("userAgency");
+  usersController<UserAgency, UserAgencyFormType>("userAgency");
 
 export const userSystem = () =>
-usersController<UserSystem, UserSystemFormType>("userApp");
+  usersController<UserSystem, UserSystemFormType>("userApp");

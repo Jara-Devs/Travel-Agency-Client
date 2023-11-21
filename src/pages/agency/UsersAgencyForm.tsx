@@ -1,21 +1,21 @@
-import { FC, useEffect} from "react";
-import {UserAgencyFormType} from "../../types/auth";
-import { Form, Input, Modal, Typography, Select} from "antd";
+import { FC, useEffect } from "react";
+import { UserAgencyFormType } from "../../types/auth";
+import { Form, Input, Modal, Typography, Select } from "antd";
 import Title from "antd/es/typography/Title";
 
 export interface UserAgencyFormData {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
 export interface UserAgencyFormProps {
-    onOk: (form: UserAgencyFormType) => void;
-    onCancel: () => void;
-    values?: UserAgencyFormData;
-    create: boolean;
-    open: boolean;
+  onOk: (form: UserAgencyFormType) => void;
+  onCancel: () => void;
+  values?: UserAgencyFormData;
+  create: boolean;
+  open: boolean;
 }
 
 const handleChange = (value: string) => {
@@ -23,22 +23,21 @@ const handleChange = (value: string) => {
 };
 
 const UserAgencyForm: FC<UserAgencyFormProps> = ({
-    onCancel,
-    values,
-    open,
-    create,
-    onOk,
-  }) => {
+  onCancel,
+  values,
+  open,
+  create,
+  onOk,
+}) => {
+  const [form] = Form.useForm<UserAgencyFormData>();
 
-    const [form] = Form.useForm<UserAgencyFormData>();
-    
-    useEffect(() => {
-        if (open) form.resetFields();
-        if (values) form.setFieldsValue({ ...values });
-    }, [open, form, values]);
+  useEffect(() => {
+    if (open) form.resetFields();
+    if (values) form.setFieldsValue({ ...values });
+  }, [open, form, values]);
 
-    return(
-     <Modal
+  return (
+    <Modal
       open={open}
       title={
         <Typography>
@@ -53,15 +52,13 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         style={{ marginTop: "20px" }}
         form={form}
         onFinish={(values: UserAgencyFormData) => {
-            onOk({
-                name: values.name,
-                email: values.email,
-                password: values.password,
-                role: values.role,
-                },
-            );
-          }
-        }
+          onOk({
+            name: values.name,
+            email: values.email,
+            password: values.password,
+            role: values.role,
+          });
+        }}
       >
         <Form.Item
           name="name"
@@ -74,10 +71,9 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         <Form.Item
           name="email"
           label="Email"
-          rules={[{ required: true, 
-          message: "Introduce the email ", 
-          type: "email"
-          }]}
+          rules={[
+            { required: true, message: "Introduce the email ", type: "email" },
+          ]}
         >
           <Input placeholder="Introduce the email" />
         </Form.Item>
@@ -85,41 +81,37 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         <Form.Item
           name="password"
           label="Password"
-          rules={[{ required: true, message: "Introduce the password" },
-          {
-            validator(_, value: string) {
-              if (value.length <= 5)
-                return Promise.reject(
-                  new Error(
-                    "The length of the password no more than 6 characters"
-                  )
-                );
-              return Promise.resolve();
+          rules={[
+            { required: true, message: "Introduce the password" },
+            {
+              validator(_, value: string) {
+                if (value.length <= 5)
+                  return Promise.reject(
+                    new Error(
+                      "The length of the password no more than 6 characters"
+                    )
+                  );
+                return Promise.resolve();
+              },
             },
-          },]}
+          ]}
         >
           <Input placeholder="Introduce the password" />
         </Form.Item>
 
-        <Form.Item
-          name="role"
-          label="Role"
-          rules={[{required: true}]}
-        >
-        <Select
-          defaultValue="None"
-          style={{ width: 120 }}
-          onChange={handleChange}
-          options={[
-            { value: 'None', label: 'Select Role'},
-            { value: 'ManagerAgency', label: 'Manager' },
-            { value: 'EmployeeAgency', label: 'Employee'},
-          ]}
-        />
+        <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+          <Select
+            placeholder="Select a Role"
+            onChange={handleChange}
+            options={[
+              { value: "ManagerAgency", label: "Manager" },
+              { value: "EmployeeAgency", label: "Employee" },
+            ]}
+          />
         </Form.Item>
       </Form>
     </Modal>
-    )
-}
+  );
+};
 
 export default UserAgencyForm;
