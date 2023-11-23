@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Card,
   Col,
   Divider,
@@ -25,13 +26,16 @@ export interface ShowminiHotelProps {
 }
 
 export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={hotel.image.url} />}
-      title={hotel.name}
-      description={getCategory(hotel.category)}
-    />
-  </Card>
+  <Badge.Ribbon text="hotel" color="green">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={hotel.image.url} />}
+        title={hotel.name}
+        description={getCategory(hotel.category)}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {

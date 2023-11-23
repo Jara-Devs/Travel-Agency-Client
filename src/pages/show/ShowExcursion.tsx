@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Card,
   Col,
   Divider,
@@ -30,12 +31,15 @@ export interface ShowMiniExcursionProps {
 export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
 }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={excursion.image.url} />}
-      title={excursion.name}
-    />
-  </Card>
+  <Badge.Ribbon text="Excursion" color="cyan">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={excursion.image.url} />}
+        title={excursion.name}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {

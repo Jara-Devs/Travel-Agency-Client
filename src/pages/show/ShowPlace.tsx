@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Avatar, Badge, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { TouristPlace } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -14,13 +14,16 @@ export interface ShowMiniPlaceProps {
 }
 
 export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={place.image.url} />}
-      title={place.name}
-      description={place.description}
-    />
-  </Card>
+  <Badge.Ribbon text="Place">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={place.image.url} />}
+        title={place.name}
+        description={place.description}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
