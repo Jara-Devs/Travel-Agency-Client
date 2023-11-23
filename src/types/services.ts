@@ -108,3 +108,15 @@ export interface FlightOffer {
   facilities: string[];
   imageId: number;
 }
+
+export interface FlightOfferFormType {
+  name: string;
+  flightId: number;
+  availability: number;
+  description: string;
+  price: number;
+  startDate: Date;
+  endDate: Date;
+  facilities: string[];
+  imageId: number;
+}
