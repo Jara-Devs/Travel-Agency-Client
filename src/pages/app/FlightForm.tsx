@@ -1,9 +1,20 @@
 import { FC, useEffect, useState } from "react";
 import { TouristPlace, FlightFormType } from "../../types/services";
-import { Form, Input, Modal, Typography, message, Select } from "antd";
+import {
+  Form,
+  Input,
+  Modal,
+  Typography,
+  message,
+  Select,
+  Row,
+  Col,
+  InputNumber,
+} from "antd";
 import Title from "antd/es/typography/Title";
 import { touristPlace } from "../../api/services";
 import { ApiResponse } from "../../types/api";
+import moment from "moment";
 
 export interface FlightFormData {
   company: string;
@@ -25,10 +36,19 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
 
   const [form] = Form.useForm<FlightFormData>();
 
+  const [hours, setHours] = useState<number>(0);
+  const [minutes, setMinutes] = useState<number>(0);
+
   useEffect(() => {
     if (open) form.resetFields();
     if (values) {
       form.setFieldsValue({ ...values });
+      const duration = moment.duration(values.duration);
+      setHours(duration.hours());
+      setMinutes(duration.minutes());
+    } else {
+      setHours(0);
+      setMinutes(0);
     }
   }, [open, form, values]);
 
@@ -56,13 +76,6 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
   useEffect(() => {
     load();
   }, []);
-  const flightcategories = [
-    "One star",
-    "Two stars",
-    "Three stars",
-    "Four stars",
-    "Five stars",
-  ];
 
   return (
     <Modal
@@ -80,12 +93,13 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         style={{ marginTop: "20px" }}
         form={form}
         onFinish={(values: FlightFormData) => {
+          const duration = moment.duration({ hours: hours, minutes: minutes });
           onOk({
             company: values.company,
             flightCategory: values.flightCategory,
             originId: values.originId,
             destinationId: values.destinationId,
-            duration: values.duration,
+            duration: duration.asMilliseconds(),
           });
         }}
       >
@@ -102,24 +116,26 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
           label="Duration"
           rules={[{ required: true, message: "Introduce the duration" }]}
         >
-          <Input placeholder="Introduce the duration" />
-        </Form.Item>
-
-        <Form.Item
-          name="flightCategory"
-          label="Category"
-          rules={[{ required: true, message: "Select the category" }]}
-        >
-          <Select
-            allowClear
-            filterOption={(input, option) => option?.label === input}
-            options={flightcategories.map((x) => ({
-              value: flightcategories.indexOf(x) + 1,
-              label: x,
-              key: x,
-            }))}
-            placeholder="Select the category"
-          />
+          <Row gutter={8}>
+            <Col>
+              <InputNumber
+                value={hours}
+                min={0}
+                max={23}
+                placeholder="Hours"
+                onChange={(v) => setHours(v ?? 0)}
+              />
+            </Col>
+            <Col>
+              <InputNumber
+                value={minutes}
+                min={0}
+                max={59}
+                placeholder="Minutes"
+                onChange={(v) => setMinutes(v ?? 0)}
+              />
+            </Col>
+          </Row>
         </Form.Item>
 
         <Form.Item

@@ -1,4 +1,13 @@
-import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
+import {
+  Avatar,
+  Card,
+  Col,
+  Divider,
+  Image,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import { FC } from "react";
 import { Hotel } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -43,7 +52,11 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content" hoverable>
-            <Image src={hotel.image.url} className="show-image" />
+            <Image
+              src={hotel.image.url}
+              className="show-image"
+              preview={false}
+            />
           </Card>
         </Col>
       </Row>
@@ -56,6 +69,9 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       </Row>
       <Row className="m-5">
         <Col span={24}>
+          <Title level={4}>Place</Title>
+          <Divider />
+
           <ShowMiniPlace place={hotel.touristPlace} />
         </Col>
       </Row>

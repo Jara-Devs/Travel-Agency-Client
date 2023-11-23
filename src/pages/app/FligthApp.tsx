@@ -9,6 +9,7 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ShowFlight from "../show/ShowFlight";
 import FlightForm from "./FlightForm";
+import moment from "moment";
 
 const FlightApp = () => {
   const { get, create, edit, remove } = flight();
@@ -35,10 +36,23 @@ const FlightApp = () => {
     const searchFilter: Filter = { Company: { contains: search } };
 
     const response = await get({
-      select: ["id", "duration", "flightCategory", "company"],
+      select: [
+        "id",
+        "duration",
+        "flightCategory",
+        "company",
+        "originId",
+        "destinationId",
+      ],
       expand: {
-        origin: { select: ["id", "name", "address"] },
-        destination: { select: ["id", "name", "address"] },
+        origin: {
+          select: ["name", "address"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
+        destination: {
+          select: ["name", "address"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
       },
 
       filter: searchFilter,
@@ -119,11 +133,6 @@ const FlightApp = () => {
                   render: (v: Flight) => <>{v.company}</>,
                 },
                 {
-                  title: "Category",
-                  key: "flightCategory",
-                  render: (v: Flight) => <>{v.flightCategory}</>,
-                },
-                {
                   title: "Origin",
                   key: "origin",
                   render: (v: Flight) => <>{v.origin.name}</>,
@@ -136,7 +145,10 @@ const FlightApp = () => {
                 {
                   title: "Duration",
                   key: "duration",
-                  render: (v: Flight) => <>{v.duration}</>,
+                  render: (v: Flight) => {
+                    const duration = moment.duration(v.duration);
+                    return <>{`${duration.hours()}:${duration.minutes()}`}</>;
+                  },
                 },
 
                 {
