@@ -11,10 +11,11 @@ export interface ShowPlaceProps {
 
 export interface ShowMiniPlaceProps {
   place: TouristPlace;
+  ribbon?: string;
 }
 
-export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place }) => (
-  <Badge.Ribbon text="Place">
+export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place, ribbon }) => (
+  <Badge.Ribbon text={ribbon ?? "Place"}>
     <Card hoverable>
       <Card.Meta
         className="show-card"

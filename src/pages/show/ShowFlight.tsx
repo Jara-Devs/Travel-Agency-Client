@@ -11,16 +11,16 @@ export interface ShowFlightProps {
   flight: Flight;
 }
 
-const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
+export const buildDuration = (flight: Flight) => {
   const duration = moment.duration(flight.duration);
 
-  const build = () => {
-    let r = `${duration.hours()} hours`;
+  let r = `${duration.hours()} hours`;
 
-    if (duration.minutes() > 0) r = `${r} and ${duration.minutes()} minutes`;
-    return r;
-  };
+  if (duration.minutes() > 0) r = `${r} and ${duration.minutes()} minutes`;
+  return r;
+};
 
+const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
   return (
     <Modal
       width={800}
@@ -38,7 +38,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card>
-            <Card.Meta title="Duration" description={build()} />
+            <Card.Meta title="Duration" description={buildDuration(flight)} />
           </Card>
         </Col>
       </Row>
