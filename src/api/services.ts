@@ -15,6 +15,7 @@ import {
 } from "../types/services";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
+import { HotelOffer, HotelOfferFormType } from "../types/offers";
 
 export const serviceController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
@@ -51,6 +52,12 @@ export const overNighExcursion = () =>
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
 
-export const activity = () => serviceController<TouristActivity, TouristActivityFormType>("touristactivity")
+export const activity = () =>
+  serviceController<TouristActivity, TouristActivityFormType>(
+    "touristactivity"
+  );
 
-export const flight = () => serviceController<Flight, FlightFormType>("flight")
+export const flight = () => serviceController<Flight, FlightFormType>("flight");
+
+export const hotelOffer = () =>
+  serviceController<HotelOffer, HotelOfferFormType>("hotelOffer");
