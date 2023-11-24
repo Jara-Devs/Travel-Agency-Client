@@ -1,5 +1,6 @@
-import { FlightOfferFormType } from "../../../types/services";
-import { FC } from "react";
+import { Flight, FlightOfferFormType } from "../../../types/services";
+import { FC, useState, useEffect } from "react";
+import { Form } from "antd";
 
 export interface FlightOfferFormData {
     name: string;
@@ -20,6 +21,14 @@ export interface FlightOfferFormProps {
     open: boolean;
 }
 
-const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, open }) => { }
+const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, open }) => {
+
+    const [Flight, setFligth] = useState<Flight[]>([]);
+    const [form] = Form.useForm<FlightOfferFormData>();
+
+    useEffect(() => {
+        if (open) form.resetFields();
+    }, [open, form, values]);
+}
 
 export default FlightOfferForm;
