@@ -14,6 +14,8 @@ import { Hotel } from "../../types/services";
 import { hotel } from "../../api/services";
 import UploadImage from "../../common/UploadImage";
 import Title from "antd/es/typography/Title";
+import moment from "moment";
+import dayjs from "dayjs";
 
 export interface HotelFormProps {
   onOk: (form: HotelOfferFormType) => void;
@@ -26,8 +28,8 @@ export interface HotelOfferFormData {
   name: string;
   description: string;
   availability: number;
-  startDate: number;
-  endDate: number;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
   image: Image;
   hotelId: number;
   price: number;
@@ -50,6 +52,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
     if (open) form.resetFields();
     if (values) {
       form.setFieldsValue({ ...values });
+      console.log(values.startDate);
       setImage(values.image);
     } else {
       setImage(undefined);
@@ -180,12 +183,12 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           label="StartDate"
           rules={[{ required: true, message: "Select the startDate" }]}
         >
-          <DatePicker />
+          <DatePicker allowClear={false} format={"DD/MM/YYYY"} />
         </Form.Item>
 
         <Form.Item
           name="endDate"
-          label="endDate"
+          label="EndDate"
           rules={[{ required: true, message: "Select the endDate" }]}
         >
           <DatePicker />

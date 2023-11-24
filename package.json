@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.2.7",
     "antd": "^5.9.0",
     "camelcase-keys": "^9.1.2",
+    "dayjs": "^1.11.10",
     "moment": "^2.29.4",
     "odata-query": "^7.0.4",
     "react": "^18.2.0",

@@ -11,6 +11,8 @@ import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import HotelOfferForm from "./HotelOfferForm";
 import { getCategory } from "../../common/functions";
 import ShowHotelOffer from "../show/ShowHotelOffer";
+import moment from "moment";
+import dayjs from "dayjs";
 
 const HotelOffers = () => {
   const { get, create, edit, remove } = hotelOffer();
@@ -221,8 +223,8 @@ const HotelOffers = () => {
             description: selected.description,
             price: selected.price,
             image: selected.image,
-            startDate: selected.startDate.valueOf(),
-            endDate: selected.endDate.valueOf(),
+            startDate: dayjs(selected.startDate),
+            endDate: dayjs(selected.endDate),
             availability: selected.availability,
             hotelId: selected.hotel.id,
             facilities: selected.facilities,
