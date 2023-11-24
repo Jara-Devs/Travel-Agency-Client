@@ -4,6 +4,16 @@ export interface User {
   role: Roles;
 }
 
+export interface UserTouristContext extends User {
+  nationality: string;
+}
+
+export interface UserAgencyContext extends User {
+  agencyId: number;
+  agencyName: string;
+  faxNumber: number;
+}
+
 export interface LoginForm {
   email: string;
   password: string;
@@ -37,32 +47,32 @@ export enum Roles {
   EmployeeApp = "EmployeeApp",
 }
 
-export interface UserAgency{
-  id: number
-  name: string
-  email: string
-  password: string
-  role: string
+export interface UserAgency {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
 export interface UserAgencyFormType {
-  name: string
-  email: string
-  password: string
-  role: string
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
-export interface UserSystem{
-  id: number
-  name: string
-  email: string
-  password: string
-  role: string
+export interface UserSystem {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
 
 export interface UserSystemFormType {
-  name: string
-  email: string
-  password: string
-  role: string
+  name: string;
+  email: string;
+  password: string;
+  role: string;
 }
