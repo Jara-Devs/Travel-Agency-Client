@@ -151,7 +151,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, ope
                     label="Price"
                     rules={[{ required: true, message: "Introduce the price" }]}
                 >
-                    <InputNumber min={1} max={999} defaultValue={1} /> Introduce the price
+                    $<InputNumber min={0} max={999} defaultValue={0} /> Introduce the price
                 </Form.Item>
 
                 <Form.Item
