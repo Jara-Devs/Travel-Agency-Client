@@ -1,4 +1,5 @@
 import { FlightOfferFormType } from "../../../types/services";
+import { FC } from "react";
 
 export interface FlightOfferFormData {
     name: string;
@@ -12,9 +13,13 @@ export interface FlightOfferFormData {
     imageId: number;
 }
 
-export interface FlightFormProps {
+export interface FlightOfferFormProps {
     onOk: (form: FlightOfferFormType) => void;
     onCancel: () => void;
     values?: FlightOfferFormData;
     open: boolean;
 }
+
+const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, open }) => { }
+
+export default FlightOfferForm;
