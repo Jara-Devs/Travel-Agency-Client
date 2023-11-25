@@ -96,17 +96,19 @@ export interface FlightFormType {
   duration: number;
 }
 
-export interface FlightOffer {
+export interface FlightOfferType {
   id: number;
   name: string;
+  flight: Flight;
   flightId: number;
   availability: number;
   description: string;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: number;
+  endDate: number;
   facilities: number[];
   imageId: number;
+  agencyId: number;
 }
 
 export interface FlightOfferFormType {
@@ -115,8 +117,15 @@ export interface FlightOfferFormType {
   availability: number;
   description: string;
   price: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: number;
+  endDate: number;
   facilities: number[];
   imageId: number;
+}
+
+export enum FlightOfferFacility {
+  FirstClass = 0,
+  PrincipalDish = 1,
+  Snack = 2,
+  AudiovisualContend = 3
 }
