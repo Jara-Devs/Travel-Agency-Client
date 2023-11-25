@@ -105,7 +105,7 @@ export interface FlightOffer {
   price: number;
   startDate: Date;
   endDate: Date;
-  facilities: string[];
+  facilities: number[];
   imageId: number;
 }
 
@@ -117,6 +117,6 @@ export interface FlightOfferFormType {
   price: number;
   startDate: Date;
   endDate: Date;
-  facilities: string[];
+  facilities: number[];
   imageId: number;
 }
