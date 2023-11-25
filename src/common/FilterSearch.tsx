@@ -27,7 +27,7 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
   };
 
   return (
-    <Form form={form}>
+    <Form form={form} style={{ height: "30px" }}>
       <Row justify="space-between">
         <Col>
           <Row gutter={5}>
@@ -74,7 +74,7 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
                 />
               </Form.Item>
             </Col>
-            <Col span={2}>
+            <Col span={4}>
               <Button disabled={loading} onClick={reset}>
                 <UndoOutlined />
               </Button>
