@@ -1,15 +1,15 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { hotel } from "../../api/services";
+import { hotel } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Hotel, HotelFormType } from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import { Hotel, HotelFormType } from "../../../types/services";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
-import ShowHotel from "../show/ShowHotel";
-import { getCategory } from "../../common/functions";
+import ShowHotel from "../../show/services/ShowHotel";
+import { getCategory } from "../../../common/functions";
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();

@@ -1,24 +1,23 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { flight } from "../../api/services";
+import { touristPlace } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Flight, FlightFormType } from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import { TouristPlace, TouristPlaceFormType } from "../../../types/services";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import ShowFlight from "../show/ShowFlight";
-import FlightForm from "./FlightForm";
-import moment from "moment";
+import PlaceForm from "./PlaceForm";
+import ShowPlace from "../../show/services/ShowPlace";
 
-const FlightApp = () => {
-  const { get, create, edit, remove } = flight();
+const PlaceApp = () => {
+  const { get, create, edit, remove } = touristPlace();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<Flight>();
+  const [selected, setSelected] = useState<TouristPlace>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
@@ -29,32 +28,15 @@ const FlightApp = () => {
   const load = async (
     _: Record<string, FilterValue | null>,
     search: string,
-    setDataValue: (data: Flight[]) => void
+    setDataValue: (data: TouristPlace[]) => void
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Company: { contains: search } };
+    const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await get({
-      select: [
-        "id",
-        "duration",
-        "flightCategory",
-        "company",
-        "originId",
-        "destinationId",
-      ],
-      expand: {
-        origin: {
-          select: ["name", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        destination: {
-          select: ["name", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-      },
-
+      select: ["id", "description", "name", "address"],
+      expand: { image: { select: ["id", "url", "name"] } },
       filter: searchFilter,
     });
 
@@ -67,35 +49,34 @@ const FlightApp = () => {
     setLoading(false);
   };
 
-  const createFlight = async (form: FlightFormType) => {
+  const createPlace = async (form: TouristPlaceFormType) => {
     setLoading(true);
-    console.log(form);
     const response = await create(form);
 
     if (response.ok) {
-      message.success("Flight created");
+      message.success("Place created");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const editFlight = async (form: FlightFormType, id: number) => {
+  const editPlace = async (form: TouristPlaceFormType, id: number) => {
     setLoading(true);
     const response = await edit(form, id);
 
     if (response.ok) {
-      message.success("Flight edited");
+      message.success("Place edited");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const deleteFlight = async (id: number) => {
+  const deletePlace = async (id: number) => {
     setLoading(true);
     const response = await remove(id);
 
     if (response.ok) {
-      message.success("Flight deleted");
+      message.success("Place deleted");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -107,7 +88,7 @@ const FlightApp = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Flights</Title>
+              <Title>Places</Title>
             </Typography>
           </Col>
           <Col>
@@ -124,37 +105,30 @@ const FlightApp = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Flights"
+              title="Places"
               loading={loading}
               columns={[
                 {
-                  title: "Company",
-                  key: "company",
-                  render: (v: Flight) => <>{v.company}</>,
+                  title: "Name",
+                  key: "name",
+                  render: (v: TouristPlace) => <>{v.name}</>,
                 },
                 {
-                  title: "Origin",
-                  key: "origin",
-                  render: (v: Flight) => <>{v.origin.name}</>,
+                  title: "Description",
+                  key: "description",
+                  render: (v: TouristPlace) => <>{v.description}</>,
                 },
                 {
-                  title: "Destination",
-                  key: "destination",
-                  render: (v: Flight) => <>{v.destination.name}</>,
+                  title: "Address",
+                  key: "address",
+                  render: (v: TouristPlace) => (
+                    <>{`${v.address.description}, ${v.address.city}, ${v.address.country}`}</>
+                  ),
                 },
-                {
-                  title: "Duration",
-                  key: "duration",
-                  render: (v: Flight) => {
-                    const duration = moment.duration(v.duration);
-                    return <>{`${duration.hours()}:${duration.minutes()}`}</>;
-                  },
-                },
-
                 {
                   title: "Actions",
                   key: "Actions",
-                  render: (v: Flight) => (
+                  render: (v: TouristPlace) => (
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
@@ -180,7 +154,7 @@ const FlightApp = () => {
                         <Tooltip title="Delete">
                           <DeleteOutlined
                             onClick={() => {
-                              deleteFlight(v.id);
+                              deletePlace(v.id);
                             }}
                           />
                         </Tooltip>
@@ -194,42 +168,43 @@ const FlightApp = () => {
           </Col>
         </Row>
       </div>
-      <FlightForm
-        onOk={(form: FlightFormType) => {
+      <PlaceForm
+        onOk={(form: TouristPlaceFormType) => {
           setCreateModal(false);
-          createFlight(form);
+          createPlace(form);
         }}
         onCancel={() => setCreateModal(false)}
         open={createModal}
       />
       {selected && (
-        <FlightForm
-          onOk={(form: FlightFormType) => {
+        <PlaceForm
+          onOk={(form: TouristPlaceFormType) => {
             setEditModal(false);
-            editFlight(form, selected.id);
+            editPlace(form, selected.id);
           }}
           onCancel={() => setEditModal(false)}
           open={editModal}
           values={{
-            company: selected.company,
-            flightCategory: selected.flightCategory,
-            duration: selected.duration,
-            originId: selected.originId,
-            destinationId: selected.destinationId,
+            name: selected.name,
+            description: selected.description,
+            address: selected.address.description,
+            city: selected.address.city,
+            country: selected.address.country,
+            image: selected.image,
           }}
         />
       )}
       {selected && (
-        <ShowFlight
+        <ShowPlace
           open={showModal}
           onOk={() => {
             setShowModal(false);
           }}
-          flight={selected}
+          place={selected}
         />
       )}
     </>
   );
 };
 
-export default FlightApp;
+export default PlaceApp;

@@ -10,9 +10,9 @@ import {
   Typography,
 } from "antd";
 import { FC } from "react";
-import { Hotel } from "../../types/services";
+import { Hotel } from "../../../types/services";
 import Title from "antd/es/typography/Title";
-import { getCategory } from "../../common/functions";
+import { getCategory } from "../../../common/functions";
 import { ShowMiniPlace } from "./ShowPlace";
 
 export interface ShowHotelProps {

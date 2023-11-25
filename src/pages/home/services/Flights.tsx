@@ -4,9 +4,9 @@ import { Flight, TouristPlace } from "../../../types/services";
 import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
-import ShowPlace, { ShowMiniPlace } from "../../show/ShowPlace";
+import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import SlideCard from "../../../common/SlideCard";
-import ShowFlight, { buildDuration } from "../../show/ShowFlight";
+import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 
 const Flights = () => {
   const { get } = flight();

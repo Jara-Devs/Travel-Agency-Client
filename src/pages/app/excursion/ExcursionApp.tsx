@@ -1,5 +1,5 @@
 import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { excursion, overNighExcursion } from "../../api/services";
+import { excursion, overNighExcursion } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import {
@@ -7,13 +7,13 @@ import {
   ExcursionFormType,
   OverNighExcursion,
   OverNighExcursionFormType,
-} from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+} from "../../../types/services";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ExcursionForm from "./ExcursionForm";
-import ShowExcursion from "../show/ShowExcursion";
+import ShowExcursion from "../../show/services/ShowExcursion";
 
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();

@@ -10,13 +10,13 @@ import {
 import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
-import ShowExcursion from "../../show/ShowExcursion";
+import ShowExcursion from "../../show/services/ShowExcursion";
 import { buildMessage } from "../../../common/functions";
-import ShowPlace, { ShowMiniPlace } from "../../show/ShowPlace";
+import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import ShowTouristActivity, {
   ShowMiniTouristActivity,
-} from "../../show/ShowActivity";
-import ShowHotel, { ShowMiniHotel } from "../../show/ShowHotel";
+} from "../../show/services/ShowActivity";
+import ShowHotel, { ShowMiniHotel } from "../../show/services/ShowHotel";
 import SlideCard from "../../../common/SlideCard";
 
 const Excursions = () => {

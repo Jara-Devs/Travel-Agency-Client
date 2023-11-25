@@ -1,6 +1,6 @@
 import { Card, Col, Divider, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { Flight } from "../../types/services";
+import { Flight } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import moment from "moment";
 import { ShowMiniPlace } from "./ShowPlace";

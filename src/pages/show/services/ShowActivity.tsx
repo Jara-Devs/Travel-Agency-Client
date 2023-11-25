@@ -1,6 +1,6 @@
 import { Avatar, Badge, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { TouristActivity } from "../../types/services";
+import { TouristActivity } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 
 export interface ShowTouristActivityProps {
