@@ -7,7 +7,7 @@ import Title from "antd/es/typography/Title";
 import UploadImage from "../../../common/UploadImage";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { DatePickerProps } from 'antd';
+import type { DatePickerProps, SelectProps } from 'antd';
 
 dayjs.extend(customParseFormat);
 
@@ -19,7 +19,7 @@ export interface FlightOfferFormData {
     price: number;
     startDate: Date;
     endDate: Date;
-    facilities: string[];
+    facilities: number[];
     imageId: number;
 }
 
@@ -56,6 +56,32 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, ope
         `${dayjs(value).startOf('week').format(weekFormat)} ~ ${dayjs(value)
             .endOf('week')
             .format(weekFormat)}`;
+
+    const options: SelectProps['options'] = [];
+
+    options.push({
+        label: "Fist Class",
+        value: 0,
+    });
+
+    options.push({
+        label: "Principal dish",
+        value: 1,
+    });
+
+    options.push({
+        label: "Snack",
+        value: 2,
+    });
+
+    options.push({
+        label: "Audiovisual Contend",
+        value: 3,
+    });
+
+    const handleChange = (value: string[]) => {
+        console.log(`selected ${value}`);
+    };
 
     const load = async () => {
         const responseFlight = await flight().get({ select: ["id", "company", "origin", "destination", "flightCategory"] });
@@ -168,6 +194,22 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, ope
                     rules={[{ required: true, message: "Introduce the final date" }]}
                 >
                     <DatePicker defaultValue={dayjs('2023/01/01', dateFormat)} format={dateFormat} /> Introduce the final date
+                </Form.Item>
+
+                <Form.Item
+                    name="facilities"
+                    label="Facilities"
+                    rules={[{ required: true, message: "Select the facilities" }]}
+                >
+                    <Select
+                        mode="multiple"
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder="Select the facilities"
+                        defaultValue={[]}
+                        onChange={handleChange}
+                        options={options}
+                    />
                 </Form.Item>
 
                 <UploadImage setImage={setImage} image={image} />
