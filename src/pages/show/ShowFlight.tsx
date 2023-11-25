@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Modal, Row, Typography } from "antd";
+import { Badge, Card, Col, Divider, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Flight } from "../../types/services";
 import Title from "antd/es/typography/Title";
@@ -10,6 +10,23 @@ export interface ShowFlightProps {
   onOk: () => void;
   flight: Flight;
 }
+
+export interface ShowMiniFlightProps {
+  flight: Flight
+  ribbon?: string;
+}
+
+export const ShowMiniFlight: FC<ShowMiniFlightProps> = ({ flight, ribbon }) => (
+  <Badge.Ribbon text={ribbon ?? "Place"}>
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        title={flight.origin.name + "-" + flight.destination.name}
+        description={flight.company}
+      />
+    </Card>
+  </Badge.Ribbon>
+);
 
 export const buildDuration = (flight: Flight) => {
   const duration = moment.duration(flight.duration);
