@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { flight } from "../../../api/services";
+import { flight, touristPlace } from "../../../api/services";
 import { Flight, TouristPlace } from "../../../types/services";
 import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
@@ -7,17 +7,45 @@ import ShowEntities from "../../../common/ShowEntities";
 import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import SlideCard from "../../../common/SlideCard";
 import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
+import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
+import { Filter } from "odata-query";
+import { useSearchParams } from "react-router-dom";
 
 const Flights = () => {
   const { get } = flight();
+  const { get: getPlaces } = touristPlace();
+
+  const [searchParams] = useSearchParams();
 
   const [data, setData] = useState<Flight[]>([]);
   const [selected, setSelected] = useState<Flight>();
+  const [places, setPlaces] = useState<TouristPlace[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<TouristPlace>();
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const load = async () => {
+  const buildFilter = (): Filter => {
+    const f: Filter[] = [];
+
+    const search = searchParams.get("search");
+    if (search) f.push({ company: { contains: search } });
+
+    const origin = searchParams.get("origin");
+    if (origin) {
+      const v = Number(origin);
+      if (Number.isInteger(v)) f.push({ origin: { id: { eq: v } } });
+    }
+
+    const destination = searchParams.get("destination");
+    if (destination) {
+      const v = Number(destination);
+      if (Number.isInteger(v)) f.push({ destination: { id: { eq: v } } });
+    }
+
+    return { and: f };
+  };
+
+  const load = async (filter: Filter) => {
     setLoading(true);
     const result = await get({
       select: ["id", "company"],
@@ -31,6 +59,7 @@ const Flights = () => {
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
+      filter: filter,
     });
 
     if (result.ok) setData(result.value!);
@@ -39,13 +68,43 @@ const Flights = () => {
     setLoading(false);
   };
 
+  const loadPlaces = async () => {
+    setLoading(true);
+    const result = await getPlaces({ select: ["id", "name"] });
+
+    if (result.ok) setPlaces(result.value!);
+    else message.error(result.message);
+
+    setLoading(false);
+  };
+
   useEffect(() => {
-    load();
+    loadPlaces();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    load(buildFilter());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const originFilter: FilterItem = {
+    name: "Origin",
+    options: places.map((p, idx) => ({ key: idx, label: p.name, value: p.id })),
+    search: true,
+    styles: { width: "150px" },
+  };
+
+  const destinationFilter: FilterItem = {
+    name: "Destination",
+    options: places.map((p, idx) => ({ key: idx, label: p.name, value: p.id })),
+    search: true,
+    styles: { width: "150px" },
+  };
+
   return (
     <div className="m-5">
+      <FilterSearch filters={[originFilter, destinationFilter]} loading={loading} />
       <ShowEntities
         loading={loading}
         data={data}

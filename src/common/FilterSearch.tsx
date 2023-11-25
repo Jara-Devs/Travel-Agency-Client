@@ -1,7 +1,8 @@
-import { Col, Input, Row, Select } from "antd";
+import { Button, Col, Form, Input, Row, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { CSSProperties, FC } from "react";
 import { useSearchParams } from "react-router-dom";
+import { UndoOutlined } from "@ant-design/icons";
 
 export interface FilterItem {
   options: DefaultOptionType[];
@@ -12,52 +13,76 @@ export interface FilterItem {
 
 export interface FilterSearchProps {
   filters: FilterItem[];
+  loading: boolean;
 }
 
-const FilterSearch: FC<FilterSearchProps> = ({ filters }) => {
+const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [form] = Form.useForm();
+
+  const reset = () => {
+    setSearchParams();
+    form.resetFields();
+  };
+
   return (
-    <Row justify="space-between">
-      <Col>
-        <Row>
-          {filters.map((f, idx) => (
-            <Col key={idx}>
-              <Select
-                onChange={(e) => {
-                  const params = Object.fromEntries(searchParams);
+    <Form form={form}>
+      <Row justify="space-between">
+        <Col>
+          <Row gutter={5}>
+            {filters.map((f, idx) => (
+              <Col key={idx}>
+                <Form.Item name={idx}>
+                  <Select
+                    onChange={(e) => {
+                      const params = Object.fromEntries(searchParams);
 
-                  if (e) params[f.name] = e;
-                  else delete params[f.name];
+                      if (e) params[f.name.toLowerCase()] = e;
+                      else delete params[f.name.toLowerCase()];
 
-                  setSearchParams(params);
-                }}
-                style={f.styles}
-                showSearch={f.search}
-                filterOption={(input, option) => option?.label === input}
-                allowClear
-                options={f.options}
-                placeholder={f.name}
-              />
+                      setSearchParams(params);
+                    }}
+                    style={f.styles}
+                    showSearch={f.search}
+                    filterOption={(input, option) => option?.label === input}
+                    allowClear
+                    options={f.options}
+                    placeholder={f.name}
+                  />
+                </Form.Item>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+        <Col span={8}>
+          <Row gutter={5}>
+            <Col span={20}>
+              <Form.Item name="search">
+                <Input.Search
+                  allowClear
+                  onSearch={(s) => {
+                    const params = Object.fromEntries(searchParams);
+
+                    const key = "search";
+                    if (s) params[key] = s;
+                    else delete params[key];
+
+                    setSearchParams(params);
+                  }}
+                  placeholder="Search"
+                />
+              </Form.Item>
             </Col>
-          ))}
-        </Row>
-      </Col>
-      <Col span={8}>
-        <Input.Search
-          allowClear
-          onSearch={(s) => {
-            const params = Object.fromEntries(searchParams);
-
-            const key = "Search";
-            if (s) params[key] = s;
-            else delete params[key];
-
-            setSearchParams(params);
-          }}
-          placeholder="Search"
-        />
-      </Col>
-    </Row>
+            <Col span={2}>
+              <Button disabled={loading} onClick={reset}>
+                <UndoOutlined />
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Form>
   );
 };
 

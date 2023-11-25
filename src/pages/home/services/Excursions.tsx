@@ -39,11 +39,11 @@ const Excursions = () => {
   const buildFilter = (): Filter => {
     const f: Filter[] = [];
 
-    const type = searchParams.get("Type");
+    const type = searchParams.get("type");
     if (type)
       f.push({ isOverNight: { eq: type === "excursion" ? false : true } });
 
-    const search = searchParams.get("Search");
+    const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
 
     return { and: f };
@@ -124,7 +124,7 @@ const Excursions = () => {
     <div className="m-5">
       <Row>
         <Col span={24}>
-          <FilterSearch filters={[filterItem]} />
+          <FilterSearch filters={[filterItem]} loading={loading} />
         </Col>
       </Row>
       <Row>
