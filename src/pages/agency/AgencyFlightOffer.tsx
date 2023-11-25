@@ -34,7 +34,7 @@ const AgencyFlightOffer = () => {
     ) => {
         setLoading(true);
 
-        const searchFilter: Filter = { Company: { contains: search } };
+        const searchFilter: Filter = { company: { contains: search } };
 
         const response = await get({
             select: [
