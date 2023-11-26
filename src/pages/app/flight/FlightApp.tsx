@@ -71,7 +71,7 @@ const FlightApp = () => {
     setLoading(false);
   };
 
-  const editFlight = async (form: FlightFormType, id: number) => {
+  const editFlight = async (form: FlightFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -82,7 +82,7 @@ const FlightApp = () => {
     setLoading(false);
   };
 
-  const deleteFlight = async (id: number) => {
+  const deleteFlight = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

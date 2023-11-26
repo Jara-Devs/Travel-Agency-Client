@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   token: string;
   username: string;
   role: Roles;
@@ -10,7 +10,7 @@ export interface UserTouristContext extends User {
 }
 
 export interface UserAgencyContext extends User {
-  agencyId: number;
+  agencyId: string;
   agencyName: string;
   faxNumber: number;
 }
@@ -49,7 +49,7 @@ export enum Roles {
 }
 
 export interface UserAgency {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;
@@ -64,7 +64,7 @@ export interface UserAgencyFormType {
 }
 
 export interface UserSystem {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password: string;

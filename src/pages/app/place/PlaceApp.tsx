@@ -60,7 +60,7 @@ const PlaceApp = () => {
     setLoading(false);
   };
 
-  const editPlace = async (form: TouristPlaceFormType, id: number) => {
+  const editPlace = async (form: TouristPlaceFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -71,7 +71,7 @@ const PlaceApp = () => {
     setLoading(false);
   };
 
-  const deletePlace = async (id: number) => {
+  const deletePlace = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

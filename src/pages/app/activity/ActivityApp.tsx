@@ -67,7 +67,7 @@ const ActivityApp = () => {
 
   const editTouristActivity = async (
     form: TouristActivityFormType,
-    id: number
+    id: string
   ) => {
     setLoading(true);
     const response = await edit(form, id);
@@ -79,7 +79,7 @@ const ActivityApp = () => {
     setLoading(false);
   };
 
-  const deleteTouristActivity = async (id: number) => {
+  const deleteTouristActivity = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

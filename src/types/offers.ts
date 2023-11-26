@@ -2,10 +2,10 @@ import { Image } from "./api";
 import { Excursion, Flight, Hotel } from "./services";
 
 export interface Reaction {
-  id: number;
+  id: string;
   reactionState: ReactionState;
-  touristId: number;
-  offerId: number;
+  touristId: string;
+  offerId: string;
 }
 
 export enum OfferType {
@@ -21,12 +21,12 @@ export enum ReactionState {
 
 export interface ReactionForm {
   reactionState: ReactionState;
-  touristId: number;
-  offerId: number;
+  touristId: string;
+  offerId: string;
 }
 
 export interface Offer {
-  id: number;
+  id: string;
   name: string;
   availability: number;
   agencyId: number;
@@ -36,26 +36,26 @@ export interface Offer {
   endDate: number;
   image: Image;
   reactions: Reaction[];
-  imageId: number;
+  imageId: string;
   type: OfferType;
 }
 
 export interface FlightOfferType extends Offer {
   flight: Flight;
-  flightId: number;
+  flightId: string;
   facilities: FlightFacility[];
 }
 
 export interface FlightOfferFormType {
   name: string;
-  flightId: number;
+  flightId: string;
   availability: number;
   description: string;
   price: number;
   startDate: number;
   endDate: number;
   facilities: number[];
-  imageId: number;
+  imageId: string;
 }
 
 export enum FlightFacility {
@@ -81,8 +81,8 @@ export interface HotelOfferFormType {
   availability: number;
   startDate: number | undefined;
   endDate: number | undefined;
-  imageId: number;
-  hotelId: number;
+  imageId: string;
+  hotelId: string;
   price: number;
   facilities: number[];
 }
@@ -121,19 +121,19 @@ export enum ExcursionFacility {
 
 export interface ExcursionOfferFormType {
   name: string;
-  excursionId: number;
+  excursionId: string;
   availability: number;
   description: string;
   price: number;
   startDate: number;
   endDate: number;
   facilities: number[];
-  imageId: number;
+  imageId: string;
 }
 
 export interface ExcursionOfferType extends Offer {
   excursion: Excursion;
-  excursionId: number;
+  excursionId: string;
   image: Image;
   facilities: ExcursionFacility[];
 }

@@ -15,9 +15,9 @@ import UploadImage from "../../../common/UploadImage";
 
 export interface ExcursionFormData {
   name: string;
-  places: number[];
-  activities: number[];
-  hotelId?: number;
+  places: string[];
+  activities: string[];
+  hotelId?: string;
   image: Image;
 }
 export interface ExcursionFormProps {

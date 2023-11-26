@@ -67,7 +67,7 @@ const HotelApp = () => {
     setLoading(false);
   };
 
-  const editHotel = async (form: HotelFormType, id: number) => {
+  const editHotel = async (form: HotelFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -78,7 +78,7 @@ const HotelApp = () => {
     setLoading(false);
   };
 
-  const deleteHotel = async (id: number) => {
+  const deleteHotel = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

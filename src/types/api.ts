@@ -5,7 +5,7 @@ export interface ApiResponse<T> {
 }
 
 export interface Image {
-  id: number;
+  id: string;
   name: string;
   url: string;
 }

@@ -20,7 +20,7 @@ import { getFlightFacility } from "../../../../common/functions";
 
 export interface FlightOfferFormData {
   name: string;
-  flightId: number;
+  flightId: string;
   availability: number;
   description: string;
   price: number;
