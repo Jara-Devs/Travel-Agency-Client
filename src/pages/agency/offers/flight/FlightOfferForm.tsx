@@ -83,23 +83,13 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
     }
   };
 
-  const validateStartDate = (_: any, value: dayjs.Dayjs) => {
-    if (value && value.valueOf() < Date.now()) {
-      return Promise.reject(
-        new Error("The start date must be greater than the current date")
-      );
-    }
-    return Promise.resolve();
+  const disabledDateStart = (current: dayjs.Dayjs) => {
+    return current && (current < dayjs());
   };
 
-  const validateEndDate = (_: any, value: dayjs.Dayjs) => {
+  const disableEndDate = (current: dayjs.Dayjs) => {
     const startDate = form.getFieldValue("startDate");
-    if (value && value.valueOf() < startDate.valueOf()) {
-      return Promise.reject(
-        new Error("The end date must be greater than the start date")
-      );
-    }
-    return Promise.resolve();
+    return current && current < startDate
   };
 
   useEffect(() => {
@@ -207,15 +197,13 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the initial date",
-            },
-            {
-              validator: validateStartDate,
-            },
+            }
           ]}
         >
           <DatePicker
             placeholder="Introduce the initial date"
             format={dateFormat}
+            disabledDate={disabledDateStart}
           />
         </Form.Item>
 
@@ -226,15 +214,13 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the final date",
-            },
-            {
-              validator: validateEndDate,
-            },
+            }
           ]}
         >
           <DatePicker
             placeholder="Introduce the final date"
             format={dateFormat}
+            disabledDate={disableEndDate}
           />
         </Form.Item>
 
