@@ -3,7 +3,6 @@ import { Flight } from "./services";
 
 export interface Reaction {
   liked: boolean;
-  comment?: string;
   touristId: number;
   offerId: number;
 }
