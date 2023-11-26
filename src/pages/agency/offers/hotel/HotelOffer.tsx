@@ -16,7 +16,7 @@ import { UserAgencyContext } from "../../../../types/auth";
 import { UserContext } from "../../../../context/UserProvider";
 import { HotelOfferType, HotelOfferFormType } from "../../../../types/offers";
 
-const HotelOffer = () => {
+const HotelOfferAgency = () => {
   const { get, create, edit, remove } = hotelOffer();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -264,4 +264,4 @@ const HotelOffer = () => {
   );
 };
 
-export default HotelOffer;
+export default HotelOfferAgency;
