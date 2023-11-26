@@ -1,10 +1,6 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { hotel } from "../../../api/services";
-import {
-  Hotel,
-  HotelCategory,
-  TouristPlace,
-} from "../../../types/services";
+import { Hotel, HotelCategory, TouristPlace } from "../../../types/services";
 import { Col, Row, Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
@@ -14,6 +10,7 @@ import ShowHotel from "../../show/services/ShowHotel";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
+import SlideCard from "../../../common/SlideCard";
 
 const Hotels = () => {
   const { get } = hotel();
@@ -29,16 +26,8 @@ const Hotels = () => {
   const buildFilter = (): Filter => {
     const f: Filter[] = [];
 
-    // const category = searchParams.get("category");
-    // if (category) {
-    //   // const categoryValue = Number(category);
-    //   // if (!isNaN(categoryValue) && Number.isInteger(categoryValue)) {
-    //     f.push({ category: { eq: category } });
-    //   // }
-    // }
-
     const search = searchParams.get("search");
-    if (search) f.push({ name: { contains: search } }); 
+    if (search) f.push({ name: { contains: search } });
 
     return { and: f };
   };
@@ -63,9 +52,21 @@ const Hotels = () => {
       filter: { and: [filter] },
     });
 
-    if (result.ok)
+    if (result.ok) {
+      const category = searchParams.get("category");
+      if (category) {
+        const categoryValue = Number(category);
+        if (Number.isInteger(categoryValue)) {
+          const filtered = result.value!.filter(
+            (value) => value.category === categoryValue
+          );
+          setData(filtered);
+          setLoading(false);
+          return;
+        }
+      }
       setData(result.value!);
-    else message.error(buildMessage([result]));
+    } else message.error(buildMessage([result]));
 
     setLoading(false);
   };
@@ -100,17 +101,13 @@ const Hotels = () => {
             loading={loading}
             data={data}
             content={(value: Hotel) => {
-              let node: ReactNode[] = [];
-
               const place = (
                 <div onClick={() => setSelectedPlace(value.touristPlace)}>
                   <ShowMiniPlace place={value.touristPlace} />
                 </div>
-              )
+              );
 
-              node = node.concat(place);
-
-              return node;
+              return <SlideCard data={[place]} size="4" />;
             }}
             actions={(value: Hotel) => [
               <Tooltip title="Show Hotel">
@@ -122,6 +119,7 @@ const Hotels = () => {
             ]}
             convert={(value: Hotel) => ({
               title: value.name,
+              description: getCategory(value.category),
               image: value.image,
             })}
           />
