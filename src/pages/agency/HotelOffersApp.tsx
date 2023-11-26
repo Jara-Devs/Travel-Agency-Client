@@ -6,12 +6,10 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
-import ShowHotel from "../show/ShowHotel";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import HotelOfferForm from "./HotelOfferForm";
 import { getCategory } from "../../common/functions";
 import ShowHotelOffer from "../show/ShowHotelOffer";
-import moment from "moment";
 import dayjs from "dayjs";
 
 const HotelOffers = () => {
@@ -51,7 +49,10 @@ const HotelOffers = () => {
       ],
       expand: {
         image: { select: ["id", "name", "url"] },
-        hotel: { select: ["id", "category", "name", "touristPlace", "image"] },
+        hotel: {
+          select: ["id", "category", "name", "touristPlace"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
       },
       filter: searchFilter,
     });

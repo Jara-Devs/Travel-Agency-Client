@@ -14,7 +14,6 @@ import { Hotel } from "../../types/services";
 import { hotel } from "../../api/services";
 import UploadImage from "../../common/UploadImage";
 import Title from "antd/es/typography/Title";
-import moment from "moment";
 import dayjs from "dayjs";
 
 export interface HotelFormProps {
@@ -205,7 +204,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
             options={[HotelFacility.gimnasio, HotelFacility.piscina].map(
               (x) => ({
                 value: x,
-                label: x,
+                label: HotelFacility[x],
                 key: x,
               })
             )}

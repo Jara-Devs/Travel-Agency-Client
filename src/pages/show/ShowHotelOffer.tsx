@@ -1,9 +1,7 @@
 import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { Hotel } from "../../types/services";
 import Title from "antd/es/typography/Title";
 import { getCategory } from "../../common/functions";
-import { ShowMiniPlace } from "./ShowPlace";
 import { HotelOffer } from "../../types/offers";
 
 export interface ShowHotelOfferProps {
@@ -50,7 +48,7 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content" hoverable>
-            <Image src={hoteloffer.image.url} className="show-image" />
+            <Image src={hoteloffer.hotel.image.url} className="show-image" />
           </Card>
         </Col>
       </Row>
@@ -59,11 +57,6 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
           <Card title="Category" hoverable>
             {getCategory(hoteloffer.hotel.category, { fontSize: "20px" })}
           </Card>
-        </Col>
-      </Row>
-      <Row className="m-5">
-        <Col span={24}>
-          <ShowMiniPlace place={hoteloffer.hotel.touristPlace} />
         </Col>
       </Row>
     </Modal>
