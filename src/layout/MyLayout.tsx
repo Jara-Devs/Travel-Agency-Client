@@ -62,13 +62,13 @@ const MyLayout = () => {
     ]),
     getItem("Offers", "sub2", <LocalOfferOutlinedIcon />, [
       getItem("Hotel", "5", <HotelOutlinedIcon />, undefined, () =>
-        navigate("/service/hotel")
+        navigate("/offer/hotel")
       ),
       getItem("Excursion", "6", <MapOutlinedIcon />, undefined, () =>
-        navigate("/service/excursion")
+        navigate("/offer/excursion")
       ),
       getItem("Flight", "7", <FlightOutlinedIcon />, undefined, () =>
-        navigate("/service/flight")
+        navigate("/offer/flight")
       ),
     ]),
     getItem("Packages", "20", <AddShoppingCartOutlinedIcon />, undefined, () =>

@@ -8,6 +8,12 @@ export interface Reaction {
   offerId: number;
 }
 
+export enum OfferType {
+  Hotel = 0,
+  Excursion = 1,
+  Flight = 2,
+}
+
 export enum ReactionState {
   Like = 0,
   Dislike = 1,
@@ -31,6 +37,7 @@ export interface Offer {
   image: Image;
   reactions: Reaction[];
   imageId: number;
+  type: OfferType;
 }
 
 export interface FlightOfferType extends Offer {

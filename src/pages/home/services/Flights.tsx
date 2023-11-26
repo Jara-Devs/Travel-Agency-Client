@@ -55,7 +55,7 @@ const Flights = () => {
           expand: { image: { select: ["id", "name", "url"] } },
         },
         destination: {
-          select: ["name", "description"],
+          select: ["name", "description", "address"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
