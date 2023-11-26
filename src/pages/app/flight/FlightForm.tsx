@@ -21,7 +21,6 @@ dayjs.extend(duration);
 
 export interface FlightFormData {
   company: string;
-  flightCategory: number;
   duration: number;
   originId: number;
   destinationId: number;
@@ -99,7 +98,6 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
           const duration = dayjs.duration({ hours: hours, minutes: minutes });
           onOk({
             company: values.company,
-            flightCategory: values.flightCategory,
             originId: values.originId,
             destinationId: values.destinationId,
             duration: duration.asMilliseconds(),

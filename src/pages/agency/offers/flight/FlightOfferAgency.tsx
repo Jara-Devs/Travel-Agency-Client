@@ -5,16 +5,13 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import FlightOfferForm, { flightLabel } from "./FlightOfferForm";
-import {
-  FlightOfferFormType,
-  FlightOfferType,
-} from "../../../../types/services";
+import { FlightOfferFormType, FlightOfferType } from "../../../../types/offers";
 import ShowFlightOffer from "../../../show/offers/ShowFlightOffer";
 import TableEntities, {
   TableEntitiesRef,
 } from "../../../../common/TableEntities";
 import dayjs from "dayjs";
-import { flightOffer } from "../../../../api/services";
+import { flightOffer } from "../../../../api/offers";
 import { getFlightFacility } from "../../../../common/functions";
 import { UserContext } from "../../../../context/UserProvider";
 import { UserAgencyContext } from "../../../../types/auth";

@@ -1,6 +1,7 @@
 import { Col, Row } from "antd";
 import { ApiResponse } from "../types/api";
-import { FlightFacility, HotelCategory } from "../types/services";
+import { HotelCategory } from "../types/services";
+import { FlightFacility } from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 

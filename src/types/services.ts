@@ -83,7 +83,6 @@ export interface Flight {
   origin: TouristPlace;
   destination: TouristPlace;
   duration: number;
-  flightCategory: number;
   originId: number;
   destinationId: number;
 }
@@ -92,45 +91,6 @@ export interface FlightFormType {
   company: string;
   originId: number;
   destinationId: number;
-  flightCategory: number;
   duration: number;
 }
 
-export interface FlightOfferType {
-  id: number;
-  name: string;
-  flight: Flight;
-  flightId: number;
-  availability: number;
-  description: string;
-  price: number;
-  startDate: number;
-  endDate: number;
-  facilities: number[];
-  imageId: number;
-  agencyId: number;
-  image: Image;
-}
-
-export interface FlightOfferFormType {
-  name: string;
-  flightId: number;
-  availability: number;
-  description: string;
-  price: number;
-  startDate: number;
-  endDate: number;
-  facilities: number[];
-  imageId: number;
-}
-
-export enum FlightFacility {
-  FreeWifi = 0,
-  FreeMeals = 1,
-  FreeDrinks = 2,
-  FreeEntertainment = 3,
-  FreeBaggage = 4,
-  FreeSeatSelection = 5,
-  FreeAirportTaxi = 6,
-  PetTransportation = 7,
-}

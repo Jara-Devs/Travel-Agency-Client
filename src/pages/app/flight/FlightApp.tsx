@@ -203,7 +203,6 @@ const FlightApp = () => {
           open={editModal}
           values={{
             company: selected.company,
-            flightCategory: selected.flightCategory,
             duration: selected.duration,
             originId: selected.originId,
             destinationId: selected.destinationId,
