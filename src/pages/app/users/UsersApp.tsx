@@ -1,12 +1,12 @@
 import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { userSystem } from "../../api/auth";
+import { userSystem } from "../../../api/auth";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import { UserSystem, UserSystemFormType } from "../../types/auth";
+import { UserSystem, UserSystemFormType } from "../../../types/auth";
 import UserForm from "./UsersForm";
 
 const UsersApp = () => {

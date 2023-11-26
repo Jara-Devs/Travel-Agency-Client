@@ -5,13 +5,13 @@ import {
   OverNighExcursionFormType,
   TouristActivity,
   TouristPlace,
-} from "../../types/services";
+} from "../../../types/services";
 import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
-import { hotel, touristActivity, touristPlace } from "../../api/services";
-import { buildMessage } from "../../common/functions";
-import { Image } from "../../types/api";
-import UploadImage from "../../common/UploadImage";
+import { hotel, touristActivity, touristPlace } from "../../../api/services";
+import { buildMessage } from "../../../common/functions";
+import { Image } from "../../../types/api";
+import UploadImage from "../../../common/UploadImage";
 
 export interface ExcursionFormData {
   name: string;

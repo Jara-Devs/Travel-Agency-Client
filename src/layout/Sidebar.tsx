@@ -38,7 +38,9 @@ export const Sidebar = () => {
     const agencyManager: ItemType[] =
       user?.role === Roles.AdminAgency || user?.role === Roles.ManagerAgency
         ? [
-            { label: "Offers", link: "/agency/offer" },
+            { label: "Hotel Offers", link: "/agency/offer/hotel" },
+            { label: "Excursion Offers", link: "/agency/offer/excursion" },
+            { label: "Flight Offers", link: "/agency/offer/flight" },
             { label: "Packages", link: "/agency/package" },
           ]
         : [];

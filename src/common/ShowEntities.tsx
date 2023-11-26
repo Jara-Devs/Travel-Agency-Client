@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Avatar, Image, List } from "antd";
+import { Avatar, Card, Image, List } from "antd";
 import logo from "../assets/logo.jpg";
 import { Image as ApiImage } from "../types/api";
 
@@ -33,32 +33,32 @@ function ShowEntities<T>({
         renderItem={(item, idx) => {
           const entity = convert(item);
           return (
-            <List.Item
-              style={{ marginBottom: "20px" }}
-              key={idx}
-              actions={actions ? actions(item) : undefined}
-              extra={
-                <Image
-                  preview={false}
-                  className="show-mini-image"
-                  alt={entity.image.name}
-                  src={entity.image.url}
-                />
-              }
-            >
-              <List.Item.Meta
-                avatar={
-                  entity.avatar ? (
-                    entity.avatar
-                  ) : (
-                    <Avatar size={40} src={logo} />
-                  )
+            <Card hoverable key={idx} style={{ marginBottom: "50px" }}>
+              <List.Item
+                actions={actions ? actions(item) : undefined}
+                extra={
+                  <Image
+                    preview={false}
+                    className="show-mini-image"
+                    alt={entity.image.name}
+                    src={entity.image.url}
+                  />
                 }
-                title={entity.title}
-                description={entity.description}
-              />
-              {content ? content(item) : undefined}
-            </List.Item>
+              >
+                <List.Item.Meta
+                  avatar={
+                    entity.avatar ? (
+                      entity.avatar
+                    ) : (
+                      <Avatar size={40} src={logo} />
+                    )
+                  }
+                  title={entity.title}
+                  description={entity.description}
+                />
+                {content ? content(item) : undefined}
+              </List.Item>
+            </Card>
           );
         }}
       />

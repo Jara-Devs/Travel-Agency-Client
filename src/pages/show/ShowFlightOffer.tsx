@@ -2,7 +2,7 @@ import { Card, Col, Divider, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
 import { FlightOfferType } from "../../types/services";
-import { ShowMiniFlight } from "./ShowFlight";
+import { ShowMiniFlight } from "./services/ShowFlight";
 import SlideCard from "../../common/SlideCard";
 import { getFlightFacility } from "../../common/functions";
 

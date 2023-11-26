@@ -10,12 +10,12 @@ import {
   Typography,
 } from "antd";
 import { FC, CSSProperties } from "react";
-import { Excursion, OverNighExcursion } from "../../types/services";
+import { Excursion, OverNighExcursion } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
 import { ShowMiniTouristActivity } from "./ShowActivity";
 import { ShowMiniHotel } from "./ShowHotel";
-import SlideCard from "../../common/SlideCard";
+import SlideCard from "../../../common/SlideCard";
 
 export interface ShowExcursionProps {
   open: boolean;

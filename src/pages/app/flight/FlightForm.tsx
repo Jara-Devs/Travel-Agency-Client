@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { TouristPlace, FlightFormType } from "../../types/services";
+import { TouristPlace, FlightFormType } from "../../../types/services";
 import {
   Form,
   Input,
@@ -12,8 +12,8 @@ import {
   InputNumber,
 } from "antd";
 import Title from "antd/es/typography/Title";
-import { touristPlace } from "../../api/services";
-import { ApiResponse } from "../../types/api";
+import { touristPlace } from "../../../api/services";
+import { ApiResponse } from "../../../types/api";
 import moment from "moment";
 
 export interface FlightFormData {

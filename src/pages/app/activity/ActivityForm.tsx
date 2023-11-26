@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { TouristActivityFormType } from "../../types/services";
+import { TouristActivityFormType } from "../../../types/services";
 import { Form, Input, Modal, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
-import { Image } from "../../types/api";
-import UploadImage from "../../common/UploadImage";
+import { Image } from "../../../types/api";
+import UploadImage from "../../../common/UploadImage";
 
 export interface TouristActivityFormData {
   name: string;
