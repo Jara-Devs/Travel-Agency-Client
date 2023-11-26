@@ -109,6 +109,7 @@ export interface FlightOfferType {
   facilities: number[];
   imageId: number;
   agencyId: number;
+  image: Image;
 }
 
 export interface FlightOfferFormType {
@@ -127,5 +128,5 @@ export enum FlightOfferFacility {
   FirstClass = 0,
   PrincipalDish = 1,
   Snack = 2,
-  AudiovisualContend = 3
+  AudiovisualContend = 3,
 }

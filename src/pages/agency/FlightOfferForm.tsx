@@ -1,188 +1,227 @@
-import { Flight, FlightOfferFacility, FlightOfferFormType } from "../../types/services";
+import { Flight, FlightOfferFormType } from "../../types/services";
 import { FC, useState, useEffect } from "react";
-import { Form, Input, InputNumber, DatePicker, Modal, Select, Typography, message } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+  Modal,
+  Select,
+  Typography,
+  message,
+} from "antd";
 import { flight } from "../../api/services";
-import { ApiResponse, Image } from "../../types/api";
+import { Image } from "../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../common/UploadImage";
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import type { SelectProps } from 'antd';
-
-dayjs.extend(customParseFormat);
+import dayjs from "dayjs";
+import type { SelectProps } from "antd";
 
 export interface FlightOfferFormData {
-    name: string;
-    flightId: number;
-    availability: number;
-    description: string;
-    price: number;
-    startDate: dayjs.Dayjs;
-    endDate: dayjs.Dayjs;
-    facilities: number[];
-    imageId: number;
+  name: string;
+  flightId: number;
+  availability: number;
+  description: string;
+  price: number;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  facilities: number[];
+  image: Image;
 }
 
 export interface FlightOfferFormProps {
-    onOk: (form: FlightOfferFormType) => void;
-    onCancel: () => void;
-    values?: FlightOfferFormData;
-    open: boolean;
+  onOk: (form: FlightOfferFormType) => void;
+  onCancel: () => void;
+  values?: FlightOfferFormData;
+  open: boolean;
 }
 
-const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, open }) => {
+export const flightLabel = (x: Flight) =>
+  `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`;
 
-    const [Flight, setFlight] = useState<Flight[]>([]);
-    const [form] = Form.useForm<FlightOfferFormData>();
+const FlightOfferForm: FC<FlightOfferFormProps> = ({
+  onOk,
+  onCancel,
+  values,
+  open,
+}) => {
+  const [Flight, setFlight] = useState<Flight[]>([]);
+  const [form] = Form.useForm<FlightOfferFormData>();
 
-    useEffect(() => {
-        if (open) form.resetFields();
-    }, [open, form, values]);
+  const [image, setImage] = useState<Image>();
 
-    const [image, setImage] = useState<Image>();
+  useEffect(() => {
+    if (open) form.resetFields();
+    if (values) {
+      form.setFieldsValue({ ...values });
+      setImage(values.image);
+    } else {
+      form.setFieldsValue({ price: 0.01, availability: 1 });
+      setImage(undefined);
+    }
+  }, [open, form, values]);
 
-    const dateFormat = 'YYYY/MM/DD';
+  const dateFormat = "DD/MM/YYYY";
 
-    const options: SelectProps['options'] = [];
+  const options: SelectProps["options"] = [];
 
-    options.push({
-        label: "Fist Class",
-        value: 0,
+  options.push({
+    label: "Fist Class",
+    value: 0,
+  });
+
+  options.push({
+    label: "Principal dish",
+    value: 1,
+  });
+
+  options.push({
+    label: "Snack",
+    value: 2,
+  });
+
+  options.push({
+    label: "Audiovisual Contend",
+    value: 3,
+  });
+
+  const load = async () => {
+    const responseFlight = await flight().get({
+      select: ["id", "company", "flightCategory"],
+      expand: {
+        origin: { select: ["name"] },
+        destination: { select: ["name"] },
+      },
     });
 
-    options.push({
-        label: "Principal dish",
-        value: 1,
-    });
+    if (responseFlight.ok) {
+      setFlight(responseFlight.value!);
+    } else {
+      message.error(responseFlight.message);
+    }
+  };
 
-    options.push({
-        label: "Snack",
-        value: 2,
-    });
+  useEffect(() => {
+    load();
+  }, []);
 
-    options.push({
-        label: "Audiovisual Contend",
-        value: 3,
-    });
-
-    const handleChange = (value: string[]) => {
-        console.log(`selected ${value}`);
-    };
-
-    const load = async () => {
-        const responseFlight = await flight().get({ select: ["id", "company", "origin", "destination", "flightCategory"] });
-
-        if (responseFlight.ok) {
-            setFlight(responseFlight.value!);
-        } else {
-            let msg = "";
-
-            const aux = (response: ApiResponse<any>) => {
-                if (!responseFlight.ok) {
-                    if (msg.length === 0) msg = response.message;
-                    else msg = `${message}, ${response.message}`;
-                }
-            };
-
-            aux(responseFlight);
-
-            message.error(msg);
-        }
-    };
-
-    useEffect(() => {
-        load();
-    }, []);
-
-    return (
-        <Modal
-            open={open}
-            title={
-                <Typography>
-                    <Title level={3}>Create Flight Offer</Title>
-                </Typography>
-            }
-            onOk={form.submit}
-            onCancel={onCancel}
+  return (
+    <Modal
+      open={open}
+      title={
+        <Typography>
+          <Title level={3}>Create Flight Offer</Title>
+        </Typography>
+      }
+      onOk={form.submit}
+      onCancel={onCancel}
+    >
+      <Form
+        layout="vertical"
+        style={{ marginTop: "20px" }}
+        form={form}
+        onFinish={(values: FlightOfferFormData) => {
+          if (image)
+            onOk({
+              name: values.name,
+              flightId: values.flightId,
+              availability: values.availability,
+              description: values.description,
+              price: values.price,
+              startDate: values.startDate.valueOf(),
+              endDate: values.endDate.valueOf(),
+              facilities: values.facilities ?? [0],
+              imageId: image.id,
+            });
+          else message.error("You must upload an image");
+        }}
+      >
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ required: true, message: "Introduce the name" }]}
         >
-            <Form
-                layout="vertical"
-                style={{ marginTop: "20px" }}
-                form={form}
-                onFinish={(values: FlightOfferFormData) => {
-                    onOk({
-                        name: values.name,
-                        flightId: values.flightId,
-                        availability: values.availability,
-                        description: values.description,
-                        price: values.price,
-                        startDate: values.startDate.valueOf(),
-                        endDate: values.endDate.valueOf(),
-                        facilities: values.facilities,
-                        imageId: values.imageId
-                    });
-                }}
-            >
-                <Form.Item
-                    name="name"
-                    label="Name"
-                    rules={[{ required: true, message: "Introduce the name" }]}
-                >
-                    <Input placeholder="Introduce the name" />
-                </Form.Item>
+          <Input placeholder="Introduce the name" />
+        </Form.Item>
 
-                <Select
-                    allowClear
-                    filterOption={(input, option) => option?.label === input}
-                    options={Flight.map((x) => ({
-                        value: x.id,
-                        label: x.company + ": " + x.origin.name + "-" + x.destination.name + " " + x.flightCategory,
-                        key: x.id,
-                    }))}
-                    placeholder="Select the flight"
-                />
+        <Form.Item
+          name="flightId"
+          label="Flight"
+          rules={[{ required: true, message: "Select the flight" }]}
+        >
+          <Select
+            style={{ width: "100%" }}
+            showSearch
+            allowClear
+            filterOption={(input, option) => option?.label === input}
+            options={Flight.map((x) => ({
+              value: x.id,
+              label: `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`,
+              key: x.id,
+            }))}
+            placeholder="Select the flight"
+          />
+        </Form.Item>
 
-                <Form.Item
-                    name="availability"
-                    label="Availability"
-                    rules={[{ required: true, message: "Introduce the availability" }]}
-                >
-                    <InputNumber min={1} max={999} defaultValue={1} /> Introduce the availability
-                </Form.Item>
+        <Form.Item
+          name="availability"
+          label="Availability"
+          rules={[{ required: true, message: "Introduce the availability" }]}
+        >
+          <InputNumber
+            placeholder="Introduce the availability"
+            min={1}
+            max={999}
+            defaultValue={1}
+          />
+        </Form.Item>
 
-                <Form.Item
-                    name="description"
-                    label="Description"
-                    rules={[{ required: true, message: "Introduce the description" }]}
-                >
-                    <Input placeholder="Introduce the description" />
-                </Form.Item>
+        <Form.Item
+          name="description"
+          label="Description"
+          rules={[{ required: true, message: "Introduce the description" }]}
+        >
+          <Input placeholder="Introduce the description" />
+        </Form.Item>
 
-                <Form.Item
-                    name="price"
-                    label="Price"
-                    rules={[{ required: true, message: "Introduce the price" }]}
-                >
-                    $<InputNumber min={0} max={999} defaultValue={0} /> Introduce the price
-                </Form.Item>
+        <Form.Item
+          name="price"
+          label="Price"
+          rules={[{ required: true, message: "Introduce the price" }]}
+        >
+          <InputNumber<string>
+            style={{ width: 200 }}
+            defaultValue="0.01"
+            min="0.01"
+            step="0.01"
+            stringMode
+            placeholder="Introduce the price"
+          />
+        </Form.Item>
 
-                <Form.Item
-                    name="startDate"
-                    label="Initial Date"
-                    rules={[{ required: true, message: "Introduce the initial date" }]}
-                >
-                    <DatePicker defaultValue={dayjs('2023/01/01', dateFormat)} format={dateFormat} /> Introduce the initial date
-                </Form.Item>
+        <Form.Item
+          name="startDate"
+          label="Initial Date"
+          rules={[{ required: true, message: "Introduce the initial date" }]}
+        >
+          <DatePicker
+            placeholder="Introduce the initial date"
+            format={dateFormat}
+          />
+        </Form.Item>
 
-                <Form.Item
-                    name="endDate"
-                    label="Final Date"
-                    rules={[{ required: true, message: "Introduce the final date" }]}
-                >
-                    <DatePicker defaultValue={dayjs('2023/01/01', dateFormat)} format={dateFormat} /> Introduce the final date
-                </Form.Item>
+        <Form.Item
+          name="endDate"
+          label="Final Date"
+          rules={[{ required: true, message: "Introduce the final date" }]}
+        >
+          <DatePicker
+            placeholder="Introduce the final date"
+            format={dateFormat}
+          />
+        </Form.Item>
 
-                <Form.Item
+        {/* <Form.Item
                     name="facilities"
                     label="Facilities"
                     rules={[{ required: true, message: "Select the facilities" }]}
@@ -200,12 +239,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({ onOk, onCancel, values, ope
                             )}
                         placeholder="Select the facilities"
                     />
-                </Form.Item>
+                </Form.Item> */}
 
-                <UploadImage setImage={setImage} image={image} />
-            </Form>
-        </Modal>
-    );
-}
+        <UploadImage setImage={setImage} image={image} />
+      </Form>
+    </Modal>
+  );
+};
 
 export default FlightOfferForm;
