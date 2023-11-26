@@ -54,6 +54,34 @@ export interface OverNighExcursionFormType extends ExcursionFormType {
   hotelId: number;
 }
 
+export interface ExcursionOfferFormType {
+  name: string;
+  excursionId: number;
+  availability: number;
+  description: string;
+  price: number;
+  startDate: number;
+  endDate: number;
+  facilities: number[];
+  imageId: number;
+}
+
+export interface ExcursionOfferType {
+  id: number;
+  name: string;
+  excursion: Excursion;
+  excursionId: number;
+  availability: number;
+  description: string;
+  price: number;
+  startDate: number;
+  endDate: number;
+  facilities: number[];
+  imageId: number;
+  agencyId: number;
+  image: Image;
+}
+
 export enum HotelCategory {
   OneStar = 0,
   TwoStars = 1,
