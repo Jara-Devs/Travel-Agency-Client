@@ -7,12 +7,16 @@ import {
   Select,
   Typography,
   message,
+  InputNumber,
 } from "antd";
-import { ApiResponse, Image } from "../../types/api";
-import { HotelFacility, HotelOfferFormType } from "../../types/offers";
-import { Hotel } from "../../types/services";
-import { hotel } from "../../api/services";
-import UploadImage from "../../common/UploadImage";
+import { ApiResponse, Image } from "../../../../types/api";
+import {
+  Hotel,
+  HotelFacility,
+  HotelOfferFormType,
+} from "../../../../types/services";
+import { hotel } from "../../../../api/services";
+import UploadImage from "../../../../common/UploadImage";
 import Title from "antd/es/typography/Title";
 import dayjs from "dayjs";
 
@@ -158,7 +162,14 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           label="Price"
           rules={[{ required: true, message: "Introduce the price" }]}
         >
-          <Input placeholder="Introduce the price" />
+          <InputNumber<string>
+            style={{ width: 200 }}
+            defaultValue="0.01"
+            min="0.01"
+            step="0.01"
+            stringMode
+            placeholder="Introduce the price"
+          />
         </Form.Item>
 
         <Form.Item
@@ -166,7 +177,12 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           label="Availability"
           rules={[{ required: true, message: "Introduce the availability" }]}
         >
-          <Input placeholder="Introduce the availability" />
+          <InputNumber
+            placeholder="Introduce the availability"
+            min={1}
+            max={999}
+            defaultValue={1}
+          />
         </Form.Item>
 
         <Form.Item
@@ -201,13 +217,27 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            options={[HotelFacility.gimnasio, HotelFacility.piscina].map(
-              (x) => ({
-                value: x,
-                label: HotelFacility[x],
-                key: x,
-              })
-            )}
+            options={[
+              HotelFacility.AirConditioning,
+              HotelFacility.AirportShuttle,
+              HotelFacility.Bar,
+              HotelFacility.ChildCare,
+              HotelFacility.FacilitiesForDisabledGuests,
+              HotelFacility.Garden,
+              HotelFacility.Gym,
+              HotelFacility.Parking,
+              HotelFacility.PetFriendly,
+              HotelFacility.Pool,
+              HotelFacility.Restaurant,
+              HotelFacility.RoomService,
+              HotelFacility.Shops,
+              HotelFacility.Spa,
+              HotelFacility.Wifi,
+            ].map((x) => ({
+              value: x,
+              label: HotelFacility[x],
+              key: x,
+            }))}
             placeholder="Select the facilities"
           />
         </Form.Item>

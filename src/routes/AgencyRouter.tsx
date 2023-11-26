@@ -4,7 +4,7 @@ import TicketAgency from "../pages/agency/TicketAgency";
 import UsersAgency from "../pages/agency/users/UsersAgency";
 import PrivateRoutes from "./PrivateRoutes";
 import { Roles } from "../types/auth";
-import HotelOffer from "../pages/agency/offers/HotelOffer";
+import HotelOffer from "../pages/agency/offers/hotel/HotelOffer";
 import FlightOfferAgency from "../pages/agency/offers/flight/FlightOfferAgency";
 import ExcursionOffer from "../pages/agency/offers/ExcursionOffer";
 

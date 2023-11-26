@@ -1,17 +1,27 @@
-import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
+import {
+  Avatar,
+  Card,
+  Col,
+  Divider,
+  Image,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { getCategory } from "../../common/functions";
-import { HotelOffer } from "../../types/offers";
+import { getCategory, getHotelFacility } from "../../../common/functions";
+import SlideCard from "../../../common/SlideCard";
+import { HotelOfferType } from "../../../types/services";
 
 export interface ShowHotelOfferProps {
   open: boolean;
   onOk: () => void;
-  hoteloffer: HotelOffer;
+  hoteloffer: HotelOfferType;
 }
 
 export interface ShowminiHotelOfferProps {
-  hoteloffer: HotelOffer;
+  hoteloffer: HotelOfferType;
 }
 
 export const ShowMiniHotelOffer: FC<ShowminiHotelOfferProps> = ({
@@ -56,6 +66,38 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
         <Col span={24}>
           <Card title="Category" hoverable>
             {getCategory(hoteloffer.hotel.category, { fontSize: "20px" })}
+          </Card>
+        </Col>
+      </Row>
+      <Row className="m-5">
+        <Col span={24}>
+          <Card hoverable>
+            <Card.Meta title={`$ ${hoteloffer.price}`} />
+          </Card>
+        </Col>
+      </Row>
+      <Row className="m-5">
+        <Col span={24}>
+          <Title level={4}>Facilities</Title>
+          <Divider />
+
+          <SlideCard
+            data={hoteloffer.facilities.map((f) => (
+              <Card hoverable>
+                <Card.Meta title={getHotelFacility(f)} />
+              </Card>
+            ))}
+            size="2"
+          />
+        </Col>
+      </Row>
+      <Row className="m-5">
+        <Col span={24}>
+          <Card hoverable>
+            <Card.Meta
+              title="Description"
+              description={hoteloffer.description}
+            />
           </Card>
         </Col>
       </Row>

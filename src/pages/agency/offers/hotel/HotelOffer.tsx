@@ -1,26 +1,31 @@
-import { useRef, useState } from "react";
-import { hotelOffer } from "../../api/services";
-import { HotelOffer, HotelOfferFormType } from "../../types/offers";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import { useContext, useRef, useState } from "react";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { Button, Col, Row, Tooltip, Typography, message, Tag } from "antd";
 import Title from "antd/es/typography/Title";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import HotelOfferForm from "./HotelOfferForm";
-import { getCategory } from "../../common/functions";
-import ShowHotelOffer from "../show/ShowHotelOffer";
 import dayjs from "dayjs";
+import { hotelOffer } from "../../../../api/services";
+import TableEntities, {
+  TableEntitiesRef,
+} from "../../../../common/TableEntities";
+import { getCategory, getHotelFacility } from "../../../../common/functions";
+import HotelOfferForm from "./HotelOfferForm";
+import ShowHotelOffer from "../../../show/offers/ShowHotelOffer";
+import { UserAgencyContext } from "../../../../types/auth";
+import { UserContext } from "../../../../context/UserProvider";
+import { HotelOfferType, HotelOfferFormType } from "../../../../types/services";
 
-const HotelOffers = () => {
+const HotelOffer = () => {
   const { get, create, edit, remove } = hotelOffer();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<HotelOffer>();
+  const [selected, setSelected] = useState<HotelOfferType>();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const { user } = useContext(UserContext);
 
   const tableRef = useRef<TableEntitiesRef>({
     reload: () => {},
@@ -31,22 +36,19 @@ const HotelOffers = () => {
     _: Record<string, FilterValue | null>,
     search: string,
 
-    setDataValue: (data: HotelOffer[]) => void
+    setDataValue: (data: HotelOfferType[]) => void
   ) => {
     setLoading(true);
 
     const searchFilter: Filter = { Name: { contains: search } };
-
-    const response = await get({
-      select: [
-        "id",
-        "name",
-        "startDate",
-        "endDate",
-        "availability",
-        "description",
-        "price",
+    const finalFilter: Filter = {
+      and: [
+        searchFilter,
+        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
       ],
+    };
+    console.log((user as UserAgencyContext).agencyId);
+    const response = await get({
       expand: {
         image: { select: ["id", "name", "url"] },
         hotel: {
@@ -54,7 +56,7 @@ const HotelOffers = () => {
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
-      filter: searchFilter,
+      filter: finalFilter,
     });
 
     if (response.ok) {
@@ -128,40 +130,57 @@ const HotelOffers = () => {
                 {
                   title: "Name",
                   key: "name",
-                  render: (v: HotelOffer) => <>{v.name}</>,
+                  render: (v: HotelOfferType) => <>{v.name}</>,
                 },
                 {
                   title: "Hotel",
                   key: "hotel",
-                  render: (v: HotelOffer) => <>{`${v.hotel.name} `}</>,
+                  render: (v: HotelOfferType) => <>{`${v.hotel.name} `}</>,
                 },
                 {
                   title: "Category",
                   key: "category",
-                  render: (v: HotelOffer) => getCategory(v.hotel.category),
+                  render: (v: HotelOfferType) => getCategory(v.hotel.category),
                 },
 
                 {
                   title: "StartDate",
                   key: "startDate",
-                  render: (v: HotelOffer) =>
+                  render: (v: HotelOfferType) =>
                     new Date(v.startDate).toDateString(),
                 },
                 {
                   title: "EndDate",
                   key: "endDate",
-                  render: (v: HotelOffer) => new Date(v.endDate).toDateString(),
+                  render: (v: HotelOfferType) =>
+                    new Date(v.endDate).toDateString(),
                 },
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: HotelOffer) => <>${v.price}</>,
+                  render: (v: HotelOfferType) => <>${v.price}</>,
+                },
+                {
+                  title: "Facilities",
+                  key: "facilities",
+                  render: (v: HotelOfferType) => (
+                    <>
+                      {console.log(v.facilities)}
+                      <Row>
+                        {v.facilities.map((f, idx) => (
+                          <Tag key={idx} color="blue">
+                            {getHotelFacility(f)}
+                          </Tag>
+                        ))}
+                      </Row>
+                    </>
+                  ),
                 },
 
                 {
                   title: "Actions",
                   key: "Actions",
-                  render: (v: HotelOffer) => (
+                  render: (v: HotelOfferType) => (
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
@@ -245,4 +264,4 @@ const HotelOffers = () => {
   );
 };
 
-export default HotelOffers;
+export default HotelOffer;

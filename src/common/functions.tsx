@@ -1,6 +1,10 @@
 import { Col, Row } from "antd";
 import { ApiResponse } from "../types/api";
-import { FlightFacility, HotelCategory } from "../types/services";
+import {
+  FlightFacility,
+  HotelCategory,
+  HotelFacility,
+} from "../types/services";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 
@@ -68,5 +72,40 @@ export const getFlightFacility = (x: FlightFacility) => {
       return "Free Seat Selection";
     case FlightFacility.PetTransportation:
       return "Pet Transportation";
+  }
+};
+
+export const getHotelFacility = (x: HotelFacility) => {
+  switch (x) {
+    case HotelFacility.AirConditioning:
+      return "AirConditioning";
+    case HotelFacility.AirportShuttle:
+      return "Airport Shuttle";
+    case HotelFacility.Bar:
+      return "Bar";
+    case HotelFacility.ChildCare:
+      return "ChildCare";
+    case HotelFacility.FacilitiesForDisabledGuests:
+      return "Facilities For Disabled Guests";
+    case HotelFacility.Garden:
+      return "Garden";
+    case HotelFacility.Gym:
+      return "Gym";
+    case HotelFacility.Parking:
+      return "Parking";
+    case HotelFacility.PetFriendly:
+      return "PetFriendly";
+    case HotelFacility.Pool:
+      return "Pool";
+    case HotelFacility.Restaurant:
+      return "Restaurant";
+    case HotelFacility.RoomService:
+      return "RoomService";
+    case HotelFacility.Shops:
+      return "Shops";
+    case HotelFacility.Spa:
+      return "Spa";
+    case HotelFacility.Wifi:
+      return "Wifi";
   }
 };

@@ -134,3 +134,47 @@ export enum FlightFacility {
   FreeAirportTaxi = 6,
   PetTransportation = 7,
 }
+
+export interface HotelOfferType {
+  id: number;
+  name: string;
+  hotel: Hotel;
+  description: string;
+  price: number;
+  startDate: number;
+  endDate: number;
+  image: Image;
+  availability: number;
+  agencyId: number;
+  facilities: number[];
+}
+
+export interface HotelOfferFormType {
+  name: string;
+  description: string;
+  availability: number;
+  startDate: number | undefined;
+  endDate: number | undefined;
+  imageId: number;
+  hotelId: number;
+  price: number;
+  facilities: number[];
+}
+
+export enum HotelFacility {
+  Wifi = 0,
+  Pool = 1,
+  Gym = 2,
+  RoomService = 3,
+  Restaurant = 4,
+  Bar = 5,
+  Spa = 6,
+  Parking = 7,
+  ChildCare = 8,
+  PetFriendly = 9,
+  FacilitiesForDisabledGuests = 10,
+  Garden = 11,
+  Shops = 12,
+  AirConditioning = 13,
+  AirportShuttle = 14,
+}
