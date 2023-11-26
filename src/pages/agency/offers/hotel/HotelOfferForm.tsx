@@ -58,6 +58,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
       console.log(values.startDate);
       setImage(values.image);
     } else {
+      form.setFieldsValue({ price: 0.01, availability: 1 });
       setImage(undefined);
     }
   }, [open, form, values]);
@@ -90,14 +91,14 @@ const HotelOfferForm: FC<HotelFormProps> = ({
     load();
   }, []);
 
-  // const startDateChange: DatePickerProps["onChange"] = (date, dateString) => {
-  //   a = date?.valueOf();
+  const disabledDateStart = (current: dayjs.Dayjs) => {
+    return current && current < dayjs();
+  };
 
-  //   console.log(a);
-  // };
-  // const endDateChange: DatePickerProps["onChange"] = (date, datestring) => {
-  //   setSelectedEndDate(date?.valueOf());
-  // };
+  const disableEndDate = (current: dayjs.Dayjs) => {
+    const startDate = form.getFieldValue("startDate");
+    return current && current < startDate;
+  };
 
   return (
     <Modal
@@ -198,7 +199,11 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           label="StartDate"
           rules={[{ required: true, message: "Select the startDate" }]}
         >
-          <DatePicker allowClear={false} format={"DD/MM/YYYY"} />
+          <DatePicker
+            disabledDate={disabledDateStart}
+            allowClear={false}
+            format={"DD/MM/YYYY"}
+          />
         </Form.Item>
 
         <Form.Item
@@ -206,7 +211,11 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           label="EndDate"
           rules={[{ required: true, message: "Select the endDate" }]}
         >
-          <DatePicker />
+          <DatePicker
+            disabledDate={disableEndDate}
+            allowClear={false}
+            format={"DD/MM/YYYY"}
+          />
         </Form.Item>
 
         <Form.Item
