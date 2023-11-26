@@ -7,13 +7,13 @@ import ExcursionOfferForm, { excursionLabel } from "./ExcursionOfferForm";
 import {
   ExcursionOfferFormType,
   ExcursionOfferType,
-} from "../../../../types/services";
+} from "../../../../types/offers";
 import ShowExcursionOffer from "../../../show/offers/ShowExcursionOffer";
 import TableEntities, {
   TableEntitiesRef,
 } from "../../../../common/TableEntities";
 import dayjs from "dayjs";
-import { excursionOffer } from "../../../../api/services";
+import { excursionOffer } from "../../../../api/offers";
 import { getExcursionFacility } from "../../../../common/functions";
 import { Filter } from "odata-query";
 
@@ -42,26 +42,27 @@ const ExcursionOffer = () => {
     const searchFilter: Filter = { excursion: { name: { contains: search } } };
 
     const response = await get({
-        expand: {
-          image: {
-            select: ["id", "name", "url"],
-          },
-          excursion: {
-            select: ["name"],
-            expand: {
-                image: {
-                    select: ["id", "name", "url"],
-                },
-                places: {
-                    select: ["id", "name"],
-                },
-                activities: {
-                    select: ["id", "name"],
+      expand: {
+        image: {
+          select: ["id", "name", "url"],
+        },
+        excursion: {
+          select: ["name"],
+          expand: {
+            image: {
+              select: ["id", "name", "url"],
+            },
+            places: {
+              select: ["id", "name"],
+            },
+            activities: {
+              select: ["id", "name"],
             },
           },
-        }},
-  
-        filter: searchFilter,
+        },
+      },
+
+      filter: searchFilter,
     });
 
     if (response.ok) {
@@ -84,7 +85,10 @@ const ExcursionOffer = () => {
     setLoading(false);
   };
 
-  const editexcursionOffer = async (form: ExcursionOfferFormType, id: number) => {
+  const editexcursionOffer = async (
+    form: ExcursionOfferFormType,
+    id: number
+  ) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -140,7 +144,9 @@ const ExcursionOffer = () => {
                 {
                   title: "Excursion",
                   key: "excursion",
-                  render: (v: ExcursionOfferType) => <>{excursionLabel(v.excursion)} </>,
+                  render: (v: ExcursionOfferType) => (
+                    <>{excursionLabel(v.excursion)} </>
+                  ),
                 },
                 {
                   title: "Availability",

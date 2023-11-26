@@ -12,13 +12,12 @@ import {
 import { ApiResponse, Image } from "../../../../types/api";
 import {
   Hotel,
-  HotelFacility,
-  HotelOfferFormType,
 } from "../../../../types/services";
 import { hotel } from "../../../../api/services";
 import UploadImage from "../../../../common/UploadImage";
 import Title from "antd/es/typography/Title";
 import dayjs from "dayjs";
+import { HotelFacility, HotelOfferFormType } from "../../../../types/offers";
 
 export interface HotelFormProps {
   onOk: (form: HotelOfferFormType) => void;

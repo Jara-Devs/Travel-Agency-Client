@@ -1,13 +1,9 @@
 import { Col, Row, message } from "antd";
 import { ApiResponse } from "../types/api";
-import {
-  FlightFacility,
-  HotelCategory,
-  HotelFacility,
+import { 
+  HotelCategory, 
 } from "../types/services";
-import { FlightFacility, HotelCategory, ExcursionFacility } from "../types/services";
-import { HotelCategory } from "../types/services";
-import { FlightFacility, Offer, ReactionState } from "../types/offers";
+import { FlightFacility, ExcursionFacility,Offer, ReactionState, HotelFacility } from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 import { User } from "../types/auth";
@@ -59,8 +55,6 @@ export const getCategory = (x: HotelCategory, styles?: CSSProperties) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 export const getFlightFacility = (x: FlightFacility) => {
   switch (x) {
     case FlightFacility.FreeAirportTaxi:
@@ -116,7 +110,7 @@ export const getHotelFacility = (x: HotelFacility) => {
       return "Wifi";
   }
 };
->>>>>>> b7d13ed7bfac4d1b62573d8ec7f21bc81feb451c
+
 export const getExcursionFacility = (x: ExcursionFacility) => {
   switch (x) {
     case ExcursionFacility.TourGuides:
@@ -143,27 +137,6 @@ export const getExcursionFacility = (x: ExcursionFacility) => {
       return "Safety And First Aid";
   }
 }
-
-export const getFlightFacility = (x: FlightFacility) => {
-  switch (x) {
-    case FlightFacility.FreeAirportTaxi:
-      return "Free Airport Taxi";
-    case FlightFacility.FreeBaggage:
-      return "Free Baggage";
-    case FlightFacility.FreeMeals:
-      return "Free Meals";
-    case FlightFacility.FreeWifi:
-      return "Free Wifi";
-    case FlightFacility.FreeDrinks:
-      return "Free Drinks";
-    case FlightFacility.FreeEntertainment:
-      return "Free Entertainment";
-    case FlightFacility.FreeSeatSelection:
-      return "Free Seat Selection";
-    case FlightFacility.PetTransportation:
-      return "Pet Transportation";
-  }
-};
 
 export const reactionLogic = async (
   offer: Offer,

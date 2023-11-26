@@ -1,7 +1,7 @@
 import { Card, Col, Divider, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { ExcursionOfferType } from "../../../types/services";
+import { ExcursionOfferType } from "../../../types/offers";
 import { ShowMiniExcursion } from "../services/ShowExcursion";
 import SlideCard from "../../../common/SlideCard";
 import { getExcursionFacility } from "../../../common/functions";

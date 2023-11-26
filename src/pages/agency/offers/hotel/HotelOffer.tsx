@@ -5,7 +5,7 @@ import { Button, Col, Row, Tooltip, Typography, message, Tag } from "antd";
 import Title from "antd/es/typography/Title";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { hotelOffer } from "../../../../api/services";
+import { hotelOffer } from "../../../../api/offers";
 import TableEntities, {
   TableEntitiesRef,
 } from "../../../../common/TableEntities";
@@ -14,7 +14,7 @@ import HotelOfferForm from "./HotelOfferForm";
 import ShowHotelOffer from "../../../show/offers/ShowHotelOffer";
 import { UserAgencyContext } from "../../../../types/auth";
 import { UserContext } from "../../../../context/UserProvider";
-import { HotelOfferType, HotelOfferFormType } from "../../../../types/services";
+import { HotelOfferType, HotelOfferFormType } from "../../../../types/offers";
 
 const HotelOffer = () => {
   const { get, create, edit, remove } = hotelOffer();

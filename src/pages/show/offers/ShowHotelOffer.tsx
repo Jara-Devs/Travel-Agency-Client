@@ -12,7 +12,7 @@ import { FC } from "react";
 import Title from "antd/es/typography/Title";
 import { getCategory, getHotelFacility } from "../../../common/functions";
 import SlideCard from "../../../common/SlideCard";
-import { HotelOfferType } from "../../../types/services";
+import { HotelOfferType } from "../../../types/offers";
 
 export interface ShowHotelOfferProps {
   open: boolean;

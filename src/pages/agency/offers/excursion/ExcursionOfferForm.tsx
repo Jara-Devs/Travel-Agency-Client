@@ -1,18 +1,14 @@
-import {
-    Excursion,
-    ExcursionFacility,
-    ExcursionOfferFormType,
-} from "../../../../types/services";
+import { Excursion } from "../../../../types/services";
 import { FC, useState, useEffect } from "react";
 import {
-Form,
-Input,
-InputNumber,
-DatePicker,
-Modal,
-Select,
-Typography,
-message,
+  Form,
+  Input,
+  InputNumber,
+  DatePicker,
+  Modal,
+  Select,
+  Typography,
+  message,
 } from "antd";
 import { excursion } from "../../../../api/services";
 import { Image } from "../../../../types/api";
@@ -20,28 +16,28 @@ import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
 import { getExcursionFacility } from "../../../../common/functions";
+import { ExcursionFacility, ExcursionOfferFormType } from "../../../../types/offers";
 
 export interface ExcursionOfferFormData {
-    name: string;
-    excursionId: number;
-    availability: number;
-    description: string;
-    price: number;
-    startDate: dayjs.Dayjs;
-    endDate: dayjs.Dayjs;
-    facilities: number[];
-    image: Image;
+  name: string;
+  excursionId: number;
+  availability: number;
+  description: string;
+  price: number;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  facilities: number[];
+  image: Image;
 }
 
 export interface FlightOfferFormProps {
-    onOk: (form: ExcursionOfferFormType) => void;
-    onCancel: () => void;
-    values?: ExcursionOfferFormData;
-    open: boolean;
+  onOk: (form: ExcursionOfferFormType) => void;
+  onCancel: () => void;
+  values?: ExcursionOfferFormData;
+  open: boolean;
 }
 
-export const excursionLabel = (x: Excursion) =>
-  `Excursion ${x.name}`;
+export const excursionLabel = (x: Excursion) => `Excursion ${x.name}`;
 
 const FlightOfferForm: FC<FlightOfferFormProps> = ({
   onOk,
@@ -69,18 +65,18 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
 
   const load = async () => {
     const responseExcursion = await excursion().get({
-        select: ["id", "name"],
-        expand: {
-            image: {
-                select: ["id", "name", "url"],
-            },
-            places: {
-                select: ["id", "name"],
-            },
-            activities: {
-                select: ["id", "name"],
-            },
-        }
+      select: ["id", "name"],
+      expand: {
+        image: {
+          select: ["id", "name", "url"],
+        },
+        places: {
+          select: ["id", "name"],
+        },
+        activities: {
+          select: ["id", "name"],
+        },
+      },
     });
 
     if (responseExcursion.ok) {
@@ -91,12 +87,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   };
 
   const disabledDateStart = (current: dayjs.Dayjs) => {
-    return current && (current < dayjs());
+    return current && current < dayjs();
   };
 
   const disableEndDate = (current: dayjs.Dayjs) => {
     const startDate = form.getFieldValue("startDate");
-    return current && current < startDate
+    return current && current < startDate;
   };
 
   useEffect(() => {
@@ -204,7 +200,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the initial date",
-            }
+            },
           ]}
         >
           <DatePicker
@@ -240,17 +236,17 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             mode="multiple"
             allowClear
             options={[
-                ExcursionFacility.TourGuides,
-                ExcursionFacility.Transportation,
-                ExcursionFacility.Communication,
-                ExcursionFacility.Meals,
-                ExcursionFacility.Drinks,
-                ExcursionFacility.EntranceTickets,
-                ExcursionFacility.EnvironmentalEducation,
-                ExcursionFacility.Equipment,
-                ExcursionFacility.FreeTime,
-                ExcursionFacility.RecreationalActivities,
-                ExcursionFacility.SafetyAndFirstAid
+              ExcursionFacility.TourGuides,
+              ExcursionFacility.Transportation,
+              ExcursionFacility.Communication,
+              ExcursionFacility.Meals,
+              ExcursionFacility.Drinks,
+              ExcursionFacility.EntranceTickets,
+              ExcursionFacility.EnvironmentalEducation,
+              ExcursionFacility.Equipment,
+              ExcursionFacility.FreeTime,
+              ExcursionFacility.RecreationalActivities,
+              ExcursionFacility.SafetyAndFirstAid,
             ].map((x) => ({
               value: x,
               label: getExcursionFacility(x),
