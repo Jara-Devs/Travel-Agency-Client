@@ -5,6 +5,9 @@ import {
   HotelCategory,
   HotelFacility,
 } from "../types/services";
+import { FlightFacility, HotelCategory, ExcursionFacility } from "../types/services";
+import { HotelCategory } from "../types/services";
+import { FlightFacility } from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 
@@ -109,3 +112,29 @@ export const getHotelFacility = (x: HotelFacility) => {
       return "Wifi";
   }
 };
+export const getExcursionFacility = (x: ExcursionFacility) => {
+  switch (x) {
+    case ExcursionFacility.TourGuides:
+      return "Tour Guides";
+    case ExcursionFacility.Transportation:
+      return "Transportation";
+    case ExcursionFacility.Equipment:
+      return "Equipment";
+    case ExcursionFacility.Meals:
+      return "Meals";
+    case ExcursionFacility.Drinks:
+      return "Drinks";
+    case ExcursionFacility.EntranceTickets:
+      return "Entrance Tickets";
+    case ExcursionFacility.RecreationalActivities:
+      return "Recreational Activities";
+    case ExcursionFacility.FreeTime:
+      return "Free Time";
+    case ExcursionFacility.Communication:
+      return "Communication";
+    case ExcursionFacility.EnvironmentalEducation:
+      return "Environmental Education";
+    case ExcursionFacility.SafetyAndFirstAid:
+      return "Safety And First Aid";
+  }
+}

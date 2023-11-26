@@ -1,28 +1,28 @@
 import { Card, Col, Divider, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { FlightOfferType } from "../../../types/offers";
-import { ShowMiniFlight } from "../services/ShowFlight";
+import { ExcursionOfferType } from "../../../types/services";
+import { ShowMiniExcursion } from "../services/ShowExcursion";
 import SlideCard from "../../../common/SlideCard";
-import { getFlightFacility } from "../../../common/functions";
+import { getExcursionFacility } from "../../../common/functions";
 
-export interface ShowFlightOfferProps {
+export interface ShowExcursionOfferProps {
   open: boolean;
   onOk: () => void;
-  flightOffer: FlightOfferType;
+  excursionOffer: ExcursionOfferType;
 }
 
-const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
+const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
   open,
   onOk,
-  flightOffer,
+  excursionOffer,
 }) => {
   return (
     <Modal
       width={800}
       title={
         <Typography>
-          <Title level={2}>{"Flight Offer"}</Title>
+          <Title level={2}>{"Excursion Offer"}</Title>
         </Typography>
       }
       open={open}
@@ -35,7 +35,7 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
         <Col span={24}>
           <Card hoverable className="center-content">
             <Image
-              src={flightOffer.image.url}
+              src={excursionOffer.image.url}
               className="show-image"
               preview={false}
             />
@@ -48,7 +48,7 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
           <Card hoverable>
             <Card.Meta
               title="Description"
-              description={flightOffer.description}
+              description={excursionOffer.description}
             />
           </Card>
         </Col>
@@ -57,7 +57,7 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
-            <Card.Meta title={`$ ${flightOffer.price}`} />
+            <Card.Meta title={`$ ${excursionOffer.price}`} />
           </Card>
         </Col>
       </Row>
@@ -68,9 +68,9 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
           <Divider />
 
           <SlideCard
-            data={flightOffer.facilities.map((f) => (
+            data={excursionOffer.facilities.map((f) => (
               <Card hoverable>
-                <Card.Meta title={getFlightFacility(f)} />
+                <Card.Meta title={getExcursionFacility(f)} />
               </Card>
             ))}
             size="2"
@@ -80,14 +80,14 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
 
       <Row className="m-5">
         <Col span={24}>
-          <Title level={4}>Flight</Title>
+          <Title level={4}>Excursion</Title>
           <Divider />
 
-          <ShowMiniFlight flight={flightOffer.flight} />
+          <ShowMiniExcursion excursion={excursionOffer.excursion} />
         </Col>
       </Row>
     </Modal>
   );
 };
 
-export default ShowFlightOffer;
+export default ShowExcursionOffer;
