@@ -1,4 +1,8 @@
-import { Flight, FlightOfferFormType } from "../../types/services";
+import {
+  Flight,
+  FlightFacility,
+  FlightOfferFormType,
+} from "../../types/services";
 import { FC, useState, useEffect } from "react";
 import {
   Form,
@@ -15,7 +19,7 @@ import { Image } from "../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../common/UploadImage";
 import dayjs from "dayjs";
-import type { SelectProps } from "antd";
+import { getFlightFacility } from "../../common/functions";
 
 export interface FlightOfferFormData {
   name: string;
@@ -63,28 +67,6 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
 
   const dateFormat = "DD/MM/YYYY";
 
-  const options: SelectProps["options"] = [];
-
-  options.push({
-    label: "Fist Class",
-    value: 0,
-  });
-
-  options.push({
-    label: "Principal dish",
-    value: 1,
-  });
-
-  options.push({
-    label: "Snack",
-    value: 2,
-  });
-
-  options.push({
-    label: "Audiovisual Contend",
-    value: 3,
-  });
-
   const load = async () => {
     const responseFlight = await flight().get({
       select: ["id", "company", "flightCategory"],
@@ -130,7 +112,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
               price: values.price,
               startDate: values.startDate.valueOf(),
               endDate: values.endDate.valueOf(),
-              facilities: values.facilities ?? [0],
+              facilities: values.facilities,
               imageId: image.id,
             });
           else message.error("You must upload an image");
@@ -221,25 +203,31 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           />
         </Form.Item>
 
-        {/* <Form.Item
-                    name="facilities"
-                    label="Facilities"
-                    rules={[{ required: true, message: "Select the facilities" }]}
-                >
-                    <Select
-                        mode="multiple"
-                        allowClear
-                        options={
-                            [FlightOfferFacility.FirstClass, FlightOfferFacility.PrincipalDish, FlightOfferFacility.Snack, FlightOfferFacility.AudiovisualContend,].map(
-                                (x) => ({
-                                    value: x,
-                                    label: x,
-                                    key: x,
-                                })
-                            )}
-                        placeholder="Select the facilities"
-                    />
-                </Form.Item> */}
+        <Form.Item
+          name="facilities"
+          label="Facilities"
+          rules={[{ required: true, message: "Select the facilities" }]}
+        >
+          <Select
+            mode="multiple"
+            allowClear
+            options={[
+              FlightFacility.FreeAirportTaxi,
+              FlightFacility.FreeBaggage,
+              FlightFacility.FreeDrinks,
+              FlightFacility.FreeEntertainment,
+              FlightFacility.FreeMeals,
+              FlightFacility.FreeSeatSelection,
+              FlightFacility.FreeWifi,
+              FlightFacility.PetTransportation,
+            ].map((x) => ({
+              value: x,
+              label: getFlightFacility(x),
+              key: x,
+            }))}
+            placeholder="Select the facilities"
+          />
+        </Form.Item>
 
         <UploadImage setImage={setImage} image={image} />
       </Form>

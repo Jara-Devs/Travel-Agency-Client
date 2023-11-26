@@ -1,4 +1,4 @@
-import { Button, Col, Row, Tooltip, Typography, message } from "antd";
+import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -10,6 +10,7 @@ import ShowFlightOffer from "../show/ShowFlightOffer";
 import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import dayjs from "dayjs";
 import { flightOffer } from "../../api/services";
+import { getFlightFacility } from "../../common/functions";
 
 const AgencyFlightOffer = () => {
   const { get, create, edit, remove } = flightOffer();
@@ -36,18 +37,6 @@ const AgencyFlightOffer = () => {
     const searchFilter: Filter = { flight: { company: { contains: search } } };
 
     const response = await get({
-      select: [
-        "id",
-        "name",
-        "flightId",
-        "availability",
-        "description",
-        "price",
-        "startDate",
-        "endDate",
-        "imageId",
-      ],
-
       expand: {
         image: {
           select: ["id", "name", "url"],
@@ -178,7 +167,15 @@ const AgencyFlightOffer = () => {
                 {
                   title: "Facilities",
                   key: "facilities",
-                  render: (v: FlightOfferType) => <>{v.facilities}</>,
+                  render: (v: FlightOfferType) => (
+                    <>
+                      <Row>
+                        {v.facilities.map((f) => (
+                          <Tag color="blue">{getFlightFacility(f)}</Tag>
+                        ))}
+                      </Row>
+                    </>
+                  ),
                 },
 
                 {

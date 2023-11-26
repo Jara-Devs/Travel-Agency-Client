@@ -124,9 +124,13 @@ export interface FlightOfferFormType {
   imageId: number;
 }
 
-export enum FlightOfferFacility {
-  FirstClass = 0,
-  PrincipalDish = 1,
-  Snack = 2,
-  AudiovisualContend = 3,
+export enum FlightFacility {
+  FreeWifi = 0,
+  FreeMeals = 1,
+  FreeDrinks = 2,
+  FreeEntertainment = 3,
+  FreeBaggage = 4,
+  FreeSeatSelection = 5,
+  FreeAirportTaxi = 6,
+  PetTransportation = 7,
 }
