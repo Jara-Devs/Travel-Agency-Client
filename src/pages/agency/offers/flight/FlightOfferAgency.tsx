@@ -1,5 +1,5 @@
 import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
@@ -16,10 +16,14 @@ import TableEntities, {
 import dayjs from "dayjs";
 import { flightOffer } from "../../../../api/services";
 import { getFlightFacility } from "../../../../common/functions";
+import { UserContext } from "../../../../context/UserProvider";
+import { UserAgencyContext } from "../../../../types/auth";
 
 const FlightOfferAgency = () => {
   const { get, create, edit, remove } = flightOffer();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { user } = useContext(UserContext);
 
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
@@ -40,6 +44,12 @@ const FlightOfferAgency = () => {
     setLoading(true);
 
     const searchFilter: Filter = { flight: { company: { contains: search } } };
+    const finalFilter: Filter = {
+      and: [
+        searchFilter,
+        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
+      ],
+    };
 
     const response = await get({
       expand: {
@@ -58,8 +68,7 @@ const FlightOfferAgency = () => {
           },
         },
       },
-
-      filter: searchFilter,
+      filter: finalFilter,
     });
 
     if (response.ok) {
