@@ -19,9 +19,9 @@ export const offerController = <T1, T2>(controller: string) => {
     apiSingleOdataNoToken<T1>(`${controller}/${id}`, odataQuery);
 
   const create = (form: T2) => apiWithToken(controller, form, HttpMethods.POST);
-  const edit = (form: T2, id: number) =>
+  const edit = (form: T2, id: string) =>
     apiWithToken(`${controller}/${id}`, form, HttpMethods.PUT);
-  const remove = (id: number) =>
+  const remove = (id: string) =>
     apiWithToken(`${controller}/${id}`, {}, HttpMethods.DELETE);
 
   return { get, getById, create, edit, remove };

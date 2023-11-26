@@ -1,7 +1,7 @@
 import { Offer } from "./offers";
 
 export interface Package {
-  id: number;
+  id: string;
   discount: number;
   description: string;
   offers: Offer[];

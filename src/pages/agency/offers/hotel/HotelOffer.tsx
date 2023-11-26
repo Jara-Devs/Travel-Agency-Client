@@ -79,7 +79,7 @@ const HotelOfferAgency = () => {
     setLoading(false);
   };
 
-  const editHotelOffer = async (form: HotelOfferFormType, id: number) => {
+  const editHotelOffer = async (form: HotelOfferFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -90,7 +90,7 @@ const HotelOfferAgency = () => {
     setLoading(false);
   };
 
-  const deleteHotelOffer = async (id: number) => {
+  const deleteHotelOffer = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

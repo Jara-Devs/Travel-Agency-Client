@@ -139,7 +139,7 @@ const ExcursionApp = () => {
 
   const editExcursion = async (
     form: ExcursionFormType,
-    id: number,
+    id: string,
     isOverNight: boolean = false
   ) => {
     if (isOverNight) setLoadingOverNight(true);
@@ -160,7 +160,7 @@ const ExcursionApp = () => {
     else setLoading(false);
   };
 
-  const deleteExcursion = async (id: number, isOverNight: boolean = false) => {
+  const deleteExcursion = async (id: string, isOverNight: boolean = false) => {
     if (isOverNight) setLoadingOverNight(true);
     else setLoading(true);
     const response = await (isOverNight ? removeOverNight(id) : remove(id));

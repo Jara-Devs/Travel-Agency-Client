@@ -87,7 +87,7 @@ const ExcursionOffer = () => {
 
   const editexcursionOffer = async (
     form: ExcursionOfferFormType,
-    id: number
+    id: string
   ) => {
     setLoading(true);
     const response = await edit(form, id);
@@ -99,7 +99,7 @@ const ExcursionOffer = () => {
     setLoading(false);
   };
 
-  const deleteexcursionOffer = async (id: number) => {
+  const deleteexcursionOffer = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

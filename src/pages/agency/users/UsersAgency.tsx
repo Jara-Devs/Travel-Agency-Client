@@ -59,7 +59,7 @@ const UsersAgency = () => {
     setLoading(false);
   };
 
-  const deleteAgencyUser = async (id: number) => {
+  const deleteAgencyUser = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

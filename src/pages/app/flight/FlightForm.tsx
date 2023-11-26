@@ -22,8 +22,8 @@ dayjs.extend(duration);
 export interface FlightFormData {
   company: string;
   duration: number;
-  originId: number;
-  destinationId: number;
+  originId: string;
+  destinationId: string;
 }
 
 export interface FlightFormProps {

@@ -33,7 +33,7 @@ export interface HotelOfferFormData {
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   image: Image;
-  hotelId: number;
+  hotelId: string;
   price: number;
   facilities: number[];
 }
