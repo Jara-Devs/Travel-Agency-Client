@@ -1,44 +1,47 @@
-import { Flight } from "../../../../types/services";
-import { FlightOfferFormType, FlightFacility } from "../../../../types/offers";
+import {
+    Excursion,
+    ExcursionFacility,
+    ExcursionOfferFormType,
+} from "../../../../types/services";
 import { FC, useState, useEffect } from "react";
 import {
-  Form,
-  Input,
-  InputNumber,
-  DatePicker,
-  Modal,
-  Select,
-  Typography,
-  message,
+Form,
+Input,
+InputNumber,
+DatePicker,
+Modal,
+Select,
+Typography,
+message,
 } from "antd";
-import { flight } from "../../../../api/services";
+import { excursion } from "../../../../api/services";
 import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getFlightFacility } from "../../../../common/functions";
+import { getExcursionFacility } from "../../../../common/functions";
 
-export interface FlightOfferFormData {
-  name: string;
-  flightId: number;
-  availability: number;
-  description: string;
-  price: number;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  facilities: number[];
-  image: Image;
+export interface ExcursionOfferFormData {
+    name: string;
+    excursionId: number;
+    availability: number;
+    description: string;
+    price: number;
+    startDate: dayjs.Dayjs;
+    endDate: dayjs.Dayjs;
+    facilities: number[];
+    image: Image;
 }
 
 export interface FlightOfferFormProps {
-  onOk: (form: FlightOfferFormType) => void;
-  onCancel: () => void;
-  values?: FlightOfferFormData;
-  open: boolean;
+    onOk: (form: ExcursionOfferFormType) => void;
+    onCancel: () => void;
+    values?: ExcursionOfferFormData;
+    open: boolean;
 }
 
-export const flightLabel = (x: Flight) =>
-  `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`;
+export const excursionLabel = (x: Excursion) =>
+  `Excursion ${x.name}`;
 
 const FlightOfferForm: FC<FlightOfferFormProps> = ({
   onOk,
@@ -46,8 +49,8 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   values,
   open,
 }) => {
-  const [Flight, setFlight] = useState<Flight[]>([]);
-  const [form] = Form.useForm<FlightOfferFormData>();
+  const [Excursion, setExcursion] = useState<Excursion[]>([]);
+  const [form] = Form.useForm<ExcursionOfferFormData>();
 
   const [image, setImage] = useState<Image>();
 
@@ -65,18 +68,25 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   const dateFormat = "DD/MM/YYYY";
 
   const load = async () => {
-    const responseFlight = await flight().get({
-      select: ["id", "company"],
-      expand: {
-        origin: { select: ["name"] },
-        destination: { select: ["name"] },
-      },
+    const responseExcursion = await excursion().get({
+        select: ["id", "name"],
+        expand: {
+            image: {
+                select: ["id", "name", "url"],
+            },
+            places: {
+                select: ["id", "name"],
+            },
+            activities: {
+                select: ["id", "name"],
+            },
+        }
     });
 
-    if (responseFlight.ok) {
-      setFlight(responseFlight.value!);
+    if (responseExcursion.ok) {
+      setExcursion(responseExcursion.value!);
     } else {
-      message.error(responseFlight.message);
+      message.error(responseExcursion.message);
     }
   };
 
@@ -98,7 +108,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Flight Offer</Title>
+          <Title level={3}>Create Excursion Offer</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -108,11 +118,11 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
         layout="vertical"
         style={{ marginTop: "20px" }}
         form={form}
-        onFinish={(values: FlightOfferFormData) => {
+        onFinish={(values: ExcursionOfferFormData) => {
           if (image)
             onOk({
               name: values.name,
-              flightId: values.flightId,
+              excursionId: values.excursionId,
               availability: values.availability,
               description: values.description,
               price: values.price,
@@ -133,18 +143,18 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name="flightId"
-          label="Flight"
-          rules={[{ required: true, message: "Select the flight" }]}
+          name="excursionId"
+          label="Excursion"
+          rules={[{ required: true, message: "Select the excursion" }]}
         >
           <Select
             style={{ width: "100%" }}
             showSearch
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={Flight.map((x) => ({
+            options={Excursion.map((x) => ({
               value: x.id,
-              label: `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`,
+              label: `${x.name}`,
               key: x.id,
             }))}
             placeholder="Select the flight"
@@ -211,7 +221,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the final date",
-            }
+            },
           ]}
         >
           <DatePicker
@@ -230,17 +240,20 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             mode="multiple"
             allowClear
             options={[
-              FlightFacility.FreeAirportTaxi,
-              FlightFacility.FreeBaggage,
-              FlightFacility.FreeDrinks,
-              FlightFacility.FreeEntertainment,
-              FlightFacility.FreeMeals,
-              FlightFacility.FreeSeatSelection,
-              FlightFacility.FreeWifi,
-              FlightFacility.PetTransportation,
+                ExcursionFacility.TourGuides,
+                ExcursionFacility.Transportation,
+                ExcursionFacility.Communication,
+                ExcursionFacility.Meals,
+                ExcursionFacility.Drinks,
+                ExcursionFacility.EntranceTickets,
+                ExcursionFacility.EnvironmentalEducation,
+                ExcursionFacility.Equipment,
+                ExcursionFacility.FreeTime,
+                ExcursionFacility.RecreationalActivities,
+                ExcursionFacility.SafetyAndFirstAid
             ].map((x) => ({
               value: x,
-              label: getFlightFacility(x),
+              label: getExcursionFacility(x),
               key: x,
             }))}
             placeholder="Select the facilities"

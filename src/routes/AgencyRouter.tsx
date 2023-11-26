@@ -6,7 +6,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import { Roles } from "../types/auth";
 import HotelOffer from "../pages/agency/offers/HotelOffer";
 import FlightOfferAgency from "../pages/agency/offers/flight/FlightOfferAgency";
-import ExcursionOffer from "../pages/agency/offers/ExcursionOffer";
+import ExcursionOffer from "../pages/agency/offers/excursion/ExcursionOffer";
 
 const AgencyRoute = () => (
   <Routes>
