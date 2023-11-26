@@ -1,10 +1,10 @@
 import { Col, Row, Tooltip, Typography, message } from "antd";
 import ShowEntities from "../../../common/ShowEntities";
 import { useEffect, useState } from "react";
-import { FlightOfferType } from "../../../types/offers";
+import { FlightOfferType, ReactionState } from "../../../types/offers";
 import SlideCard from "../../../common/SlideCard";
 import ShowFlight, { ShowMiniFlight } from "../../show/services/ShowFlight";
-import { EyeOutlined, LikeOutlined, DislikeOutlined } from "@ant-design/icons";
+import { EyeOutlined, LikeFilled, DislikeFilled } from "@ant-design/icons";
 import { flightOffer } from "../../../api/offers";
 import ShowFlightOffer from "../../show/offers/ShowFlightOffer";
 import { Flight } from "../../../types/services";
@@ -12,12 +12,16 @@ import { useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
 import { flight } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
+import { UserContext } from "../../../context/UserProvider";
+import { useContext } from "react";
+import { reactionLogic, selectedReaction } from "../../../common/functions";
 
 const FlightOffer = () => {
   const { get } = flightOffer();
   const { get: getFlight } = flight();
 
   const [searchParams] = useSearchParams();
+  const { user } = useContext(UserContext);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [selected, setSelected] = useState<FlightOfferType>();
@@ -41,6 +45,21 @@ const FlightOffer = () => {
     return { and: f };
   };
 
+  const reactionFunc = (
+    offer: FlightOfferType,
+    reactionState: ReactionState
+  ) => {
+    reactionLogic(
+      offer,
+      (offer) =>
+        setData(
+          data.map((x) => (x.id === offer.id ? (offer as FlightOfferType) : x))
+        ),
+      user,
+      reactionState
+    );
+  };
+
   const load = async (filter: Filter) => {
     setLoading(true);
 
@@ -60,7 +79,7 @@ const FlightOffer = () => {
             },
           },
         },
-        reactions: { select: ["liked", "touristId"] },
+        reactions: { select: ["reactionState", "touristId", "id"] },
       },
       filter,
     });
@@ -138,16 +157,41 @@ const FlightOffer = () => {
             }}
             actions={(value: FlightOfferType) => [
               <Tooltip title="Show Offer">
-                <EyeOutlined onClick={() => setSelected(value)} />
+                <EyeOutlined
+                  style={{ fontSize: "20px" }}
+                  onClick={() => setSelected(value)}
+                />
               </Tooltip>,
-              <Tooltip title="Like">
-                <LikeOutlined />{" "}
-                {value.reactions?.filter((x) => x.liked).length}
-              </Tooltip>,
-              <Tooltip title="Dislike">
-                <DislikeOutlined />{" "}
-                {value.reactions?.filter((x) => !x.liked).length}
-              </Tooltip>,
+              <>
+                <LikeFilled
+                  style={
+                    selectedReaction(user, value, ReactionState.Like)
+                      ? { color: "gold", fontSize: "20px" }
+                      : { fontSize: "20px" }
+                  }
+                  onClick={() => reactionFunc(value, ReactionState.Like)}
+                />{" "}
+                {
+                  value.reactions?.filter(
+                    (x) => x.reactionState === ReactionState.Like
+                  ).length
+                }
+              </>,
+              <>
+                <DislikeFilled
+                  style={
+                    selectedReaction(user, value, ReactionState.Dislike)
+                      ? { color: "gold", fontSize: "20px" }
+                      : { fontSize: "20px" }
+                  }
+                  onClick={() => reactionFunc(value, ReactionState.Dislike)}
+                />{" "}
+                {
+                  value.reactions?.filter(
+                    (x) => x.reactionState === ReactionState.Dislike
+                  ).length
+                }
+              </>,
             ]}
             convert={(value: FlightOfferType) => ({
               title: value.name,

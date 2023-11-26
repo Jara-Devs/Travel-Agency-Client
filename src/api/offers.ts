@@ -1,7 +1,7 @@
 import { QueryOptions } from "odata-query";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
-import { FlightOfferFormType, FlightOfferType } from "../types/offers";
+import { FlightOfferFormType, FlightOfferType, Reaction, ReactionForm } from "../types/offers";
 
 export const offerController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
@@ -20,3 +20,7 @@ export const offerController = <T1, T2>(controller: string) => {
 
 export const flightOffer = () =>
   offerController<FlightOfferType, FlightOfferFormType>("flightOffer");
+
+
+export const reaction = () =>
+  offerController<Reaction, ReactionForm>("reaction");

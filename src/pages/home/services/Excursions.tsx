@@ -165,7 +165,10 @@ const Excursions = () => {
             }}
             actions={(value: Excursion) => [
               <Tooltip title="Show Excursion">
-                <EyeOutlined onClick={() => setSelected(value)} />
+                <EyeOutlined
+                  style={{ fontSize: "20px" }}
+                  onClick={() => setSelected(value)}
+                />
               </Tooltip>,
             ]}
             convert={(value: Excursion) => ({

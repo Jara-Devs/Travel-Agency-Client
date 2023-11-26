@@ -125,7 +125,10 @@ const Flights = () => {
         }}
         actions={(value: Flight) => [
           <Tooltip title="Show Flight">
-            <EyeOutlined onClick={() => setSelected(value)} />
+            <EyeOutlined
+              style={{ fontSize: "20px" }}
+              onClick={() => setSelected(value)}
+            />
           </Tooltip>,
         ]}
         convert={(value: Flight) => ({

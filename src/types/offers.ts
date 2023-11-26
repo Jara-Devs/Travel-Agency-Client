@@ -2,7 +2,19 @@ import { Image } from "./api";
 import { Flight } from "./services";
 
 export interface Reaction {
-  liked: boolean;
+  id: number;
+  reactionState: ReactionState;
+  touristId: number;
+  offerId: number;
+}
+
+export enum ReactionState {
+  Like = 0,
+  Dislike = 1,
+}
+
+export interface ReactionForm {
+  reactionState: ReactionState;
   touristId: number;
   offerId: number;
 }
