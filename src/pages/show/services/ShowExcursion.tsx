@@ -9,7 +9,7 @@ import {
   Row,
   Typography,
 } from "antd";
-import { FC, CSSProperties } from "react";
+import { FC } from "react";
 import { Excursion, OverNighExcursion } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
@@ -25,7 +25,6 @@ export interface ShowExcursionProps {
 
 export interface ShowMiniExcursionProps {
   excursion: Excursion;
-  styles?: CSSProperties;
 }
 
 export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({

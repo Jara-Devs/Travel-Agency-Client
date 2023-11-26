@@ -12,17 +12,18 @@ export interface ShowFlightProps {
 }
 
 export interface ShowMiniFlightProps {
-  flight: Flight
-  ribbon?: string;
+  flight: Flight;
 }
 
-export const ShowMiniFlight: FC<ShowMiniFlightProps> = ({ flight, ribbon }) => (
-  <Badge.Ribbon text={ribbon ?? "Place"}>
+export const ShowMiniFlight: FC<ShowMiniFlightProps> = ({ flight }) => (
+  <Badge.Ribbon text="Flight" color="yellow">
     <Card hoverable>
       <Card.Meta
         className="show-card"
-        title={flight.origin.name + "-" + flight.destination.name}
-        description={flight.company}
+        title={flight.company}
+        description={`From ${flight.origin.name} to ${
+          flight.destination.name
+        }, Duration: ${buildDuration(flight)}`}
       />
     </Card>
   </Badge.Ribbon>

@@ -2,7 +2,7 @@ import {
   Flight,
   FlightFacility,
   FlightOfferFormType,
-} from "../../types/services";
+} from "../../../../types/services";
 import { FC, useState, useEffect } from "react";
 import {
   Form,
@@ -14,12 +14,12 @@ import {
   Typography,
   message,
 } from "antd";
-import { flight } from "../../api/services";
-import { Image } from "../../types/api";
+import { flight } from "../../../../api/services";
+import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
-import UploadImage from "../../common/UploadImage";
+import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getFlightFacility } from "../../common/functions";
+import { getFlightFacility } from "../../../../common/functions";
 
 export interface FlightOfferFormData {
   name: string;
@@ -69,7 +69,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
 
   const load = async () => {
     const responseFlight = await flight().get({
-      select: ["id", "company", "flightCategory"],
+      select: ["id", "company"],
       expand: {
         origin: { select: ["name"] },
         destination: { select: ["name"] },
@@ -81,6 +81,25 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
     } else {
       message.error(responseFlight.message);
     }
+  };
+
+  const validateStartDate = (_: any, value: dayjs.Dayjs) => {
+    if (value && value.valueOf() < Date.now()) {
+      return Promise.reject(
+        new Error("The start date must be greater than the current date")
+      );
+    }
+    return Promise.resolve();
+  };
+
+  const validateEndDate = (_: any, value: dayjs.Dayjs) => {
+    const startDate = form.getFieldValue("startDate");
+    if (value && value.valueOf() < startDate.valueOf()) {
+      return Promise.reject(
+        new Error("The end date must be greater than the start date")
+      );
+    }
+    return Promise.resolve();
   };
 
   useEffect(() => {
@@ -184,7 +203,15 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
         <Form.Item
           name="startDate"
           label="Initial Date"
-          rules={[{ required: true, message: "Introduce the initial date" }]}
+          rules={[
+            {
+              required: true,
+              message: "Introduce the initial date",
+            },
+            {
+              validator: validateStartDate,
+            },
+          ]}
         >
           <DatePicker
             placeholder="Introduce the initial date"
@@ -195,7 +222,15 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
         <Form.Item
           name="endDate"
           label="Final Date"
-          rules={[{ required: true, message: "Introduce the final date" }]}
+          rules={[
+            {
+              required: true,
+              message: "Introduce the final date",
+            },
+            {
+              validator: validateEndDate,
+            },
+          ]}
         >
           <DatePicker
             placeholder="Introduce the final date"

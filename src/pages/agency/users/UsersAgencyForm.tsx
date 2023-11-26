@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { UserAgencyFormType } from "../../types/auth";
+import { UserAgencyFormType } from "../../../types/auth";
 import { Form, Input, Modal, Typography, Select } from "antd";
 import Title from "antd/es/typography/Title";
 

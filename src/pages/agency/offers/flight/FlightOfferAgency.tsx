@@ -5,14 +5,19 @@ import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import FlightOfferForm, { flightLabel } from "./FlightOfferForm";
-import { FlightOfferFormType, FlightOfferType } from "../../types/services";
-import ShowFlightOffer from "../show/ShowFlightOffer";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import {
+  FlightOfferFormType,
+  FlightOfferType,
+} from "../../../../types/services";
+import ShowFlightOffer from "../../../show/offers/ShowFlightOffer";
+import TableEntities, {
+  TableEntitiesRef,
+} from "../../../../common/TableEntities";
 import dayjs from "dayjs";
-import { flightOffer } from "../../api/services";
-import { getFlightFacility } from "../../common/functions";
+import { flightOffer } from "../../../../api/services";
+import { getFlightFacility } from "../../../../common/functions";
 
-const AgencyFlightOffer = () => {
+const FlightOfferAgency = () => {
   const { get, create, edit, remove } = flightOffer();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -170,8 +175,10 @@ const AgencyFlightOffer = () => {
                   render: (v: FlightOfferType) => (
                     <>
                       <Row>
-                        {v.facilities.map((f) => (
-                          <Tag color="blue">{getFlightFacility(f)}</Tag>
+                        {v.facilities.map((f, idx) => (
+                          <Tag key={idx} color="blue">
+                            {getFlightFacility(f)}
+                          </Tag>
                         ))}
                       </Row>
                     </>
@@ -263,4 +270,4 @@ const AgencyFlightOffer = () => {
   );
 };
 
-export default AgencyFlightOffer;
+export default FlightOfferAgency;
