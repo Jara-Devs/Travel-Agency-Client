@@ -1,35 +1,31 @@
 import { FC, useEffect } from "react";
-import { UserAgencyFormType } from "../../types/auth";
-import { Form, Input, Modal, Typography, Select } from "antd";
+import { UserSystemFormType } from "../../../types/auth";
+import { Form, Input, Modal, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 
-export interface UserAgencyFormData {
+export interface UserSystemFormData {
   name: string;
   email: string;
   password: string;
   role: string;
 }
 
-export interface UserAgencyFormProps {
-  onOk: (form: UserAgencyFormType) => void;
+export interface UserSystemFormProps {
+  onOk: (form: UserSystemFormType) => void;
   onCancel: () => void;
-  values?: UserAgencyFormData;
+  values?: UserSystemFormData;
   create: boolean;
   open: boolean;
 }
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-
-const UserAgencyForm: FC<UserAgencyFormProps> = ({
+const UserForm: FC<UserSystemFormProps> = ({
   onCancel,
   values,
   open,
   create,
   onOk,
 }) => {
-  const [form] = Form.useForm<UserAgencyFormData>();
+  const [form] = Form.useForm<UserSystemFormData>();
 
   useEffect(() => {
     if (open) form.resetFields();
@@ -41,7 +37,7 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Agency User</Title>
+          <Title level={3}>Create User</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -51,7 +47,7 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         layout="vertical"
         style={{ marginTop: "20px" }}
         form={form}
-        onFinish={(values: UserAgencyFormData) => {
+        onFinish={(values: UserSystemFormData) => {
           onOk({
             name: values.name,
             email: values.email,
@@ -72,7 +68,11 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
           name="email"
           label="Email"
           rules={[
-            { required: true, message: "Introduce the email ", type: "email" },
+            {
+              required: true,
+              message: "Introduce the email ",
+              type: "email",
+            },
           ]}
         >
           <Input placeholder="Introduce the email" />
@@ -98,20 +98,9 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
         >
           <Input placeholder="Introduce the password" />
         </Form.Item>
-
-        <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-          <Select
-            placeholder="Select a Role"
-            onChange={handleChange}
-            options={[
-              { value: "ManagerAgency", label: "Manager" },
-              { value: "EmployeeAgency", label: "Employee" },
-            ]}
-          />
-        </Form.Item>
       </Form>
     </Modal>
   );
 };
 
-export default UserAgencyForm;
+export default UserForm;

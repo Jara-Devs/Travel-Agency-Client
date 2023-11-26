@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { TouristPlaceFormType } from "../../types/services";
+import { TouristPlaceFormType } from "../../../types/services";
 import { Form, Input, Modal, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
-import UploadImage from "../../common/UploadImage";
-import { Image } from "../../types/api";
+import UploadImage from "../../../common/UploadImage";
+import { Image } from "../../../types/api";
 
 export interface PlaceFormData {
   name: string;

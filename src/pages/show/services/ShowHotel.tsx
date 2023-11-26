@@ -1,8 +1,18 @@
-import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
+import {
+  Avatar,
+  Badge,
+  Card,
+  Col,
+  Divider,
+  Image,
+  Modal,
+  Row,
+  Typography,
+} from "antd";
 import { FC } from "react";
-import { Hotel } from "../../types/services";
+import { Hotel } from "../../../types/services";
 import Title from "antd/es/typography/Title";
-import { getCategory } from "../../common/functions";
+import { getCategory } from "../../../common/functions";
 import { ShowMiniPlace } from "./ShowPlace";
 
 export interface ShowHotelProps {
@@ -16,13 +26,16 @@ export interface ShowminiHotelProps {
 }
 
 export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={hotel.image.url} />}
-      title={hotel.name}
-      description={getCategory(hotel.category)}
-    />
-  </Card>
+  <Badge.Ribbon text="hotel" color="green">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={hotel.image.url} />}
+        title={hotel.name}
+        description={getCategory(hotel.category)}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
@@ -43,7 +56,11 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content" hoverable>
-            <Image src={hotel.image.url} className="show-image" />
+            <Image
+              src={hotel.image.url}
+              className="show-image"
+              preview={false}
+            />
           </Card>
         </Col>
       </Row>
@@ -56,6 +73,9 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       </Row>
       <Row className="m-5">
         <Col span={24}>
+          <Title level={4}>Place</Title>
+          <Divider />
+
           <ShowMiniPlace place={hotel.touristPlace} />
         </Col>
       </Row>

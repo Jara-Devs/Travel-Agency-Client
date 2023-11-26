@@ -1,6 +1,6 @@
-import { Avatar, Card, Col, Image, Modal, Row, Typography } from "antd";
+import { Avatar, Badge, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { TouristActivity } from "../../types/services";
+import { TouristActivity } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 
 export interface ShowTouristActivityProps {
@@ -12,13 +12,16 @@ export interface ShowTouristActivityProps {
 export const ShowMiniTouristActivity: FC<{
   touristActivity: TouristActivity;
 }> = ({ touristActivity }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={touristActivity.image.url} />}
-      title={touristActivity.name}
-      description={touristActivity.description}
-    />
-  </Card>
+  <Badge.Ribbon text="Activity" color="red">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={touristActivity.image.url} />}
+        title={touristActivity.name}
+        description={touristActivity.description}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowTouristActivity: FC<ShowTouristActivityProps> = ({

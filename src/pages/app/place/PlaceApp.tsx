@@ -1,24 +1,23 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { hotel } from "../../api/services";
+import { touristPlace } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { Hotel, HotelFormType } from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import { TouristPlace, TouristPlaceFormType } from "../../../types/services";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import HotelForm from "./HotelForm";
-import ShowHotel from "../show/ShowHotel";
-import { getCategory } from "../../common/functions";
+import PlaceForm from "./PlaceForm";
+import ShowPlace from "../../show/services/ShowPlace";
 
-const HotelApp = () => {
-  const { get, create, edit, remove } = hotel();
+const PlaceApp = () => {
+  const { get, create, edit, remove } = touristPlace();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<Hotel>();
+  const [selected, setSelected] = useState<TouristPlace>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
@@ -29,21 +28,15 @@ const HotelApp = () => {
   const load = async (
     _: Record<string, FilterValue | null>,
     search: string,
-    setDataValue: (data: Hotel[]) => void
+    setDataValue: (data: TouristPlace[]) => void
   ) => {
     setLoading(true);
 
     const searchFilter: Filter = { Name: { contains: search } };
 
     const response = await get({
-      select: ["id", "category", "name", "touristPlaceId"],
-      expand: {
-        touristPlace: {
-          select: ["id", "name", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        image: { select: ["id", "url", "name"] },
-      },
+      select: ["id", "description", "name", "address"],
+      expand: { image: { select: ["id", "url", "name"] } },
       filter: searchFilter,
     });
 
@@ -56,34 +49,34 @@ const HotelApp = () => {
     setLoading(false);
   };
 
-  const createHotel = async (form: HotelFormType) => {
+  const createPlace = async (form: TouristPlaceFormType) => {
     setLoading(true);
     const response = await create(form);
 
     if (response.ok) {
-      message.success("Hotel created");
+      message.success("Place created");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const editHotel = async (form: HotelFormType, id: number) => {
+  const editPlace = async (form: TouristPlaceFormType, id: number) => {
     setLoading(true);
     const response = await edit(form, id);
 
     if (response.ok) {
-      message.success("Hotel edited");
+      message.success("Place edited");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const deleteHotel = async (id: number) => {
+  const deletePlace = async (id: number) => {
     setLoading(true);
     const response = await remove(id);
 
     if (response.ok) {
-      message.success("Hotel deleted");
+      message.success("Place deleted");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -95,7 +88,7 @@ const HotelApp = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Hotels</Title>
+              <Title>Places</Title>
             </Typography>
           </Col>
           <Col>
@@ -112,30 +105,30 @@ const HotelApp = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Hotels"
+              title="Places"
               loading={loading}
               columns={[
                 {
                   title: "Name",
                   key: "name",
-                  render: (v: Hotel) => <>{v.name}</>,
+                  render: (v: TouristPlace) => <>{v.name}</>,
                 },
                 {
-                  title: "Category",
-                  key: "category",
-                  render: (v: Hotel) => getCategory(v.category),
+                  title: "Description",
+                  key: "description",
+                  render: (v: TouristPlace) => <>{v.description}</>,
                 },
                 {
-                  title: "Place",
-                  key: "place",
-                  render: (v: Hotel) => (
-                    <>{`${v.touristPlace.name}, ${v.touristPlace.address.country}`}</>
+                  title: "Address",
+                  key: "address",
+                  render: (v: TouristPlace) => (
+                    <>{`${v.address.description}, ${v.address.city}, ${v.address.country}`}</>
                   ),
                 },
                 {
                   title: "Actions",
                   key: "Actions",
-                  render: (v: Hotel) => (
+                  render: (v: TouristPlace) => (
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
@@ -161,7 +154,7 @@ const HotelApp = () => {
                         <Tooltip title="Delete">
                           <DeleteOutlined
                             onClick={() => {
-                              deleteHotel(v.id);
+                              deletePlace(v.id);
                             }}
                           />
                         </Tooltip>
@@ -175,41 +168,43 @@ const HotelApp = () => {
           </Col>
         </Row>
       </div>
-      <HotelForm
-        onOk={(form: HotelFormType) => {
+      <PlaceForm
+        onOk={(form: TouristPlaceFormType) => {
           setCreateModal(false);
-          createHotel(form);
+          createPlace(form);
         }}
         onCancel={() => setCreateModal(false)}
         open={createModal}
       />
       {selected && (
-        <HotelForm
-          onOk={(form: HotelFormType) => {
+        <PlaceForm
+          onOk={(form: TouristPlaceFormType) => {
             setEditModal(false);
-            editHotel(form, selected.id);
+            editPlace(form, selected.id);
           }}
           onCancel={() => setEditModal(false)}
           open={editModal}
           values={{
             name: selected.name,
-            category: selected.category,
-            touristPlaceId: selected.touristPlaceId,
+            description: selected.description,
+            address: selected.address.description,
+            city: selected.address.city,
+            country: selected.address.country,
             image: selected.image,
           }}
         />
       )}
       {selected && (
-        <ShowHotel
+        <ShowPlace
           open={showModal}
           onOk={() => {
             setShowModal(false);
           }}
-          hotel={selected}
+          place={selected}
         />
       )}
     </>
   );
 };
 
-export default HotelApp;
+export default PlaceApp;

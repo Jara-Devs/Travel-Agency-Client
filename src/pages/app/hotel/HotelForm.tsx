@@ -3,14 +3,14 @@ import {
   HotelCategory,
   HotelFormType,
   TouristPlace,
-} from "../../types/services";
+} from "../../../types/services";
 import { Form, Input, Modal, Typography, message, Select } from "antd";
 import Title from "antd/es/typography/Title";
-import { touristPlace } from "../../api/services";
-import { ApiResponse } from "../../types/api";
-import { Image } from "../../types/api";
-import UploadImage from "../../common/UploadImage";
-import { getCategory } from "../../common/functions";
+import { touristPlace } from "../../../api/services";
+import { ApiResponse } from "../../../types/api";
+import { Image } from "../../../types/api";
+import UploadImage from "../../../common/UploadImage";
+import { getCategory } from "../../../common/functions";
 
 export interface HotelFormData {
   name: string;

@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import UsersApp from "../pages/app/UsersApp";
-import PlaceApp from "../pages/app/PlaceApp";
-import ActivityApp from "../pages/app/ActivityApp";
-import FlightApp from "../pages/app/FligthApp";
-import ExcursionApp from "../pages/app/ExcursionApp";
-import HotelApp from "../pages/app/HotelApp";
+import UsersApp from "../pages/app/users/UsersApp";
+import PlaceApp from "../pages/app/place/PlaceApp";
+import ActivityApp from "../pages/app/activity/ActivityApp";
+import FlightApp from "../pages/app/flight/FlightApp";
+import ExcursionApp from "../pages/app/excursion/ExcursionApp";
+import HotelApp from "../pages/app/hotel/HotelApp";
 import PrivateRoutes from "./PrivateRoutes";
 import { Roles } from "../types/auth";
 

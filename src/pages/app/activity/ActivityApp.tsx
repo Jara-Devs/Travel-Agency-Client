@@ -1,13 +1,16 @@
 import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { touristActivity } from "../../api/services";
+import { touristActivity } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { TouristActivity, TouristActivityFormType } from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import {
+  TouristActivity,
+  TouristActivityFormType,
+} from "../../../types/services";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import ShowActivity from "../show/ShowActivity";
+import ShowActivity from "../../show/services/ShowActivity";
 import TouristActivityForm from "./ActivityForm";
 
 const ActivityApp = () => {

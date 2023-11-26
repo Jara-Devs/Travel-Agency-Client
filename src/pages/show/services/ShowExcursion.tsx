@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Card,
   Col,
   Divider,
@@ -8,13 +9,13 @@ import {
   Row,
   Typography,
 } from "antd";
-import { FC, CSSProperties } from "react";
-import { Excursion, OverNighExcursion } from "../../types/services";
+import { FC } from "react";
+import { Excursion, OverNighExcursion } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
 import { ShowMiniTouristActivity } from "./ShowActivity";
 import { ShowMiniHotel } from "./ShowHotel";
-import SlideCard from "../../common/SlideCard";
+import SlideCard from "../../../common/SlideCard";
 
 export interface ShowExcursionProps {
   open: boolean;
@@ -24,18 +25,20 @@ export interface ShowExcursionProps {
 
 export interface ShowMiniExcursionProps {
   excursion: Excursion;
-  styles?: CSSProperties;
 }
 
 export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
 }) => (
-  <Card hoverable>
-    <Card.Meta
-      avatar={<Avatar size={50} src={excursion.image.url} />}
-      title={excursion.name}
-    />
-  </Card>
+  <Badge.Ribbon text="Excursion" color="cyan">
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={excursion.image.url} />}
+        title={excursion.name}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {

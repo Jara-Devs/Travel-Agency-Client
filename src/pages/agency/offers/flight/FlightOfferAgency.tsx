@@ -1,23 +1,30 @@
-import { Button, Col, Row, Tooltip, Typography, message } from "antd";
-import { touristPlace } from "../../api/services";
+import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import { TouristPlace, TouristPlaceFormType } from "../../types/services";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import PlaceForm from "./PlaceForm";
-import ShowPlace from "../show/ShowPlace";
+import FlightOfferForm, { flightLabel } from "./FlightOfferForm";
+import {
+  FlightOfferFormType,
+  FlightOfferType,
+} from "../../../../types/services";
+import ShowFlightOffer from "../../../show/offers/ShowFlightOffer";
+import TableEntities, {
+  TableEntitiesRef,
+} from "../../../../common/TableEntities";
+import dayjs from "dayjs";
+import { flightOffer } from "../../../../api/services";
+import { getFlightFacility } from "../../../../common/functions";
 
-const PlaceApp = () => {
-  const { get, create, edit, remove } = touristPlace();
+const FlightOfferAgency = () => {
+  const { get, create, edit, remove } = flightOffer();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
-  const [selected, setSelected] = useState<TouristPlace>();
+  const [selected, setSelected] = useState<FlightOfferType>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
@@ -28,15 +35,30 @@ const PlaceApp = () => {
   const load = async (
     _: Record<string, FilterValue | null>,
     search: string,
-    setDataValue: (data: TouristPlace[]) => void
+    setDataValue: (data: FlightOfferType[]) => void
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = { flight: { company: { contains: search } } };
 
     const response = await get({
-      select: ["id", "description", "name", "address"],
-      expand: { image: { select: ["id", "url", "name"] } },
+      expand: {
+        image: {
+          select: ["id", "name", "url"],
+        },
+        flight: {
+          select: ["company"],
+          expand: {
+            origin: {
+              select: ["id", "name"],
+            },
+            destination: {
+              select: ["id", "name"],
+            },
+          },
+        },
+      },
+
       filter: searchFilter,
     });
 
@@ -49,34 +71,34 @@ const PlaceApp = () => {
     setLoading(false);
   };
 
-  const createPlace = async (form: TouristPlaceFormType) => {
+  const createFlightOffer = async (form: FlightOfferFormType) => {
     setLoading(true);
     const response = await create(form);
 
     if (response.ok) {
-      message.success("Place created");
+      message.success("Flight Offer created");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const editPlace = async (form: TouristPlaceFormType, id: number) => {
+  const editFlightOffer = async (form: FlightOfferFormType, id: number) => {
     setLoading(true);
     const response = await edit(form, id);
 
     if (response.ok) {
-      message.success("Place edited");
+      message.success("Flight Offer edited");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
   };
 
-  const deletePlace = async (id: number) => {
+  const deleteFlightOffer = async (id: number) => {
     setLoading(true);
     const response = await remove(id);
 
     if (response.ok) {
-      message.success("Place deleted");
+      message.success("Flight Offer deleted");
       tableRef.current.reload();
     } else message.error(response.message);
     setLoading(false);
@@ -88,7 +110,7 @@ const PlaceApp = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Places</Title>
+              <Title>Flights</Title>
             </Typography>
           </Col>
           <Col>
@@ -105,30 +127,68 @@ const PlaceApp = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Places"
+              title="Flights"
               loading={loading}
               columns={[
                 {
                   title: "Name",
                   key: "name",
-                  render: (v: TouristPlace) => <>{v.name}</>,
+                  render: (v: FlightOfferType) => <>{v.name}</>,
+                },
+                {
+                  title: "Flight",
+                  key: "flight",
+                  render: (v: FlightOfferType) => <>{flightLabel(v.flight)} </>,
+                },
+                {
+                  title: "Availability",
+                  key: "availability",
+                  render: (v: FlightOfferType) => <>{v.availability}</>,
                 },
                 {
                   title: "Description",
                   key: "description",
-                  render: (v: TouristPlace) => <>{v.description}</>,
+                  render: (v: FlightOfferType) => <>{v.description}</>,
                 },
                 {
-                  title: "Address",
-                  key: "address",
-                  render: (v: TouristPlace) => (
-                    <>{`${v.address.description}, ${v.address.city}, ${v.address.country}`}</>
+                  title: "Price",
+                  key: "price",
+                  render: (v: FlightOfferType) => <>{v.price}</>,
+                },
+                {
+                  title: "Initial Date",
+                  key: "startDate",
+                  render: (v: FlightOfferType) => (
+                    <>{dayjs(v.startDate).format("DD/MM/YYYY")}</>
                   ),
                 },
                 {
+                  title: "Final Date",
+                  key: "endDate",
+                  render: (v: FlightOfferType) => (
+                    <>{dayjs(v.endDate).format("DD/MM/YYYY")}</>
+                  ),
+                },
+                {
+                  title: "Facilities",
+                  key: "facilities",
+                  render: (v: FlightOfferType) => (
+                    <>
+                      <Row>
+                        {v.facilities.map((f, idx) => (
+                          <Tag key={idx} color="blue">
+                            {getFlightFacility(f)}
+                          </Tag>
+                        ))}
+                      </Row>
+                    </>
+                  ),
+                },
+
+                {
                   title: "Actions",
                   key: "Actions",
-                  render: (v: TouristPlace) => (
+                  render: (v: FlightOfferType) => (
                     <Row gutter={10}>
                       <Col>
                         <Tooltip title="Show">
@@ -154,7 +214,7 @@ const PlaceApp = () => {
                         <Tooltip title="Delete">
                           <DeleteOutlined
                             onClick={() => {
-                              deletePlace(v.id);
+                              deleteFlightOffer(v.id);
                             }}
                           />
                         </Tooltip>
@@ -168,43 +228,46 @@ const PlaceApp = () => {
           </Col>
         </Row>
       </div>
-      <PlaceForm
-        onOk={(form: TouristPlaceFormType) => {
+      <FlightOfferForm
+        onOk={(form: FlightOfferFormType) => {
           setCreateModal(false);
-          createPlace(form);
+          createFlightOffer(form);
         }}
         onCancel={() => setCreateModal(false)}
         open={createModal}
       />
       {selected && (
-        <PlaceForm
-          onOk={(form: TouristPlaceFormType) => {
+        <FlightOfferForm
+          onOk={(form: FlightOfferFormType) => {
             setEditModal(false);
-            editPlace(form, selected.id);
+            editFlightOffer(form, selected.id);
           }}
           onCancel={() => setEditModal(false)}
           open={editModal}
           values={{
             name: selected.name,
+            flightId: selected.flightId,
+            availability: selected.availability,
             description: selected.description,
-            address: selected.address.description,
-            city: selected.address.city,
-            country: selected.address.country,
+            price: selected.price,
+            startDate: dayjs(selected.startDate),
+            endDate: dayjs(selected.endDate),
+            facilities: selected.facilities,
             image: selected.image,
           }}
         />
       )}
       {selected && (
-        <ShowPlace
+        <ShowFlightOffer
           open={showModal}
           onOk={() => {
             setShowModal(false);
           }}
-          place={selected}
+          flightOffer={selected}
         />
       )}
     </>
   );
 };
 
-export default PlaceApp;
+export default FlightOfferAgency;

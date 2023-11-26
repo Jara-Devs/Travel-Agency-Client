@@ -1,16 +1,16 @@
 import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { userSystem } from "../../api/auth";
+import { userAgency } from "../../../api/auth";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import { UserSystem, UserSystemFormType } from "../../types/auth";
-import UserForm from "./UsersForm";
+import { Roles, UserAgency, UserAgencyFormType } from "../../../types/auth";
+import UserAgencyForm from "./UsersAgencyForm";
 
-const UsersApp = () => {
-  const { get, create, remove } = userSystem();
+const UsersAgency = () => {
+  const { get, create, remove } = userAgency();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [createModal, setCreateModal] = useState<boolean>(false);
@@ -23,7 +23,7 @@ const UsersApp = () => {
   const load = async (
     _: Record<string, FilterValue | null>,
     search: string,
-    setDataValue: (data: UserSystem[]) => void
+    setDataValue: (data: UserAgency[]) => void
   ) => {
     setLoading(true);
 
@@ -45,7 +45,7 @@ const UsersApp = () => {
     setLoading(false);
   };
 
-  const createUser = async (form: UserSystemFormType) => {
+  const createAgencyUser = async (form: UserAgencyFormType) => {
     setLoading(true);
 
     const response = await create(form);
@@ -76,25 +76,30 @@ const UsersApp = () => {
     const nameColumn = {
       title: "Name",
       key: "name",
-      render: (v: UserSystem) => <>{v.name}</>,
+      render: (v: UserAgency) => <>{v.name}</>,
     };
 
     const emailColumn = {
       title: "Email",
       key: "email",
-      render: (v: UserSystem) => <>{v.email}</>,
+      render: (v: UserAgency) => <>{v.email}</>,
     };
 
     const roleColumn = {
       title: "Role",
       key: "role",
-      render: (v: UserSystem) => <Tag color="green">Employee</Tag>,
+      render: (v: UserAgency) =>
+        v.role === Roles.ManagerAgency ? (
+          <Tag color="blue">Manager</Tag>
+        ) : (
+          <Tag color="green">Employee</Tag>
+        ),
     };
 
     const actionsColumn = {
       title: "Actions",
       key: "Actions",
-      render: (v: UserSystem) => (
+      render: (v: UserAgency) => (
         <Row gutter={10}>
           <Col>
             <Tooltip title="Delete">
@@ -114,7 +119,7 @@ const UsersApp = () => {
     return (
       <TableEntities
         ref={tableRef}
-        title={"Users"}
+        title={"Agency User"}
         loading={loading}
         columns={columns}
         load={load}
@@ -145,11 +150,11 @@ const UsersApp = () => {
           <Col span={24}>{getTable()}</Col>
         </Row>
       </div>
-      <UserForm
-        onOk={(form: UserSystemFormType) => {
+      <UserAgencyForm
+        onOk={(form: UserAgencyFormType) => {
           if (createModal) {
             setCreateModal(false);
-            createUser(form);
+            createAgencyUser(form);
           }
         }}
         create={createModal}
@@ -162,4 +167,4 @@ const UsersApp = () => {
   );
 };
 
-export default UsersApp;
+export default UsersAgency;
