@@ -2,8 +2,11 @@ import { Badge, Card, Col, Divider, Modal, Row, Typography } from "antd";
 import { FC } from "react";
 import { Flight } from "../../../types/services";
 import Title from "antd/es/typography/Title";
-import moment from "moment";
+import dayjs from "dayjs";
 import { ShowMiniPlace } from "./ShowPlace";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
 
 export interface ShowFlightProps {
   open: boolean;
@@ -30,7 +33,7 @@ export const ShowMiniFlight: FC<ShowMiniFlightProps> = ({ flight }) => (
 );
 
 export const buildDuration = (flight: Flight) => {
-  const duration = moment.duration(flight.duration);
+  const duration = dayjs.duration(flight.duration);
 
   let r = `${duration.hours()} hours`;
 
@@ -55,7 +58,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
     >
       <Row className="m-5">
         <Col span={24}>
-          <Card>
+          <Card hoverable>
             <Card.Meta title="Duration" description={buildDuration(flight)} />
           </Card>
         </Col>

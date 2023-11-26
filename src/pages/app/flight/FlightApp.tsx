@@ -7,9 +7,8 @@ import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
-import ShowFlight from "../../show/services/ShowFlight";
+import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FlightForm from "./FlightForm";
-import moment from "moment";
 
 const FlightApp = () => {
   const { get, create, edit, remove } = flight();
@@ -36,14 +35,7 @@ const FlightApp = () => {
     const searchFilter: Filter = { Company: { contains: search } };
 
     const response = await get({
-      select: [
-        "id",
-        "duration",
-        "flightCategory",
-        "company",
-        "originId",
-        "destinationId",
-      ],
+      select: ["id", "duration", "company", "originId", "destinationId"],
       expand: {
         origin: {
           select: ["name", "address"],
@@ -146,8 +138,7 @@ const FlightApp = () => {
                   title: "Duration",
                   key: "duration",
                   render: (v: Flight) => {
-                    const duration = moment.duration(v.duration);
-                    return <>{`${duration.hours()}:${duration.minutes()}`}</>;
+                    return <>{buildDuration(v)}</>;
                   },
                 },
 

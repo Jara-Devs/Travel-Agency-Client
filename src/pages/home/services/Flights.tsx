@@ -48,7 +48,7 @@ const Flights = () => {
   const load = async (filter: Filter) => {
     setLoading(true);
     const result = await get({
-      select: ["id", "company"],
+      select: ["id", "company", "duration"],
       expand: {
         origin: {
           select: ["name", "description", "address"],
@@ -104,7 +104,10 @@ const Flights = () => {
 
   return (
     <div className="m-5">
-      <FilterSearch filters={[originFilter, destinationFilter]} loading={loading} />
+      <FilterSearch
+        filters={[originFilter, destinationFilter]}
+        loading={loading}
+      />
       <ShowEntities
         loading={loading}
         data={data}
