@@ -111,7 +111,6 @@ export interface Flight {
   origin: TouristPlace;
   destination: TouristPlace;
   duration: number;
-  flightCategory: number;
   originId: number;
   destinationId: number;
 }
@@ -120,7 +119,6 @@ export interface FlightFormType {
   company: string;
   originId: number;
   destinationId: number;
-  flightCategory: number;
   duration: number;
 }
 

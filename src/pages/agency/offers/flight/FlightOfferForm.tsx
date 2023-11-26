@@ -1,8 +1,5 @@
-import {
-  Flight,
-  FlightFacility,
-  FlightOfferFormType,
-} from "../../../../types/services";
+import { Flight } from "../../../../types/services";
+import { FlightOfferFormType, FlightFacility } from "../../../../types/offers";
 import { FC, useState, useEffect } from "react";
 import {
   Form,

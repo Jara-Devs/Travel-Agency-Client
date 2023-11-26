@@ -14,11 +14,13 @@ import {
 import Title from "antd/es/typography/Title";
 import { touristPlace } from "../../../api/services";
 import { ApiResponse } from "../../../types/api";
-import moment from "moment";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
 
 export interface FlightFormData {
   company: string;
-  flightCategory: number;
   duration: number;
   originId: number;
   destinationId: number;
@@ -43,7 +45,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
     if (open) form.resetFields();
     if (values) {
       form.setFieldsValue({ ...values });
-      const duration = moment.duration(values.duration);
+      const duration = dayjs.duration(values.duration);
       setHours(duration.hours());
       setMinutes(duration.minutes());
     } else {
@@ -93,10 +95,9 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         style={{ marginTop: "20px" }}
         form={form}
         onFinish={(values: FlightFormData) => {
-          const duration = moment.duration({ hours: hours, minutes: minutes });
+          const duration = dayjs.duration({ hours: hours, minutes: minutes });
           onOk({
             company: values.company,
-            flightCategory: values.flightCategory,
             originId: values.originId,
             destinationId: values.destinationId,
             duration: duration.asMilliseconds(),

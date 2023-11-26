@@ -13,6 +13,7 @@ export interface ShowEntitiesProps<T> {
     title?: string;
     description?: string;
     image: ApiImage;
+    footerImage?: ReactNode;
   };
 }
 
@@ -37,12 +38,17 @@ function ShowEntities<T>({
               <List.Item
                 actions={actions ? actions(item) : undefined}
                 extra={
-                  <Image
-                    preview={false}
-                    className="show-mini-image"
-                    alt={entity.image.name}
-                    src={entity.image.url}
-                  />
+                  <>
+                    <Image
+                      preview={false}
+                      className="show-mini-image"
+                      alt={entity.image.name}
+                      src={entity.image.url}
+                    />
+                    {entity.footerImage && (
+                      <div className="center-content">{entity.footerImage}</div>
+                    )}
+                  </>
                 }
               >
                 <List.Item.Meta

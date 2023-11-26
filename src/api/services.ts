@@ -6,8 +6,6 @@ import {
   ExcursionOfferType,
   Flight,
   FlightFormType,
-  FlightOfferFormType,
-  FlightOfferType,
   Hotel,
   HotelFormType,
   OverNighExcursion,
@@ -23,10 +21,8 @@ import { HttpMethods } from "../types/api";
 export const serviceController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
     apiOdataNoToken<T1>(controller, odataQuery);
-  const getById = (
-    odataQuery: Partial<QueryOptions<TouristPlace>>,
-    id: number
-  ) => apiSingleOdataNoToken<TouristPlace>(`${controller}/${id}`, odataQuery);
+  const getById = (odataQuery: Partial<QueryOptions<T1>>, id: number) =>
+    apiSingleOdataNoToken<T1>(`${controller}/${id}`, odataQuery);
 
   const create = (form: T2) => apiWithToken(controller, form, HttpMethods.POST);
   const edit = (form: T2, id: number) =>
@@ -55,10 +51,13 @@ export const overNighExcursion = () =>
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
 
-export const activity = () => serviceController<TouristActivity, TouristActivityFormType>("touristactivity")
-
-export const flight = () => serviceController<Flight, FlightFormType>("flight")
+export const activity = () =>
+  serviceController<TouristActivity, TouristActivityFormType>(
+    "touristactivity"
+  );
 
 export const flightOffer = () => serviceController<FlightOfferType, FlightOfferFormType>("flightOffer")
 
 export const excursionOffer = () => serviceController<ExcursionOfferType, ExcursionOfferFormType>("excursionOffer")
+
+export const flight = () => serviceController<Flight, FlightFormType>("flight");
