@@ -7,6 +7,7 @@ import { hotel } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import {
   isGuid,
+  OfferFooterImage,
   reactionLogic,
   selectedReaction,
 } from "../../../common/functions";
@@ -188,10 +189,7 @@ const HotelOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: (
-                <Typography.Title
-                  level={3}
-                >{`$ ${value.price}`}</Typography.Title>
+              footerImage: (<OfferFooterImage value={value} />
               ),
             })}
           />

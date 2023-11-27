@@ -17,10 +17,12 @@ import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
 import {
+  OfferFooterImage,
   isGuid,
   reactionLogic,
   selectedReaction,
 } from "../../../common/functions";
+import dayjs from "dayjs"
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();
@@ -209,11 +211,7 @@ const ExcursionOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: (
-                <Typography.Title
-                  level={3}
-                >{`$ ${value.price}`}</Typography.Title>
-              ),
+              footerImage: <OfferFooterImage value={value} />,
             })}
           />
         </Col>

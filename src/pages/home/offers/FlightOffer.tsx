@@ -15,6 +15,7 @@ import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
 import {
+  OfferFooterImage,
   isGuid,
   reactionLogic,
   selectedReaction,
@@ -201,10 +202,7 @@ const FlightOffer = () => {
               image: value.image,
               description: value.description,
               footerImage: (
-                <Typography.Title
-                  level={3}
-                >{`$ ${value.price}`}</Typography.Title>
-              ),
+                <OfferFooterImage value={value} />),
             })}
           />
         </Col>
