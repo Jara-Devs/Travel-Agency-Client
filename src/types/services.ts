@@ -36,22 +36,18 @@ export interface Excursion {
   places: TouristPlace[];
   activities: TouristActivity[];
   image: Image;
-}
-
-export interface OverNighExcursion extends Excursion {
-  hotelId: string;
+  hotelId?: string;
   hotel: Hotel;
 }
+
+
 
 export interface ExcursionFormType {
   name: string;
   places: string[];
   activities: string[];
   imageId: string;
-}
-
-export interface OverNighExcursionFormType extends ExcursionFormType {
-  hotelId: string;
+  hotelId?: string;
 }
 
 export enum HotelCategory {

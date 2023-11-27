@@ -1,9 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
-import { excursion, overNighExcursion } from "../../../api/services";
+import { excursion } from "../../../api/services";
 import {
   Excursion,
   Hotel,
-  OverNighExcursion,
   TouristActivity,
   TouristPlace,
 } from "../../../types/services";
@@ -24,8 +23,7 @@ import { Filter } from "odata-query";
 
 const Excursions = () => {
   const { get } = excursion();
-  const { get: getOverNight } = overNighExcursion();
-
+ 
   const [searchParams] = useSearchParams();
 
   const [data, setData] = useState<Excursion[]>([]);
@@ -67,7 +65,7 @@ const Excursions = () => {
       filter: { and: [{ isOverNight: { eq: false } }, filter] },
     });
 
-    const resultOverNight = await getOverNight({
+    const resultOverNight = await get({
       select: ["id", "name", "isOverNight"],
       expand: {
         places: {
@@ -149,14 +147,10 @@ const Excursions = () => {
               node = node.concat(places);
               node = node.concat(activities);
 
-              if (value.isOverNight) {
+              if (value?.hotel && value.isOverNight) {
                 node.push(
-                  <div
-                    onClick={() =>
-                      setSelectedHotel((value as OverNighExcursion).hotel)
-                    }
-                  >
-                    <ShowMiniHotel hotel={(value as OverNighExcursion).hotel} />
+                  <div onClick={() => setSelectedHotel(value.hotel)}>
+                    <ShowMiniHotel hotel={value.hotel} />
                   </div>
                 );
               }

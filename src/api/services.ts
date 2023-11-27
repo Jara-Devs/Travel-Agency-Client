@@ -6,8 +6,6 @@ import {
   FlightFormType,
   Hotel,
   HotelFormType,
-  OverNighExcursion,
-  OverNighExcursionFormType,
   TouristActivity,
   TouristActivityFormType,
   TouristPlace,
@@ -41,11 +39,6 @@ export const touristActivity = () =>
 
 export const excursion = () =>
   serviceController<Excursion, ExcursionFormType>("excursion");
-
-export const overNighExcursion = () =>
-  serviceController<OverNighExcursion, OverNighExcursionFormType>(
-    "overNightExcursion"
-  );
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
 
