@@ -47,7 +47,6 @@ const HotelOfferAgency = () => {
         { agencyId: { eq: (user as UserAgencyContext).agencyId } },
       ],
     };
-    console.log((user as UserAgencyContext).agencyId);
     const response = await get({
       expand: {
         image: { select: ["id", "name", "url"] },

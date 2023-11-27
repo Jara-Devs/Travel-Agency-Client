@@ -1,13 +1,18 @@
 import { Col, Row, message } from "antd";
 import { ApiResponse } from "../types/api";
-import { 
-  HotelCategory, 
-} from "../types/services";
-import { FlightFacility, ExcursionFacility,Offer, ReactionState, HotelFacility } from "../types/offers";
+import { HotelCategory } from "../types/services";
+import {
+  FlightFacility,
+  ExcursionFacility,
+  Offer,
+  ReactionState,
+  HotelFacility,
+} from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 import { User } from "../types/auth";
 import { reaction } from "../api/offers";
+import { Package } from "../types/packages";
 
 export const buildMessage = (responses: ApiResponse<any>[]) => {
   let msg = "";
@@ -53,6 +58,20 @@ export const getCategory = (x: HotelCategory, styles?: CSSProperties) => {
     case HotelCategory.FiveStars:
       return renderStars(5);
   }
+};
+
+export const getPackagePrice = (x: Package) => {
+  var sum: number = 0;
+  x.excursionOffers.forEach((offer) => {
+    sum += offer.price;
+  });
+  x.hotelOffers.forEach((offer) => {
+    sum += offer.price;
+  });
+  x.flightOffers.forEach((offer) => {
+    sum += offer.price;
+  });
+  return sum - x.discount * sum;
 };
 
 export const getFlightFacility = (x: FlightFacility) => {
@@ -136,7 +155,7 @@ export const getExcursionFacility = (x: ExcursionFacility) => {
     case ExcursionFacility.SafetyAndFirstAid:
       return "Safety And First Aid";
   }
-}
+};
 
 export const reactionLogic = async (
   offer: Offer,

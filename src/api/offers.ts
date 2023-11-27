@@ -11,6 +11,7 @@ import {
   Reaction,
   ReactionForm,
 } from "../types/offers";
+import { Package, PackageFormType } from "../types/packages";
 
 export const offerController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
@@ -38,3 +39,6 @@ export const excursionOffer = () =>
 
 export const reaction = () =>
   offerController<Reaction, ReactionForm>("reaction");
+
+export const packageOffer = () =>
+  offerController<Package, PackageFormType>("package");
