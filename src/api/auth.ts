@@ -39,7 +39,7 @@ export const usersController = <T1, T2>(controller: string) => {
     apiSingleOdataWithToken<T1>(`${controller}/${id}`, odataQuery);
 
   const create = (form: T2) => apiWithToken(controller, form, HttpMethods.POST);
-  const remove = (id: number) =>
+  const remove = (id: string) =>
     apiWithToken(`${controller}/${id}`, {}, HttpMethods.DELETE);
 
   return { get, getById, create, remove };

@@ -16,7 +16,7 @@ import { UserAgencyContext } from "../../../../types/auth";
 import { UserContext } from "../../../../context/UserProvider";
 import { HotelOfferType, HotelOfferFormType } from "../../../../types/offers";
 
-const HotelOffer = () => {
+const HotelOfferAgency = () => {
   const { get, create, edit, remove } = hotelOffer();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,14 +40,17 @@ const HotelOffer = () => {
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = { name: { contains: search } };
     const finalFilter: Filter = {
       and: [
         searchFilter,
-        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
+        {
+          agencyId: {
+            eq: { type: "guid", value: (user as UserAgencyContext).id },
+          },
+        },
       ],
     };
-    console.log((user as UserAgencyContext).agencyId);
     const response = await get({
       expand: {
         image: { select: ["id", "name", "url"] },
@@ -79,7 +82,7 @@ const HotelOffer = () => {
     setLoading(false);
   };
 
-  const editHotelOffer = async (form: HotelOfferFormType, id: number) => {
+  const editHotelOffer = async (form: HotelOfferFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -90,7 +93,7 @@ const HotelOffer = () => {
     setLoading(false);
   };
 
-  const deleteHotelOffer = async (id: number) => {
+  const deleteHotelOffer = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 
@@ -264,4 +267,4 @@ const HotelOffer = () => {
   );
 };
 
-export default HotelOffer;
+export default HotelOfferAgency;

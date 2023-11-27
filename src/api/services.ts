@@ -6,8 +6,6 @@ import {
   FlightFormType,
   Hotel,
   HotelFormType,
-  OverNighExcursion,
-  OverNighExcursionFormType,
   TouristActivity,
   TouristActivityFormType,
   TouristPlace,
@@ -23,9 +21,9 @@ export const serviceController = <T1, T2>(controller: string) => {
     apiSingleOdataNoToken<T1>(`${controller}/${id}`, odataQuery);
 
   const create = (form: T2) => apiWithToken(controller, form, HttpMethods.POST);
-  const edit = (form: T2, id: number) =>
+  const edit = (form: T2, id: string) =>
     apiWithToken(`${controller}/${id}`, form, HttpMethods.PUT);
-  const remove = (id: number) =>
+  const remove = (id: string) =>
     apiWithToken(`${controller}/${id}`, {}, HttpMethods.DELETE);
 
   return { get, getById, create, edit, remove };
@@ -41,11 +39,6 @@ export const touristActivity = () =>
 
 export const excursion = () =>
   serviceController<Excursion, ExcursionFormType>("excursion");
-
-export const overNighExcursion = () =>
-  serviceController<OverNighExcursion, OverNighExcursionFormType>(
-    "overNightExcursion"
-  );
 
 export const hotel = () => serviceController<Hotel, HotelFormType>("hotel");
 

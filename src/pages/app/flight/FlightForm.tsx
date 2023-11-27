@@ -22,8 +22,8 @@ dayjs.extend(duration);
 export interface FlightFormData {
   company: string;
   duration: number;
-  originId: number;
-  destinationId: number;
+  originId: string;
+  destinationId: string;
 }
 
 export interface FlightFormProps {
@@ -84,7 +84,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Tourist Activity</Title>
+          <Title level={3}>Create Flight</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -115,7 +115,6 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         <Form.Item
           name="duration"
           label="Duration"
-          rules={[{ required: true, message: "Introduce the duration" }]}
         >
           <Row gutter={8}>
             <Col>

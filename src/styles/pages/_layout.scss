@@ -23,7 +23,7 @@
 }
 
 .layout-header {
-  width: 100%;
+  // width: 100%;
   background-color: gray;
 }
 
@@ -82,13 +82,14 @@
 .layout-screen-sidebar {
   background-color: rgb(4, 21, 77);
   color: white;
-  font-size: large;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 275px;
+
+  // font-size: large;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
+  // padding-left: 10px;
+  // padding-right: 10px;
+  // width: 275px;
 }
 
 .layout-logo {
@@ -100,3 +101,7 @@
   margin-bottom: 0px;
   background-color: white;
 }
+
+// .ant-menu-dark {
+//   background-color: #1d1d1d;
+// }

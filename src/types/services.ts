@@ -2,7 +2,7 @@ import { Image } from "./api";
 import { Address } from "./common";
 
 export interface TouristPlace {
-  id: number;
+  id: string;
   name: string;
   description: string;
   address: Address;
@@ -13,11 +13,11 @@ export interface TouristPlaceFormType {
   name: string;
   description: string;
   address: Address;
-  imageId: number;
+  imageId: string;
 }
 
 export interface TouristActivity {
-  id: number;
+  id: string;
   name: string;
   description: string;
   image: Image;
@@ -26,32 +26,28 @@ export interface TouristActivity {
 export interface TouristActivityFormType {
   name: string;
   description: string;
-  imageId: number;
+  imageId: string;
 }
 
 export interface Excursion {
-  id: number;
+  id: string;
   name: string;
   isOverNight: boolean;
   places: TouristPlace[];
   activities: TouristActivity[];
   image: Image;
-}
-
-export interface OverNighExcursion extends Excursion {
-  hotelId: number;
+  hotelId?: string;
   hotel: Hotel;
 }
 
+
+
 export interface ExcursionFormType {
   name: string;
-  places: number[];
-  activities: number[];
-  imageId: number;
-}
-
-export interface OverNighExcursionFormType extends ExcursionFormType {
-  hotelId: number;
+  places: string[];
+  activities: string[];
+  imageId: string;
+  hotelId?: string;
 }
 
 export enum HotelCategory {
@@ -62,10 +58,10 @@ export enum HotelCategory {
   FiveStars = 4,
 }
 export interface Hotel {
-  id: number;
+  id: string;
   name: string;
   category: number;
-  touristPlaceId: number;
+  touristPlaceId: string;
   touristPlace: TouristPlace;
   image: Image;
 }
@@ -73,24 +69,24 @@ export interface Hotel {
 export interface HotelFormType {
   name: string;
   category: number;
-  touristPlaceId: number;
-  imageId: number;
+  touristPlaceId: string;
+  imageId: string;
 }
 
 export interface Flight {
-  id: number;
+  id: string;
   company: string;
   origin: TouristPlace;
   destination: TouristPlace;
   duration: number;
-  originId: number;
-  destinationId: number;
+  originId: string;
+  destinationId: string;
 }
 
 export interface FlightFormType {
   company: string;
-  originId: number;
-  destinationId: number;
+  originId: string;
+  destinationId: string;
   duration: number;
 }
 

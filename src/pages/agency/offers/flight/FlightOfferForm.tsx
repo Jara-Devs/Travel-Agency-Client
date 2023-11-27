@@ -20,7 +20,7 @@ import { getFlightFacility } from "../../../../common/functions";
 
 export interface FlightOfferFormData {
   name: string;
-  flightId: number;
+  flightId: string;
   availability: number;
   description: string;
   price: number;
@@ -81,12 +81,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   };
 
   const disabledDateStart = (current: dayjs.Dayjs) => {
-    return current && (current < dayjs());
+    return current && current < dayjs();
   };
 
   const disableEndDate = (current: dayjs.Dayjs) => {
     const startDate = form.getFieldValue("startDate");
-    return current && current < startDate
+    return current && current < startDate;
   };
 
   useEffect(() => {
@@ -194,7 +194,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the initial date",
-            }
+            },
           ]}
         >
           <DatePicker
@@ -211,7 +211,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             {
               required: true,
               message: "Introduce the final date",
-            }
+            },
           ]}
         >
           <DatePicker

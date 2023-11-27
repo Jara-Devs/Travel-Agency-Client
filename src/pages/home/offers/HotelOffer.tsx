@@ -1,3 +1,219 @@
-const HotelOffer = () => <>Hotel Offer</>;
+import { Col, message, Row, Tooltip, Typography } from "antd";
+import { Filter } from "odata-query";
+import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { hotelOffer } from "../../../api/offers";
+import { hotel } from "../../../api/services";
+import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
+import {
+  isGuid,
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/functions";
+import ShowEntities from "../../../common/ShowEntities";
+import SlideCard from "../../../common/SlideCard";
+import { UserContext } from "../../../context/UserProvider";
+import { HotelOfferType, ReactionState } from "../../../types/offers";
+import { Hotel } from "../../../types/services";
+import ShowHotelOffer from "../../show/offers/ShowHotelOffer";
+import { ShowMiniHotel } from "../../show/services/ShowHotel";
+import { EyeOutlined, LikeFilled, DislikeFilled } from "@ant-design/icons";
+import ShowHotel from "../../show/services/ShowHotel";
+
+const HotelOffer = () => {
+  const { get } = hotelOffer();
+  const { get: getHotel } = hotel();
+
+  const [searchParams] = useSearchParams();
+  const { user } = useContext(UserContext);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selected, setSelected] = useState<HotelOfferType>();
+  const [selectedHotel, setSelectedHotel] = useState<Hotel>();
+  const [data, setData] = useState<HotelOfferType[]>([]);
+
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  const buildFilter = (): Filter => {
+    const f: Filter[] = [];
+
+    const hotel = searchParams.get("hotel");
+    if (hotel && isGuid(hotel)) {
+      f.push({ hotel: { id: { eq: { type: "guid", value: hotel } } } });
+    }
+
+    const search = searchParams.get("search");
+    if (search) f.push({ name: { contains: search } });
+    return { and: f };
+  };
+  const reactionFunc = (
+    offer: HotelOfferType,
+    reactionState: ReactionState
+  ) => {
+    reactionLogic(
+      offer,
+      (offer) =>
+        setData(
+          data.map((x) => (x.id === offer.id ? (offer as HotelOfferType) : x))
+        ),
+      user,
+      reactionState
+    );
+  };
+  const load = async (filter: Filter) => {
+    setLoading(true);
+
+    const result = await get({
+      expand: {
+        image: { select: ["id", "name", "url"] },
+        hotel: {
+          select: ["id", "name", "category"],
+          expand: {
+            image: { select: ["id", "name", "url"] },
+
+            touristPlace: {
+              select: ["name", "description"],
+              expand: { image: { select: ["id", "name", "url"] } },
+            },
+          },
+        },
+        reactions: { select: ["reactionState", "touristId", "id"] },
+      },
+      filter,
+    });
+
+    if (result.ok) setData(result.value || []);
+    else message.error(result.message);
+
+    setLoading(false);
+  };
+  const loadHotel = async () => {
+    setLoading(true);
+
+    const result = await getHotel({
+      select: ["id", "name"],
+      expand: {
+        touristPlace: { select: ["name"] },
+      },
+    });
+
+    if (result.ok) setHotels(result.value || []);
+    else message.error(result.message);
+
+    setLoading(false);
+  };
+  useEffect(() => {
+    loadHotel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    load(buildFilter());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const filterHotel: FilterItem = {
+    options: hotels.map((x) => ({
+      label: x.name,
+      value: x.id,
+    })),
+    name: "Hotel",
+    search: true,
+    styles: { width: "200px" },
+  };
+
+  return (
+    <div className="m-5">
+      <Row>
+        <Col span={24}>
+          <FilterSearch filters={[filterHotel]} loading={loading} />
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <ShowEntities
+            loading={loading}
+            data={data}
+            content={(value: HotelOfferType) => {
+              return (
+                <SlideCard
+                  data={[
+                    <div onClick={() => setSelectedHotel(value.hotel)}>
+                      <ShowMiniHotel hotel={value.hotel} />
+                    </div>,
+                  ]}
+                  size="4"
+                />
+              );
+            }}
+            actions={(value: HotelOfferType) => [
+              <Tooltip title="Show Offer">
+                <EyeOutlined
+                  style={{ fontSize: "20px" }}
+                  onClick={() => setSelected(value)}
+                />
+              </Tooltip>,
+              <>
+                <LikeFilled
+                  style={
+                    selectedReaction(user, value, ReactionState.Like)
+                      ? { color: "gold", fontSize: "20px" }
+                      : { fontSize: "20px" }
+                  }
+                  onClick={() => reactionFunc(value, ReactionState.Like)}
+                />{" "}
+                {
+                  value.reactions?.filter(
+                    (x) => x.reactionState === ReactionState.Like
+                  ).length
+                }
+              </>,
+              <>
+                <DislikeFilled
+                  style={
+                    selectedReaction(user, value, ReactionState.Dislike)
+                      ? { color: "gold", fontSize: "20px" }
+                      : { fontSize: "20px" }
+                  }
+                  onClick={() => reactionFunc(value, ReactionState.Dislike)}
+                />{" "}
+                {
+                  value.reactions?.filter(
+                    (x) => x.reactionState === ReactionState.Dislike
+                  ).length
+                }
+              </>,
+            ]}
+            convert={(value: HotelOfferType) => ({
+              title: value.name,
+              image: value.image,
+              description: value.description,
+              footerImage: (
+                <Typography.Title
+                  level={3}
+                >{`$ ${value.price}`}</Typography.Title>
+              ),
+            })}
+          />
+        </Col>
+      </Row>
+
+      {selected && (
+        <ShowHotelOffer
+          hoteloffer={selected}
+          open={true}
+          onOk={() => setSelected(undefined)}
+        />
+      )}
+      {selectedHotel && (
+        <ShowHotel
+          hotel={selectedHotel}
+          open={true}
+          onOk={() => setSelectedHotel(undefined)}
+        />
+      )}
+    </div>
+  );
+};
 
 export default HotelOffer;

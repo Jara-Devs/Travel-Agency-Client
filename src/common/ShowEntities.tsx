@@ -11,7 +11,7 @@ export interface ShowEntitiesProps<T> {
   convert: (value: T) => {
     avatar?: ReactNode;
     title?: string;
-    description?: string;
+    description?: ReactNode;
     image: ApiImage;
     footerImage?: ReactNode;
   };

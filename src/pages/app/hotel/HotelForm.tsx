@@ -15,7 +15,7 @@ import { getCategory } from "../../../common/functions";
 export interface HotelFormData {
   name: string;
   category: number;
-  touristPlaceId: number;
+  touristPlaceId: string;
   image: Image;
 }
 

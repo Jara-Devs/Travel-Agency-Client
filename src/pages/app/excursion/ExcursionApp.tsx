@@ -1,13 +1,8 @@
 import { Button, Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import { excursion, overNighExcursion } from "../../../api/services";
+import { excursion } from "../../../api/services";
 import { useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
-import {
-  Excursion,
-  ExcursionFormType,
-  OverNighExcursion,
-  OverNighExcursionFormType,
-} from "../../../types/services";
+import { Excursion, ExcursionFormType } from "../../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
@@ -17,12 +12,6 @@ import ShowExcursion from "../../show/services/ShowExcursion";
 
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();
-  const {
-    get: getOverNight,
-    create: createOverNight,
-    edit: editOverNight,
-    remove: removeOverNight,
-  } = overNighExcursion();
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingOverNight, setLoadingOverNight] = useState<boolean>(false);
   const [createModal, setCreateModal] = useState<boolean>(false);
@@ -80,13 +69,15 @@ const ExcursionApp = () => {
   const loadOverNight = async (
     _: Record<string, FilterValue | null>,
     search: string,
-    setDataValue: (data: OverNighExcursion[]) => void
+    setDataValue: (data: Excursion[]) => void
   ) => {
     setLoadingOverNight(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = {
+      and: [{ Name: { contains: search } }, { IsOverNight: { eq: true } }],
+    };
 
-    const response = await getOverNight({
+    const response = await get({
       select: ["name", "id", "hotelId", "isOverNight"],
       expand: {
         image: { select: ["id", "name", "url"] },
@@ -122,9 +113,7 @@ const ExcursionApp = () => {
     if (isOverNight) setLoadingOverNight(true);
     else setLoading(true);
 
-    const response = await (isOverNight
-      ? createOverNight(form as OverNighExcursionFormType)
-      : create(form));
+    const response = await (isOverNight ? create(form) : create(form));
 
     if (response.ok) {
       message.success("Excursion created");
@@ -139,15 +128,13 @@ const ExcursionApp = () => {
 
   const editExcursion = async (
     form: ExcursionFormType,
-    id: number,
+    id: string,
     isOverNight: boolean = false
   ) => {
     if (isOverNight) setLoadingOverNight(true);
     else setLoading(true);
 
-    const response = await (isOverNight
-      ? editOverNight(form as OverNighExcursionFormType, id)
-      : edit(form, id));
+    const response = await edit(form, id);
 
     if (response.ok) {
       message.success("Excursion edited");
@@ -160,10 +147,10 @@ const ExcursionApp = () => {
     else setLoading(false);
   };
 
-  const deleteExcursion = async (id: number, isOverNight: boolean = false) => {
+  const deleteExcursion = async (id: string, isOverNight: boolean = false) => {
     if (isOverNight) setLoadingOverNight(true);
     else setLoading(true);
-    const response = await (isOverNight ? removeOverNight(id) : remove(id));
+    const response = await remove(id);
 
     if (response.ok) {
       message.success("Excursion deleted");
@@ -252,7 +239,7 @@ const ExcursionApp = () => {
     const hotelColumn = {
       title: "Hotel",
       key: "hotel",
-      render: (v: OverNighExcursion) => <>{v.hotel.name}</>,
+      render: (v: Excursion) => <>{v.hotel!.name}</>,
     };
 
     const columns = isOverNight
@@ -319,9 +306,7 @@ const ExcursionApp = () => {
                 name: selected.name,
                 places: selected.places.map((x) => x.id),
                 activities: selected.activities.map((x) => x.id),
-                hotelId: selected.isOverNight
-                  ? (selected as OverNighExcursion).hotelId
-                  : undefined,
+                hotelId: selected.isOverNight ? selected.hotelId : undefined,
                 image: selected.image,
               }
             : undefined

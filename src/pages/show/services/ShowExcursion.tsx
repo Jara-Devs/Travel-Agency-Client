@@ -10,7 +10,7 @@ import {
   Typography,
 } from "antd";
 import { FC } from "react";
-import { Excursion, OverNighExcursion } from "../../../types/services";
+import { Excursion } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import { ShowMiniPlace } from "./ShowPlace";
 import { ShowMiniTouristActivity } from "./ShowActivity";
@@ -98,7 +98,7 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
             <Title level={4}>Hotel</Title>
             <Divider />
 
-            <ShowMiniHotel hotel={(excursion as OverNighExcursion).hotel} />
+            <ShowMiniHotel hotel={excursion.hotel} />
           </Col>
         </Row>
       )}

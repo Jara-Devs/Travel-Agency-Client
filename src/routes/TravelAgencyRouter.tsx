@@ -1,6 +1,5 @@
 import { AuthRouter } from "./AuthRouter";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { WebRouter } from "./WebRoute";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserProvider";
 import { authService } from "../api/auth";
@@ -8,6 +7,7 @@ import { ApiResponse } from "../types/api";
 import { User } from "../types/auth";
 import { useState } from "react";
 import MySpin from "../layout/MySpin";
+import MyLayout from "../layout/MyLayout";
 
 const TravelAgencyRouter = () => {
   const { login, user } = useContext(UserContext);
@@ -47,7 +47,7 @@ const TravelAgencyRouter = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/auth/*" element={<AuthRouter />}></Route>
-            <Route path="*" element={<WebRouter />}></Route>
+            <Route path="*" element={<MyLayout />}></Route>
           </Routes>
         </BrowserRouter>
       )}

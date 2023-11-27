@@ -44,7 +44,11 @@ const FlightOfferAgency = () => {
     const finalFilter: Filter = {
       and: [
         searchFilter,
-        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
+        {
+          agencyId: {
+            eq: { type: "guid", value: (user as UserAgencyContext).id },
+          },
+        },
       ],
     };
 
@@ -88,7 +92,7 @@ const FlightOfferAgency = () => {
     setLoading(false);
   };
 
-  const editFlightOffer = async (form: FlightOfferFormType, id: number) => {
+  const editFlightOffer = async (form: FlightOfferFormType, id: string) => {
     setLoading(true);
     const response = await edit(form, id);
 
@@ -99,7 +103,7 @@ const FlightOfferAgency = () => {
     setLoading(false);
   };
 
-  const deleteFlightOffer = async (id: number) => {
+  const deleteFlightOffer = async (id: string) => {
     setLoading(true);
     const response = await remove(id);
 

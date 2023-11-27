@@ -20,7 +20,7 @@ import { ExcursionFacility, ExcursionOfferFormType } from "../../../../types/off
 
 export interface ExcursionOfferFormData {
   name: string;
-  excursionId: number;
+  excursionId: string;
   availability: number;
   description: string;
   price: number;

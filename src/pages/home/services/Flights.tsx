@@ -10,6 +10,7 @@ import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { Filter } from "odata-query";
 import { useSearchParams } from "react-router-dom";
+import { isGuid } from "../../../common/functions";
 
 const Flights = () => {
   const { get } = flight();
@@ -31,15 +32,17 @@ const Flights = () => {
     if (search) f.push({ company: { contains: search } });
 
     const origin = searchParams.get("origin");
-    if (origin) {
-      const v = Number(origin);
-      if (Number.isInteger(v)) f.push({ origin: { id: { eq: v } } });
+    if (origin && isGuid(origin)) {
+      f.push({
+        origin: { id: { eq: { type: "guid", value: origin } } },
+      });
     }
 
     const destination = searchParams.get("destination");
-    if (destination) {
-      const v = Number(destination);
-      if (Number.isInteger(v)) f.push({ destination: { id: { eq: v } } });
+    if (destination && isGuid(destination)) {
+      f.push({
+        destination: { id: { eq: { type: "guid", value: destination } } },
+      });
     }
 
     return { and: f };
@@ -55,7 +58,7 @@ const Flights = () => {
           expand: { image: { select: ["id", "name", "url"] } },
         },
         destination: {
-          select: ["name", "description"],
+          select: ["name", "description", "address"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
@@ -90,14 +93,22 @@ const Flights = () => {
 
   const originFilter: FilterItem = {
     name: "Origin",
-    options: places.map((p, idx) => ({ key: idx, label: p.name, value: p.id })),
+    options: places.map((p, idx) => ({
+      key: idx,
+      label: p.name,
+      value: p.id,
+    })),
     search: true,
     styles: { width: "150px" },
   };
 
   const destinationFilter: FilterItem = {
     name: "Destination",
-    options: places.map((p, idx) => ({ key: idx, label: p.name, value: p.id })),
+    options: places.map((p, idx) => ({
+      key: idx,
+      label: p.name,
+      value: p.id,
+    })),
     search: true,
     styles: { width: "150px" },
   };

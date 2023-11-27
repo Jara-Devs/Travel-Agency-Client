@@ -1,9 +1,13 @@
 import { Col, Row, message } from "antd";
 import { ApiResponse } from "../types/api";
-import { 
-  HotelCategory, 
-} from "../types/services";
-import { FlightFacility, ExcursionFacility,Offer, ReactionState, HotelFacility } from "../types/offers";
+import { HotelCategory } from "../types/services";
+import {
+  FlightFacility,
+  ExcursionFacility,
+  Offer,
+  ReactionState,
+  HotelFacility,
+} from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 import { User } from "../types/auth";
@@ -136,7 +140,7 @@ export const getExcursionFacility = (x: ExcursionFacility) => {
     case ExcursionFacility.SafetyAndFirstAid:
       return "Safety And First Aid";
   }
-}
+};
 
 export const reactionLogic = async (
   offer: Offer,
@@ -209,3 +213,9 @@ export const selectedReaction = (
 
   return false;
 };
+
+export function isGuid(value: string): boolean {
+  const guidRegex =
+    /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  return guidRegex.test(value);
+}
