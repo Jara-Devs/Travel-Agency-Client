@@ -16,7 +16,10 @@ import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
 import { getExcursionFacility } from "../../../../common/functions";
-import { ExcursionFacility, ExcursionOfferFormType } from "../../../../types/offers";
+import {
+  ExcursionFacility,
+  ExcursionOfferFormType,
+} from "../../../../types/offers";
 
 export interface ExcursionOfferFormData {
   name: string;
@@ -36,8 +39,6 @@ export interface FlightOfferFormProps {
   values?: ExcursionOfferFormData;
   open: boolean;
 }
-
-export const excursionLabel = (x: Excursion) => `Excursion ${x.name}`;
 
 const FlightOfferForm: FC<FlightOfferFormProps> = ({
   onOk,

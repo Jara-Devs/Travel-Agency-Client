@@ -3,7 +3,7 @@ import { useContext, useRef, useState } from "react";
 import Title from "antd/es/typography/Title";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { FilterValue } from "antd/es/table/interface";
-import ExcursionOfferForm, { excursionLabel } from "./ExcursionOfferForm";
+import ExcursionOfferForm from "./ExcursionOfferForm";
 import {
   ExcursionOfferFormType,
   ExcursionOfferType,
@@ -47,7 +47,7 @@ const ExcursionOffer = () => {
         { excursion: { name: { contains: search } } },
         {
           agencyId: {
-            eq: { type: "guid", value: (user as UserAgencyContext).id },
+            eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
           },
         },
       ],
@@ -59,7 +59,7 @@ const ExcursionOffer = () => {
           select: ["id", "name", "url"],
         },
         excursion: {
-          select: ["name"],
+          select: ["name", "isOverNight"],
           expand: {
             image: {
               select: ["id", "name", "url"],
@@ -76,6 +76,8 @@ const ExcursionOffer = () => {
 
       filter: searchFilter,
     });
+
+    console.log(response.value);
 
     if (response.ok) {
       const data = response.value || [];
@@ -156,8 +158,19 @@ const ExcursionOffer = () => {
                 {
                   title: "Excursion",
                   key: "excursion",
+                  render: (v: ExcursionOfferType) => <>{v.excursion.name} </>,
+                },
+                {
+                  title: "Type",
+                  key: "excursion",
                   render: (v: ExcursionOfferType) => (
-                    <>{excursionLabel(v.excursion)} </>
+                    <>
+                      {v.excursion.isOverNight ? (
+                        <Tag color="cyan">Over Night Excursion</Tag>
+                      ) : (
+                        <Tag color="green">Excursion</Tag>
+                      )}{" "}
+                    </>
                   ),
                 },
                 {
