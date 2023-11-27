@@ -72,10 +72,13 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
-            <Card.Meta title={`$ ${hoteloffer.price}`} />
+            <Card.Meta title={`Price: $ ${hoteloffer.price}`} />
+            <Divider />
+            <Card.Meta title={`Availability: ${hoteloffer.availability}`} />
           </Card>
         </Col>
       </Row>
+
       <Row className="m-5">
         <Col span={24}>
           <Title level={4}>Facilities</Title>

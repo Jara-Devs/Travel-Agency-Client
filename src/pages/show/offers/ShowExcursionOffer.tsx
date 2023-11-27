@@ -57,7 +57,10 @@ const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
-            <Card.Meta title={`$ ${excursionOffer.price}`} />
+            <Card.Meta title={`Price: $ ${excursionOffer.price}`} />
+            <Divider />
+            <Card.Meta title={`Availability: ${excursionOffer.availability}`} />
+
           </Card>
         </Col>
       </Row>
