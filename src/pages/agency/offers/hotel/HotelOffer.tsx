@@ -40,14 +40,17 @@ const HotelOfferAgency = () => {
   ) => {
     setLoading(true);
 
-    const searchFilter: Filter = { Name: { contains: search } };
+    const searchFilter: Filter = { name: { contains: search } };
     const finalFilter: Filter = {
       and: [
         searchFilter,
-        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
+        {
+          agencyId: {
+            eq: { type: "guid", value: (user as UserAgencyContext).id },
+          },
+        },
       ],
     };
-    console.log((user as UserAgencyContext).agencyId);
     const response = await get({
       expand: {
         image: { select: ["id", "name", "url"] },
