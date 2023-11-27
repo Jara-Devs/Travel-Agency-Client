@@ -77,7 +77,7 @@ const TouristActivityForm: FC<TouristActivityFormProps> = ({
           label="Description"
           rules={[{ required: true, message: "Select the description" }]}
         >
-          <Input placeholder="Introduce the description" />
+          <Input.TextArea placeholder="Introduce the description" />
         </Form.Item>
 
         <UploadImage setImage={setImage} image={image} />

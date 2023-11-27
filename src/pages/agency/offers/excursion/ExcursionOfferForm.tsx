@@ -176,7 +176,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           label="Description"
           rules={[{ required: true, message: "Introduce the description" }]}
         >
-          <Input placeholder="Introduce the description" />
+          <Input.TextArea placeholder="Introduce the description" />
         </Form.Item>
 
         <Form.Item
