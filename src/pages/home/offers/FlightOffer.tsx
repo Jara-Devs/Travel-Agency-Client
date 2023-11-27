@@ -1,4 +1,4 @@
-import { Col, Row, Tooltip, Typography, message } from "antd";
+import { Col, Row, Tooltip, message } from "antd";
 import ShowEntities from "../../../common/ShowEntities";
 import { useEffect, useState } from "react";
 import { FlightOfferType, ReactionState } from "../../../types/offers";
@@ -201,8 +201,7 @@ const FlightOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: (
-                <OfferFooterImage value={value} />),
+              footerImage: <OfferFooterImage value={value} />,
             })}
           />
         </Col>

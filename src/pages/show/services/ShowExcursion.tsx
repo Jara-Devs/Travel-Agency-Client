@@ -30,7 +30,10 @@ export interface ShowMiniExcursionProps {
 export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
 }) => (
-  <Badge.Ribbon text= {excursion.isOverNight ? "Over Night Excursion" : "Excursion"}  color="cyan">
+  <Badge.Ribbon
+    text={excursion.isOverNight ? "Over Night Excursion" : "Excursion"}
+    color="cyan"
+  >
     <Card hoverable>
       <Card.Meta
         className="show-card"

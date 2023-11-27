@@ -1,4 +1,4 @@
-import { Col, message, Row, Tooltip, Typography } from "antd";
+import { Col, message, Row, Tooltip } from "antd";
 import { Filter } from "odata-query";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -189,8 +189,7 @@ const HotelOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: (<OfferFooterImage value={value} />
-              ),
+              footerImage: <OfferFooterImage value={value} />,
             })}
           />
         </Col>

@@ -10,9 +10,7 @@ import {
   InputNumber,
 } from "antd";
 import { ApiResponse, Image } from "../../../../types/api";
-import {
-  Hotel,
-} from "../../../../types/services";
+import { Hotel } from "../../../../types/services";
 import { hotel } from "../../../../api/services";
 import UploadImage from "../../../../common/UploadImage";
 import Title from "antd/es/typography/Title";

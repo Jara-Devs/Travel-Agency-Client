@@ -46,7 +46,9 @@ function ShowEntities<T>({
                       src={entity.image.url}
                     />
                     {entity.footerImage && (
-                      <div className="center-content mt-5">{entity.footerImage}</div>
+                      <div className="center-content mt-5">
+                        {entity.footerImage}
+                      </div>
                     )}
                   </>
                 }

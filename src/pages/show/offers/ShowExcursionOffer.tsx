@@ -60,7 +60,6 @@ const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
             <Card.Meta title={`Price: $ ${excursionOffer.price}`} />
             <Divider />
             <Card.Meta title={`Availability: ${excursionOffer.availability}`} />
-
           </Card>
         </Col>
       </Row>

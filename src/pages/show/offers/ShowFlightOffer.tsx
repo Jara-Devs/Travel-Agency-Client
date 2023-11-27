@@ -60,11 +60,9 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
             <Card.Meta title={`Price: $ ${flightOffer.price}`} />
             <Divider />
             <Card.Meta title={`Availability: ${flightOffer.availability}`} />
-
           </Card>
         </Col>
       </Row>
-
 
       <Row className="m-5">
         <Col span={24}>

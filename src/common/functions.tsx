@@ -12,8 +12,8 @@ import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
 import { User } from "../types/auth";
 import { reaction } from "../api/offers";
-import { FC } from "react"
-import dayjs from "dayjs"
+import { FC } from "react";
+import dayjs from "dayjs";
 
 export const buildMessage = (responses: ApiResponse<any>[]) => {
   let msg = "";
@@ -222,13 +222,14 @@ export function isGuid(value: string): boolean {
   return guidRegex.test(value);
 }
 
-export const OfferFooterImage: FC<{ value: Offer }> = ({ value }) => <div>
-  <div className="center-content">
-    <Typography.Title
-      level={3}
-    >{`$ ${value.price}`}</Typography.Title>
+export const OfferFooterImage: FC<{ value: Offer }> = ({ value }) => (
+  <div>
+    <div className="center-content">
+      <Typography.Title level={3}>{`$ ${value.price}`}</Typography.Title>
+    </div>
+
+    <div style={{ fontSize: "12px" }}>{`${dayjs(value.startDate).format(
+      "D MMM YYYY"
+    )} / ${dayjs(value.startDate).format("D MMM YYYY")}`}</div>
   </div>
-
-  <div style={{ fontSize: '12px' }}>{`${dayjs(value.startDate).format("D MMM YYYY")} / ${dayjs(value.startDate).format("D MMM YYYY")}`}</div>
-</div>
-
+);

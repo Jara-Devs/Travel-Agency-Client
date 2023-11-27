@@ -1,4 +1,4 @@
-import { Col, Row, Tooltip, Typography, message } from "antd";
+import { Col, Row, Tooltip, message } from "antd";
 import ShowEntities from "../../../common/ShowEntities";
 import { useEffect, useState } from "react";
 import { ExcursionOfferType, ReactionState } from "../../../types/offers";
@@ -22,7 +22,6 @@ import {
   reactionLogic,
   selectedReaction,
 } from "../../../common/functions";
-import dayjs from "dayjs"
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();
