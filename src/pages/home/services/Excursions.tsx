@@ -23,7 +23,7 @@ import { Filter } from "odata-query";
 
 const Excursions = () => {
   const { get } = excursion();
- 
+
   const [searchParams] = useSearchParams();
 
   const [data, setData] = useState<Excursion[]>([]);
@@ -94,7 +94,7 @@ const Excursions = () => {
         },
         image: { select: ["id", "name", "url"] },
       },
-      filter: filter,
+      filter: { and: [{ isOverNight: { eq: true } }, filter] },
     });
 
     if (result.ok && resultOverNight.ok)
