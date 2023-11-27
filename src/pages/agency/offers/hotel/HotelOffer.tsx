@@ -46,7 +46,7 @@ const HotelOfferAgency = () => {
         searchFilter,
         {
           agencyId: {
-            eq: { type: "guid", value: (user as UserAgencyContext).id },
+            eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
           },
         },
       ],
