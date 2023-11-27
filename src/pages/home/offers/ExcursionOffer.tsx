@@ -6,28 +6,25 @@ import SlideCard from "../../../common/SlideCard";
 import ShowExcursion, {
   ShowMiniExcursion,
 } from "../../show/services/ShowExcursion";
-import ShowHotel, { ShowMiniHotel } from "../../show/services/ShowHotel";
 import { EyeOutlined, LikeFilled, DislikeFilled } from "@ant-design/icons";
 import { excursionOffer } from "../../../api/offers";
 import ShowExcursionOffer from "../../show/offers/ShowExcursionOffer";
-import {
-  Excursion,
-  OverNighExcursion,
-  TouristActivity,
-  TouristPlace,
-} from "../../../types/services";
+import { Excursion } from "../../../types/services";
 import { useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
-import { excursion, overNighExcursion } from "../../../api/services";
+import { excursion } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
-import { reactionLogic, selectedReaction } from "../../../common/functions";
+import {
+  isGuid,
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/functions";
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();
   const { get: getExcursion } = excursion();
-  const { get: getOverNighExcursion } = overNighExcursion();
 
   const [searchParams] = useSearchParams();
   const { user } = useContext(UserContext);
@@ -43,9 +40,8 @@ const ExcursionOffer = () => {
     const f: Filter[] = [];
 
     const excursion = searchParams.get("excursion");
-    if (excursion) {
-      const v = Number(excursion);
-      if (Number.isInteger(v)) f.push({ excursion: { id: { eq: v } } });
+    if (excursion && isGuid(excursion)) {
+      f.push({ excursion: { id: { eq: { type: "guid", value: excursion } } } });
     }
 
     const search = searchParams.get("search");
@@ -78,7 +74,7 @@ const ExcursionOffer = () => {
       expand: {
         image: { select: ["id", "name", "url"] },
         excursion: {
-          select: ["id", "name"],
+          select: ["id", "name", "isOverNight"],
           expand: {
             image: { select: ["id", "name", "url"] },
             places: {
@@ -93,11 +89,17 @@ const ExcursionOffer = () => {
                 image: { select: ["id", "name", "url"] },
               },
             },
+            hotel: {
+              select: ["id", "name"],
+              expand: {
+                image: { select: ["id", "name", "url"] },
+              },
+            },
           },
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
       },
-      filter,
+      filter: filter,
     });
 
     if (result.ok) setData(result.value || []);
