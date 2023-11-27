@@ -59,15 +59,15 @@ const PackagesAgency = () => {
     const response = await get({
       expand: {
         flightOffers: {
-          select: ["id", "name", "description"],
+          select: ["id", "name", "description", "price"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         hotelOffers: {
-          select: ["id", "name", "description"],
+          select: ["id", "name", "description", "price"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         excursionOffers: {
-          select: ["id", "name", "description"],
+          select: ["id", "name", "description", "price"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
@@ -122,7 +122,7 @@ const PackagesAgency = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Typography.Title>Package</Typography.Title>
+              <Typography.Title>Packages</Typography.Title>
             </Typography>
           </Col>
           <Col>
@@ -251,7 +251,7 @@ const PackagesAgency = () => {
       <PackageForm
         onOk={(form: PackageFormType) => {
           setCreateModal(false);
-
+          console.log(form);
           createPackage(form);
         }}
         onCancel={() => setCreateModal(false)}
@@ -269,9 +269,9 @@ const PackagesAgency = () => {
             name: selected.name,
             description: selected.description,
             discount: selected.discount,
-            hotelOffersId: selected.hotelOffers.map((x) => x.id),
-            flightOffersId: selected.flightOffers.map((x) => x.id),
-            excursionOffersId: selected.excursionOffers.map((x) => x.id),
+            hotelOffers: selected.hotelOffers.map((x) => x.id),
+            flightOffers: selected.flightOffers.map((x) => x.id),
+            excursionOffers: selected.excursionOffers.map((x) => x.id),
           }}
         />
       )}

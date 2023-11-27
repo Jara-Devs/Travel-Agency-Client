@@ -22,9 +22,9 @@ export interface PackageFormData {
   name: string;
   discount: number;
   description: string;
-  hotelOffersId?: string[];
-  excursionOffersId?: string[];
-  flightOffersId?: string[];
+  hotelOffers?: string[];
+  excursionOffers?: string[];
+  flightOffers?: string[];
 }
 
 export interface PackageFormProps {
@@ -105,9 +105,9 @@ export const PackageForm: FC<PackageFormProps> = ({
         form={form}
         onFinish={(values: PackageFormData) => {
           if (
-            (values.excursionOffersId ?? []).length +
-              (values.flightOffersId ?? []).length +
-              (values.hotelOffersId ?? []).length ===
+            (values.excursionOffers ?? []).length +
+              (values.flightOffers ?? []).length +
+              (values.hotelOffers ?? []).length ===
             0
           ) {
             message.error("You most select an offer");
@@ -118,9 +118,9 @@ export const PackageForm: FC<PackageFormProps> = ({
             name: values.name,
             description: values.description,
             discount: values.discount,
-            hotelOffersId: values.hotelOffersId ?? [],
-            excursionOffersId: values.excursionOffersId ?? [],
-            flightOffersId: values.flightOffersId ?? [],
+            hotelOffers: values.hotelOffers ?? [],
+            excursionOffers: values.excursionOffers ?? [],
+            flightOffers: values.flightOffers ?? [],
           });
         }}
       >
@@ -153,7 +153,7 @@ export const PackageForm: FC<PackageFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item name="hotelOffersId" label="Hotel Offers">
+        <Form.Item name="hotelOffers" label="Hotel Offers">
           <Select
             mode="multiple"
             allowClear
@@ -167,7 +167,7 @@ export const PackageForm: FC<PackageFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item name="excursionOffersId" label="Excursion Offers">
+        <Form.Item name="excursionOffers" label="Excursion Offers">
           <Select
             mode="multiple"
             allowClear
@@ -181,7 +181,7 @@ export const PackageForm: FC<PackageFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item name="flightOffersId" label="Flight Offers">
+        <Form.Item name="flightOffers" label="Flight Offers">
           <Select
             mode="multiple"
             allowClear

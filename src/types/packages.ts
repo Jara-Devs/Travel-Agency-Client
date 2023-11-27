@@ -14,7 +14,7 @@ export interface PackageFormType {
   name: string;
   discount: number;
   description: string;
-  hotelOffersId: string[] | undefined;
-  excursionOffersId: string[] | undefined;
-  flightOffersId: string[] | undefined;
+  hotelOffers: string[] | undefined;
+  excursionOffers: string[] | undefined;
+  flightOffers: string[] | undefined;
 }
