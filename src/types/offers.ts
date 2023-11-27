@@ -13,6 +13,11 @@ export enum OfferType {
   Excursion = 1,
   Flight = 2,
 }
+export enum OffertTypeColor {
+  green = 0,
+  cyan = 1,
+  yellow = 2,
+}
 
 export enum ReactionState {
   Like = 0,

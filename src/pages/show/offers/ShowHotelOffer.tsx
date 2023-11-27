@@ -10,9 +10,10 @@ import {
 } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { getCategory, getHotelFacility } from "../../../common/functions";
+import { getHotelFacility } from "../../../common/functions";
 import SlideCard from "../../../common/SlideCard";
 import { HotelOfferType } from "../../../types/offers";
+import { ShowMiniHotel } from "../services/ShowHotel";
 
 export interface ShowHotelOfferProps {
   open: boolean;
@@ -64,11 +65,15 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card title="Category" hoverable>
-            {getCategory(hoteloffer.hotel.category, { fontSize: "20px" })}
+          <Card hoverable>
+            <Card.Meta
+              title="Description"
+              description={hoteloffer.description}
+            />
           </Card>
         </Col>
       </Row>
+
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
@@ -93,12 +98,10 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
       </Row>
       <Row className="m-5">
         <Col span={24}>
-          <Card hoverable>
-            <Card.Meta
-              title="Description"
-              description={hoteloffer.description}
-            />
-          </Card>
+          <Title level={4}>Hotel</Title>
+          <Divider />
+
+          <ShowMiniHotel hotel={hoteloffer.hotel} />
         </Col>
       </Row>
     </Modal>
