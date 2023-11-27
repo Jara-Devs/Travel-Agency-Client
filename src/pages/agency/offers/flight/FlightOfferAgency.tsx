@@ -44,7 +44,11 @@ const FlightOfferAgency = () => {
     const finalFilter: Filter = {
       and: [
         searchFilter,
-        { agencyId: { eq: (user as UserAgencyContext).agencyId } },
+        {
+          agencyId: {
+            eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+          },
+        },
       ],
     };
 

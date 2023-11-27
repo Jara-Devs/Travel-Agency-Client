@@ -5,7 +5,11 @@ import { useSearchParams } from "react-router-dom";
 import { hotelOffer } from "../../../api/offers";
 import { hotel } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
-import { reactionLogic, selectedReaction } from "../../../common/functions";
+import {
+  isGuid,
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/functions";
 import ShowEntities from "../../../common/ShowEntities";
 import SlideCard from "../../../common/SlideCard";
 import { UserContext } from "../../../context/UserProvider";
@@ -34,9 +38,8 @@ const HotelOffer = () => {
     const f: Filter[] = [];
 
     const hotel = searchParams.get("hotel");
-    if (hotel) {
-      const v = Number(hotel);
-      if (Number.isInteger(v)) f.push({ hotel: { id: { eq: v } } });
+    if (hotel && isGuid(hotel)) {
+      f.push({ hotel: { id: { eq: { type: "guid", value: hotel } } } });
     }
 
     const search = searchParams.get("search");
@@ -111,7 +114,7 @@ const HotelOffer = () => {
 
   const filterHotel: FilterItem = {
     options: hotels.map((x) => ({
-      label: `Hotel ${x.name}, At ${x.touristPlace.name} `,
+      label: x.name,
       value: x.id,
     })),
     name: "Hotel",

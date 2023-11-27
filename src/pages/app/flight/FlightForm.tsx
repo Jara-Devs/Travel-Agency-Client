@@ -84,7 +84,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Tourist Activity</Title>
+          <Title level={3}>Create Flight</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -115,7 +115,6 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         <Form.Item
           name="duration"
           label="Duration"
-          rules={[{ required: true, message: "Introduce the duration" }]}
         >
           <Row gutter={8}>
             <Col>
@@ -125,7 +124,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 max={23}
                 placeholder="Hours"
                 onChange={(v) => setHours(v ?? 0)}
-              />
+              /> Hours
             </Col>
             <Col>
               <InputNumber
@@ -134,7 +133,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 max={59}
                 placeholder="Minutes"
                 onChange={(v) => setMinutes(v ?? 0)}
-              />
+              /> Minutes
             </Col>
           </Row>
         </Form.Item>

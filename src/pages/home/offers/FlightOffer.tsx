@@ -14,7 +14,11 @@ import { flight } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
-import { reactionLogic, selectedReaction } from "../../../common/functions";
+import {
+  isGuid,
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/functions";
 
 const FlightOffer = () => {
   const { get } = flightOffer();
@@ -34,9 +38,8 @@ const FlightOffer = () => {
     const f: Filter[] = [];
 
     const flight = searchParams.get("flight");
-    if (flight) {
-      const v = Number(flight);
-      if (Number.isInteger(v)) f.push({ flight: { id: { eq: v } } });
+    if (flight && isGuid(flight)) {
+      f.push({ flight: { id: { eq: { type: "guid", value: flight } } } });
     }
 
     const search = searchParams.get("search");

@@ -61,7 +61,6 @@ const FlightApp = () => {
 
   const createFlight = async (form: FlightFormType) => {
     setLoading(true);
-    console.log(form);
     const response = await create(form);
 
     if (response.ok) {
