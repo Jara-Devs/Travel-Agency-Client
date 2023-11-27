@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import {
   ExcursionFormType,
   Hotel,
-  OverNighExcursionFormType,
   TouristActivity,
   TouristPlace,
 } from "../../../types/services";
@@ -98,13 +97,13 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
           if (image) {
             onOk(
               isOverNight
-                ? ({
+                ? {
                     name: values.name,
                     places: values.places,
                     activities: values.activities,
                     hotelId: values.hotelId!,
                     imageId: image?.id,
-                  } as OverNighExcursionFormType)
+                  }
                 : {
                     name: values.name,
                     places: values.places,
