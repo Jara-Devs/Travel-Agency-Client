@@ -125,7 +125,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 max={23}
                 placeholder="Hours"
                 onChange={(v) => setHours(v ?? 0)}
-              />
+              />Hours
             </Col>
             <Col>
               <InputNumber
@@ -134,7 +134,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 max={59}
                 placeholder="Minutes"
                 onChange={(v) => setMinutes(v ?? 0)}
-              />
+              />Minutes
             </Col>
           </Row>
         </Form.Item>
