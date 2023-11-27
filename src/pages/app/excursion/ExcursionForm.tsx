@@ -84,7 +84,7 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Place</Title>
+          <Title level={3}>Create Excursion</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -99,18 +99,18 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             onOk(
               isOverNight
                 ? ({
-                    name: values.name,
-                    places: values.places,
-                    activities: values.activities,
-                    hotelId: values.hotelId!,
-                    imageId: image?.id,
-                  } as OverNighExcursionFormType)
+                  name: values.name,
+                  places: values.places,
+                  activities: values.activities,
+                  hotelId: values.hotelId!,
+                  imageId: image?.id,
+                } as OverNighExcursionFormType)
                 : {
-                    name: values.name,
-                    places: values.places,
-                    activities: values.activities,
-                    imageId: image?.id,
-                  },
+                  name: values.name,
+                  places: values.places,
+                  activities: values.activities,
+                  imageId: image?.id,
+                },
               isOverNight
             );
           } else message.error("You must upload an image");
