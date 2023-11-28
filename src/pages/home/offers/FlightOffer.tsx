@@ -19,7 +19,7 @@ import {
 } from "../../../common/functions";
 import { reactionLogic, selectedReaction } from "../../../common/offers/reactions";
 import OfferFooterImage from "./OfferFooterImage";
-
+import dayjs from "dayjs";
 
 const FlightOffer = () => {
   const { get } = flightOffer();
@@ -67,6 +67,10 @@ const FlightOffer = () => {
   const load = async (filter: Filter) => {
     setLoading(true);
 
+    const toDate = dayjs().toDate().valueOf();
+    const finalFilter = { and: [filter, { startDate: { ge: toDate } }] };
+
+
     const result = await get({
       expand: {
         image: { select: ["id", "name", "url"] },
@@ -85,7 +89,7 @@ const FlightOffer = () => {
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
       },
-      filter,
+      filter:finalFilter,
     });
 
     if (result.ok) setData(result.value || []);

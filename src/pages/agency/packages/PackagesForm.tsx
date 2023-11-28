@@ -19,6 +19,7 @@ import { PackageFormType } from "../../../types/packages";
 import Title from "antd/es/typography/Title";
 import { UserContext } from "../../../context/UserProvider";
 import { UserAgencyContext } from "../../../types/auth";
+import dayjs from "dayjs";
 
 export interface PackageFormData {
   name: string;
@@ -54,28 +55,52 @@ export const PackageForm: FC<PackageFormProps> = ({
   const [discount, setDiscount] = useState<number>(0);
 
   const load = async () => {
+    const toDate = dayjs().toDate().valueOf();
+
     const responseHotelOffers = await hotelOffer().get({
       select: ["id", "name"],
       filter: {
-        agencyId: {
-          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
-        },
+        and: [
+          {
+            agencyId: {
+              eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+            },
+          },
+          {
+            startDate: { ge: toDate },
+          },
+        ],
       },
     });
     const responseExcursionOffers = await excursionOffer().get({
       select: ["id", "name"],
       filter: {
-        agencyId: {
-          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
-        },
+        and: [
+          {
+            agencyId: {
+              eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+            },
+          },
+          {
+            startDate: { ge: toDate },
+          },
+        ],
       },
     });
+
     const responseFlightOffers = await flightOffer().get({
       select: ["id", "name"],
       filter: {
-        agencyId: {
-          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
-        },
+        and: [
+          {
+            agencyId: {
+              eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+            },
+          },
+          {
+            startDate: { ge: toDate },
+          },
+        ],
       },
     });
 
