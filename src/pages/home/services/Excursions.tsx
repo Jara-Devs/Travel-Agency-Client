@@ -10,7 +10,6 @@ import { Col, Row, Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
 import ShowExcursion from "../../show/services/ShowExcursion";
-import { buildMessage } from "../../../common/functions";
 import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import ShowTouristActivity, {
   ShowMiniTouristActivity,
@@ -39,7 +38,7 @@ const Excursions = () => {
 
     const type = searchParams.get("type");
     if (type)
-      f.push({ isOverNight: { eq: type === "excursion" ? false : true } });
+      f.push({ hotels: { any: type === "excursion" ? false : true } });
 
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
@@ -49,24 +48,9 @@ const Excursions = () => {
 
   const load = async (filter: Filter) => {
     setLoading(true);
-    const result = await get({
-      select: ["id", "name", "isOverNight"],
-      expand: {
-        places: {
-          select: ["name", "description", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        activities: {
-          select: ["name", "description"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        image: { select: ["id", "name", "url"] },
-      },
-      filter: { and: [{ isOverNight: { eq: false } }, filter] },
-    });
 
-    const resultOverNight = await get({
-      select: ["id", "name", "isOverNight"],
+    const result = await get({
+      select: ["id", "name"],
       expand: {
         places: {
           select: ["name", "description", "address"],
@@ -76,7 +60,7 @@ const Excursions = () => {
           select: ["name", "description"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
-        hotel: {
+        hotels: {
           select: ["name", "category"],
           expand: {
             image: {
@@ -94,12 +78,11 @@ const Excursions = () => {
         },
         image: { select: ["id", "name", "url"] },
       },
-      filter: { and: [{ isOverNight: { eq: true } }, filter] },
+      filter,
     });
 
-    if (result.ok && resultOverNight.ok)
-      setData(result.value!.concat(resultOverNight.value!));
-    else message.error(buildMessage([result, resultOverNight]));
+    if (result.ok) setData(result.value!);
+    else message.error(result.message);
 
     setLoading(false);
   };
@@ -112,7 +95,7 @@ const Excursions = () => {
   const filterItem: FilterItem = {
     options: [
       { key: 1, label: "Excursion", value: "excursion" },
-      { key: 2, label: "OverNight", value: "overNight" },
+      { key: 2, label: "Over Night", value: "overNight" },
     ],
     name: "Type",
     styles: { width: "120px" },
@@ -144,16 +127,15 @@ const Excursions = () => {
                 </div>
               ));
 
+              const hotels = value.hotels.map((a) => (
+                <div onClick={() => setSelectedHotel(a)}>
+                  <ShowMiniHotel hotel={a} />
+                </div>
+              ));
+
               node = node.concat(places);
               node = node.concat(activities);
-
-              if (value?.hotel && value.isOverNight) {
-                node.push(
-                  <div onClick={() => setSelectedHotel(value.hotel)}>
-                    <ShowMiniHotel hotel={value.hotel} />
-                  </div>
-                );
-              }
+              node = node.concat(hotels);
 
               return <SlideCard data={node} size="4" />;
             }}

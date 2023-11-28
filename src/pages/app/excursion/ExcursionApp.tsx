@@ -13,7 +13,6 @@ import ShowExcursion from "../../show/services/ShowExcursion";
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadingOverNight, setLoadingOverNight] = useState<boolean>(false);
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
 
@@ -21,11 +20,6 @@ const ExcursionApp = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const tableRef = useRef<TableEntitiesRef>({
-    reload: () => {},
-    reset: () => {},
-  });
-
-  const tableRefOverNight = useRef<TableEntitiesRef>({
     reload: () => {},
     reset: () => {},
   });
@@ -38,11 +32,11 @@ const ExcursionApp = () => {
     setLoading(true);
 
     const searchFilter: Filter = {
-      and: [{ Name: { contains: search } }, { IsOverNight: { eq: false } }],
+      name: { contains: search },
     };
 
     const response = await get({
-      select: ["name", "id", "isOverNight"],
+      select: ["name", "id"],
       expand: {
         activities: {
           select: ["id", "name", "description"],
@@ -50,6 +44,10 @@ const ExcursionApp = () => {
         },
         places: {
           select: ["id", "name", "description"],
+          expand: { image: { select: ["id", "name", "url"] } },
+        },
+        hotels: {
+          select: ["id", "name", "category"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         image: { select: ["id", "name", "url"] },
@@ -66,104 +64,48 @@ const ExcursionApp = () => {
     setLoading(false);
   };
 
-  const loadOverNight = async (
-    _: Record<string, FilterValue | null>,
-    search: string,
-    setDataValue: (data: Excursion[]) => void
-  ) => {
-    setLoadingOverNight(true);
+  const createExcursion = async (form: ExcursionFormType) => {
+    setLoading(true);
 
-    const searchFilter: Filter = {
-      and: [{ Name: { contains: search } }, { IsOverNight: { eq: true } }],
-    };
-
-    const response = await get({
-      select: ["name", "id", "hotelId", "isOverNight"],
-      expand: {
-        image: { select: ["id", "name", "url"] },
-        activities: {
-          select: ["id", "name", "description"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        places: {
-          select: ["id", "name", "description"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-        hotel: {
-          select: ["id", "name", "category"],
-          expand: { image: { select: ["id", "name", "url"] } },
-        },
-      },
-      filter: searchFilter,
-    });
-
-    if (response.ok) {
-      const data = response.value || [];
-      setDataValue(data);
-    } else {
-      message.error(response.message);
-    }
-    setLoadingOverNight(false);
-  };
-
-  const createExcursion = async (
-    form: ExcursionFormType,
-    isOverNight: boolean = false
-  ) => {
-    if (isOverNight) setLoadingOverNight(true);
-    else setLoading(true);
-
-    const response = await (isOverNight ? create(form) : create(form));
+    const response = await create(form);
 
     if (response.ok) {
       message.success("Excursion created");
 
-      if (isOverNight) tableRefOverNight.current.reload();
-      else tableRef.current.reload();
+      tableRef.current.reload();
     } else message.error(response.message);
 
-    if (isOverNight) setLoadingOverNight(false);
-    else setLoading(false);
+    setLoading(false);
   };
 
-  const editExcursion = async (
-    form: ExcursionFormType,
-    id: string,
-    isOverNight: boolean = false
-  ) => {
-    if (isOverNight) setLoadingOverNight(true);
-    else setLoading(true);
+  const editExcursion = async (form: ExcursionFormType, id: string) => {
+    setLoading(true);
 
     const response = await edit(form, id);
 
     if (response.ok) {
       message.success("Excursion edited");
 
-      if (isOverNight) tableRefOverNight.current.reload();
-      else tableRef.current.reload();
+      tableRef.current.reload();
     } else message.error(response.message);
 
-    if (isOverNight) setLoadingOverNight(false);
-    else setLoading(false);
+    setLoading(false);
   };
 
-  const deleteExcursion = async (id: string, isOverNight: boolean = false) => {
-    if (isOverNight) setLoadingOverNight(true);
-    else setLoading(true);
+  const deleteExcursion = async (id: string) => {
+    setLoading(true);
     const response = await remove(id);
 
     if (response.ok) {
       message.success("Excursion deleted");
 
-      if (isOverNight) tableRefOverNight.current.reload();
-      else tableRef.current.reload();
+      tableRef.current.reload();
     } else message.error(response.message);
 
-    if (isOverNight) setLoadingOverNight(false);
-    else setLoading(false);
+    setLoading(false);
   };
 
-  const getTable = (isOverNight: boolean) => {
+  const getTable = () => {
     const nameColumn = {
       title: "Name",
       key: "name",
@@ -191,6 +133,20 @@ const ExcursionApp = () => {
         <>
           {v.activities.map((x, ids) => (
             <Tag key={ids} color="green">
+              {x.name}
+            </Tag>
+          ))}
+        </>
+      ),
+    };
+
+    const hotelsColumn = {
+      title: "Hotels",
+      key: "hotels",
+      render: (v: Excursion) => (
+        <>
+          {v.hotels.map((x, ids) => (
+            <Tag key={ids} color="red">
               {x.name}
             </Tag>
           ))}
@@ -227,7 +183,7 @@ const ExcursionApp = () => {
             <Tooltip title="Delete">
               <DeleteOutlined
                 onClick={() => {
-                  deleteExcursion(v.id, v.isOverNight);
+                  deleteExcursion(v.id);
                 }}
               />
             </Tooltip>
@@ -236,23 +192,21 @@ const ExcursionApp = () => {
       ),
     };
 
-    const hotelColumn = {
-      title: "Hotel",
-      key: "hotel",
-      render: (v: Excursion) => <>{v.hotel!.name}</>,
-    };
-
-    const columns = isOverNight
-      ? [nameColumn, placesColumn, activitiesColumn, hotelColumn, actionsColumn]
-      : [nameColumn, placesColumn, activitiesColumn, actionsColumn];
+    const columns = [
+      nameColumn,
+      placesColumn,
+      activitiesColumn,
+      hotelsColumn,
+      actionsColumn,
+    ];
 
     return (
       <TableEntities
-        ref={isOverNight ? tableRefOverNight : tableRef}
-        title={isOverNight ? "OverNight Excursions" : "Excursions"}
-        loading={isOverNight ? loadingOverNight : loading}
+        ref={tableRef}
+        title={"Excursions"}
+        loading={loading}
         columns={columns}
-        load={isOverNight ? loadOverNight : load}
+        load={load}
       />
     );
   };
@@ -277,24 +231,20 @@ const ExcursionApp = () => {
           </Col>
         </Row>
         <Row className="content-center m-10">
-          <Col span={24}>{getTable(false)}</Col>
-        </Row>
-        <Row className="content-center m-10">
-          <Col span={24}>{getTable(true)}</Col>
+          <Col span={24}>{getTable()}</Col>
         </Row>
       </div>
       <ExcursionForm
-        onOk={(form: ExcursionFormType, isOverNight: boolean) => {
+        onOk={(form: ExcursionFormType) => {
           if (createModal) {
             setCreateModal(false);
-            createExcursion(form, isOverNight);
+            createExcursion(form);
           }
           if (editModal && selected != null) {
             setEditModal(false);
-            editExcursion(form, selected.id, isOverNight);
+            editExcursion(form, selected.id);
           }
         }}
-        create={createModal}
         onCancel={() => {
           if (createModal) setCreateModal(false);
           if (editModal) setEditModal(false);
@@ -306,7 +256,7 @@ const ExcursionApp = () => {
                 name: selected.name,
                 places: selected.places.map((x) => x.id),
                 activities: selected.activities.map((x) => x.id),
-                hotelId: selected.isOverNight ? selected.hotelId : undefined,
+                hotels: selected.hotels.map((x) => x.id),
                 image: selected.image,
               }
             : undefined

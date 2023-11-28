@@ -16,10 +16,11 @@ import { excursion } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
+import { isGuid } from "../../../common/functions";
 import {
-  isGuid,
-} from "../../../common/functions";
-import { reactionLogic, selectedReaction } from "../../../common/offers/reactions";
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/offers/reactions";
 import OfferFooterImage from "./OfferFooterImage";
 
 const ExcursionOffer = () => {
@@ -74,7 +75,7 @@ const ExcursionOffer = () => {
       expand: {
         image: { select: ["id", "name", "url"] },
         excursion: {
-          select: ["id", "name", "isOverNight"],
+          select: ["id", "name"],
           expand: {
             image: { select: ["id", "name", "url"] },
             places: {
@@ -89,7 +90,7 @@ const ExcursionOffer = () => {
                 image: { select: ["id", "name", "url"] },
               },
             },
-            hotel: {
+            hotels: {
               select: ["id", "name"],
               expand: {
                 image: { select: ["id", "name", "url"] },

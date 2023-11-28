@@ -31,7 +31,7 @@ export const ShowMiniExcursion: FC<ShowMiniExcursionProps> = ({
   excursion,
 }) => (
   <Badge.Ribbon
-    text={excursion.isOverNight ? "Over Night Excursion" : "Excursion"}
+    text={excursion.hotels.length !== 0 ? "Over Night Excursion" : "Excursion"}
     color="cyan"
   >
     <Card hoverable>
@@ -95,13 +95,18 @@ const ShowExcursion: FC<ShowExcursionProps> = ({ open, onOk, excursion }) => {
           />
         </Col>
       </Row>
-      {excursion.isOverNight && (
+      {excursion.hotels.length !== 0 && (
         <Row className="m-5">
           <Col span={24}>
             <Title level={4}>Hotel</Title>
             <Divider />
 
-            <ShowMiniHotel hotel={excursion.hotel} />
+            <SlideCard
+              data={excursion.hotels.map((a) => (
+                <ShowMiniHotel hotel={a} />
+              ))}
+              size={"2"}
+            />
           </Col>
         </Row>
       )}

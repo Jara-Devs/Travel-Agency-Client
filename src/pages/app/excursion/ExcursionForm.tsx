@@ -16,14 +16,13 @@ export interface ExcursionFormData {
   name: string;
   places: string[];
   activities: string[];
-  hotelId?: string;
+  hotels: string[];
   image: Image;
 }
 export interface ExcursionFormProps {
-  onOk: (form: ExcursionFormType, isOverNight: boolean) => void;
+  onOk: (form: ExcursionFormType) => void;
   onCancel: () => void;
   values?: ExcursionFormData;
-  create: boolean;
   open: boolean;
 }
 
@@ -31,12 +30,9 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
   onCancel,
   values,
   open,
-  create,
   onOk,
 }) => {
   const [form] = Form.useForm<ExcursionFormData>();
-
-  const [isOverNight, setIsOverNight] = useState<boolean>(false);
 
   const [places, setPlaces] = useState<TouristPlace[]>([]);
   const [activities, setActivities] = useState<TouristActivity[]>([]);
@@ -74,8 +70,6 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
       form.setFieldsValue({ ...values });
       setImage(values.image);
     } else setImage(undefined);
-    if (values?.hotelId) setIsOverNight(true);
-    else setIsOverNight(false);
   }, [open, form, values]);
 
   return (
@@ -95,23 +89,13 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
         form={form}
         onFinish={(values: ExcursionFormData) => {
           if (image) {
-            onOk(
-              isOverNight
-                ? {
-                    name: values.name,
-                    places: values.places,
-                    activities: values.activities,
-                    hotelId: values.hotelId!,
-                    imageId: image?.id,
-                  }
-                : {
-                    name: values.name,
-                    places: values.places,
-                    activities: values.activities,
-                    imageId: image?.id,
-                  },
-              isOverNight
-            );
+            onOk({
+              name: values.name,
+              places: values.places,
+              activities: values.activities,
+              hotels: values.hotels ?? [],
+              imageId: image?.id,
+            });
           } else message.error("You must upload an image");
         }}
       >
@@ -122,38 +106,22 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
         >
           <Input placeholder="Introduce the name" />
         </Form.Item>
-        {create && (
-          <Form.Item label="Type">
-            <Select
-              defaultValue={false}
-              value={isOverNight}
-              options={[
-                { value: false, label: "Excursion" },
-                { value: true, label: "OverNight Excursion" },
-              ]}
-              onChange={(v) => setIsOverNight(v)}
-            />
-          </Form.Item>
-        )}
-        {isOverNight && (
-          <Form.Item
-            label="Hotel"
-            name="hotelId"
-            rules={[{ required: true, message: "Select the hotel" }]}
-          >
-            <Select
-              showSearch
-              allowClear
-              filterOption={(input, option) => option?.label === input}
-              options={hotels.map((x) => ({
-                value: x.id,
-                label: x.name,
-                key: x.id,
-              }))}
-              placeholder="Select the hotel"
-            />
-          </Form.Item>
-        )}
+
+        <Form.Item label="Hotels" name="hotels">
+          <Select
+            mode="multiple"
+            showSearch
+            allowClear
+            filterOption={(input, option) => option?.label === input}
+            options={hotels.map((x) => ({
+              value: x.id,
+              label: x.name,
+              key: x.id,
+            }))}
+            placeholder="Select the hotels"
+          />
+        </Form.Item>
+
         <Form.Item
           name="places"
           label="Places"

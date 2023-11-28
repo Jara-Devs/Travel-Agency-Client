@@ -59,7 +59,7 @@ const ExcursionOffer = () => {
           select: ["id", "name", "url"],
         },
         excursion: {
-          select: ["name", "isOverNight"],
+          select: ["name"],
           expand: {
             image: {
               select: ["id", "name", "url"],
@@ -68,6 +68,9 @@ const ExcursionOffer = () => {
               select: ["id", "name"],
             },
             activities: {
+              select: ["id", "name"],
+            },
+            hotels: {
               select: ["id", "name"],
             },
           },
@@ -165,7 +168,7 @@ const ExcursionOffer = () => {
                   key: "excursion",
                   render: (v: ExcursionOfferType) => (
                     <>
-                      {v.excursion.isOverNight ? (
+                      {v.excursion.hotels.length !== 0 ? (
                         <Tag color="cyan">Over Night Excursion</Tag>
                       ) : (
                         <Tag color="green">Excursion</Tag>
@@ -186,7 +189,9 @@ const ExcursionOffer = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ExcursionOfferType) => <>$ {v.price.toFixed(2)}</>,
+                  render: (v: ExcursionOfferType) => (
+                    <>$ {v.price.toFixed(2)}</>
+                  ),
                 },
                 {
                   title: "Initial Date",

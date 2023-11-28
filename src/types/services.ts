@@ -32,12 +32,10 @@ export interface TouristActivityFormType {
 export interface Excursion {
   id: string;
   name: string;
-  isOverNight: boolean;
   places: TouristPlace[];
   activities: TouristActivity[];
   image: Image;
-  hotelId?: string;
-  hotel: Hotel;
+  hotels: Hotel[];
 }
 
 export interface ExcursionFormType {
@@ -45,7 +43,7 @@ export interface ExcursionFormType {
   places: string[];
   activities: string[];
   imageId: string;
-  hotelId?: string;
+  hotels: string[];
 }
 
 export enum HotelCategory {

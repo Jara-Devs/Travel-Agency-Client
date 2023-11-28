@@ -30,6 +30,14 @@ const Hotels = () => {
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
 
+    const category = searchParams.get("category");
+    if (category) {
+      const categoryValue = Number(category);
+      if (Number.isInteger(categoryValue)) {
+        f.push({ category: HotelCategory[categoryValue] });
+      }
+    }
+
     return { and: f };
   };
 
@@ -54,18 +62,6 @@ const Hotels = () => {
     });
 
     if (result.ok) {
-      const category = searchParams.get("category");
-      if (category) {
-        const categoryValue = Number(category);
-        if (Number.isInteger(categoryValue)) {
-          const filtered = result.value!.filter(
-            (value) => value.category === categoryValue
-          );
-          setData(filtered);
-          setLoading(false);
-          return;
-        }
-      }
       setData(result.value!);
     } else message.error(buildMessage([result]));
 
