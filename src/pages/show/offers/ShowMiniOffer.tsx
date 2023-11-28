@@ -1,6 +1,7 @@
 import { Avatar, Badge, Card } from "antd";
 import { FC } from "react";
-import { Offer, OffertTypeColor, OfferType } from "../../../types/offers";
+import { Offer, OffertTypeColor } from "../../../types/offers";
+import { offerTypeLabel } from "../../../common/functions";
 
 export interface ShowminiOfferProps {
   offer: Offer;
@@ -8,7 +9,7 @@ export interface ShowminiOfferProps {
 
 const ShowMiniOffer: FC<ShowminiOfferProps> = ({ offer }) => (
   <Badge.Ribbon
-    text={OfferType[offer.type]}
+    text={offerTypeLabel(offer.type)}
     color={OffertTypeColor[offer.type]}
   >
     <Card hoverable>

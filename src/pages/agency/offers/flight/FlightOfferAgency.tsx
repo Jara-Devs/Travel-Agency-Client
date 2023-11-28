@@ -163,7 +163,7 @@ const FlightOfferAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: FlightOfferType) => <>{v.price}</>,
+                  render: (v: FlightOfferType) => <>$ {v.price.toFixed(2)}</>,
                 },
                 {
                   title: "Initial Date",

@@ -186,7 +186,7 @@ const ExcursionOffer = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ExcursionOfferType) => <>{v.price}</>,
+                  render: (v: ExcursionOfferType) => <>$ {v.price.toFixed(2)}</>,
                 },
                 {
                   title: "Initial Date",

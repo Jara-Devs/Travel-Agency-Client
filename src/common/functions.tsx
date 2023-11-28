@@ -7,6 +7,7 @@ import {
   Offer,
   ReactionState,
   HotelFacility,
+  OfferType,
 } from "../types/offers";
 import { StarFilled } from "@ant-design/icons";
 import { CSSProperties } from "react";
@@ -62,22 +63,18 @@ export const getCategory = (x: HotelCategory, styles?: CSSProperties) => {
 
 export const getPackagePrice = (x: Package) => {
   var sum: number = 0;
-  console.log(sum);
-  console.log(x.hotelOffers);
   x.hotelOffers.forEach((offer) => {
     sum += offer.price;
   });
-  console.log(sum);
   x.excursionOffers.forEach((offer) => {
     sum += offer.price;
   });
-  console.log(sum);
 
   x.flightOffers.forEach((offer) => {
     sum += offer.price;
   });
-  console.log(sum);
-  return sum - (x.discount / 100) * sum;
+
+  return (sum - (x.discount / 100) * sum).toFixed(2);
 };
 
 export const getFlightFacility = (x: FlightFacility) => {
@@ -240,3 +237,14 @@ export function isGuid(value: string): boolean {
     /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
   return guidRegex.test(value);
 }
+
+export const offerTypeLabel = (type: OfferType) => {
+  switch (type) {
+    case OfferType.Flight:
+      return "Flight Offer";
+    case OfferType.Hotel:
+      return "Hotel Offer";
+    case OfferType.Excursion:
+      return "Excursion Offer";
+  }
+};

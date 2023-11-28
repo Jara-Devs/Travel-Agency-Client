@@ -49,9 +49,6 @@ const PackagesAgency = () => {
               },
             },
           },
-          //   agencyId: {
-          //     eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
-          //   },
         },
       ],
     };
@@ -59,15 +56,15 @@ const PackagesAgency = () => {
     const response = await get({
       expand: {
         flightOffers: {
-          select: ["id", "name", "description", "price"],
+          select: ["id", "name", "description", "price", "type"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         hotelOffers: {
-          select: ["id", "name", "description", "price"],
+          select: ["id", "name", "description", "price", "type"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         excursionOffers: {
-          select: ["id", "name", "description", "price"],
+          select: ["id", "name", "description", "price", "type"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
@@ -202,7 +199,7 @@ const PackagesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: Package) => <>{`${getPackagePrice(v)}$`}</>,
+                  render: (v: Package) => <>{`$ ${getPackagePrice(v)}`}</>,
                 },
 
                 {

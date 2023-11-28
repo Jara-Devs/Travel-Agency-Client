@@ -161,7 +161,7 @@ const HotelOfferAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: HotelOfferType) => <>${v.price}</>,
+                  render: (v: HotelOfferType) => <>$ {v.price.toFixed(2)}</>,
                 },
                 {
                   title: "Facilities",

@@ -45,44 +45,50 @@ const ShowPackage: FC<ShowPackageProps> = ({ open, onOk, packageOffer }) => {
           </Card>
         </Col>
       </Row>
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Hotel Offers</Title>
-          <Divider />
-          <SlideCard
-            data={packageOffer.hotelOffers.map((p) => (
-              <ShowMiniOffer offer={p} />
-            ))}
-            size={"2"}
-          />
-        </Col>
-      </Row>
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Excursion Offers</Title>
-          <Divider />
+      {packageOffer.hotelOffers.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Hotel Offers</Title>
+            <Divider />
+            <SlideCard
+              data={packageOffer.hotelOffers.map((p) => (
+                <ShowMiniOffer offer={p} />
+              ))}
+              size={"2"}
+            />
+          </Col>
+        </Row>
+      )}
+      {packageOffer.excursionOffers.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Excursion Offers</Title>
+            <Divider />
 
-          <SlideCard
-            data={packageOffer.excursionOffers.map((a) => (
-              <ShowMiniOffer offer={a} />
-            ))}
-            size={"2"}
-          />
-        </Col>
-      </Row>
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Flight Offers</Title>
-          <Divider />
+            <SlideCard
+              data={packageOffer.excursionOffers.map((a) => (
+                <ShowMiniOffer offer={a} />
+              ))}
+              size={"2"}
+            />
+          </Col>
+        </Row>
+      )}
+      {packageOffer.flightOffers.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Flight Offers</Title>
+            <Divider />
 
-          <SlideCard
-            data={packageOffer.flightOffers.map((a) => (
-              <ShowMiniOffer offer={a} />
-            ))}
-            size={"2"}
-          />
-        </Col>
-      </Row>
+            <SlideCard
+              data={packageOffer.flightOffers.map((a) => (
+                <ShowMiniOffer offer={a} />
+              ))}
+              size={"2"}
+            />
+          </Col>
+        </Row>
+      )}
     </Modal>
   );
 };

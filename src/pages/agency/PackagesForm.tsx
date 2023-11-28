@@ -7,7 +7,7 @@ import {
   Select,
   Typography,
 } from "antd";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { excursionOffer, flightOffer, hotelOffer } from "../../api/offers";
 import { buildMessage } from "../../common/functions";
 import {
@@ -17,6 +17,8 @@ import {
 } from "../../types/offers";
 import { PackageFormType } from "../../types/packages";
 import Title from "antd/es/typography/Title";
+import { UserContext } from "../../context/UserProvider";
+import { UserAgencyContext } from "../../types/auth";
 
 export interface PackageFormData {
   name: string;
@@ -41,6 +43,7 @@ export const PackageForm: FC<PackageFormProps> = ({
   onOk,
 }) => {
   const [form] = Form.useForm<PackageFormData>();
+  const { user } = useContext(UserContext);
 
   const [excursionOffers, setExcursionOffers] = useState<ExcursionOfferType[]>(
     []
@@ -48,15 +51,32 @@ export const PackageForm: FC<PackageFormProps> = ({
   const [flightOffers, setflightOffers] = useState<FlightOfferType[]>([]);
   const [hotelOffers, setHotelOffers] = useState<HotelOfferType[]>([]);
 
+  const [discount, setDiscount] = useState<number>(0);
+
   const load = async () => {
     const responseHotelOffers = await hotelOffer().get({
       select: ["id", "name"],
+      filter: {
+        agencyId: {
+          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+        },
+      },
     });
     const responseExcursionOffers = await excursionOffer().get({
       select: ["id", "name"],
+      filter: {
+        agencyId: {
+          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+        },
+      },
     });
     const responseFlightOffers = await flightOffer().get({
       select: ["id", "name"],
+      filter: {
+        agencyId: {
+          eq: { type: "guid", value: (user as UserAgencyContext).agencyId },
+        },
+      },
     });
 
     if (
@@ -79,13 +99,15 @@ export const PackageForm: FC<PackageFormProps> = ({
   };
   useEffect(() => {
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (open) form.resetFields();
     if (values) {
       form.setFieldsValue({ ...values });
-    }
+      setDiscount(values.discount ?? 0);
+    } else setDiscount(0);
   }, [open, form, values]);
 
   return (
@@ -117,7 +139,7 @@ export const PackageForm: FC<PackageFormProps> = ({
           onOk({
             name: values.name,
             description: values.description,
-            discount: values.discount,
+            discount,
             hotelOffers: values.hotelOffers ?? [],
             excursionOffers: values.excursionOffers ?? [],
             flightOffers: values.flightOffers ?? [],
@@ -140,16 +162,14 @@ export const PackageForm: FC<PackageFormProps> = ({
           <Input placeholder="Introduce the description" />
         </Form.Item>
 
-        <Form.Item
-          name="discount"
-          label="Discount"
-          rules={[{ required: true, message: "Introduce the discount" }]}
-        >
+        <Form.Item name="discount" label="Discount">
           <InputNumber
             placeholder="Introduce the discount"
             min={0}
             max={100}
-            defaultValue={10}
+            value={discount}
+            onChange={(value) => setDiscount(value ?? 0)}
+            defaultValue={0}
           />
         </Form.Item>
 
