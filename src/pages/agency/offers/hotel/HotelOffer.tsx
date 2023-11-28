@@ -9,12 +9,13 @@ import { hotelOffer } from "../../../../api/offers";
 import TableEntities, {
   TableEntitiesRef,
 } from "../../../../common/TableEntities";
-import { getCategory, getHotelFacility } from "../../../../common/functions";
+import { getHotelFacility } from "../../../../common/offers/functions";
 import HotelOfferForm from "./HotelOfferForm";
 import ShowHotelOffer from "../../../show/offers/ShowHotelOffer";
 import { UserAgencyContext } from "../../../../types/auth";
 import { UserContext } from "../../../../context/UserProvider";
 import { HotelOfferType, HotelOfferFormType } from "../../../../types/offers";
+import { HotelCategoryComp } from "../../../../common/service/HotelCategory";
 
 const HotelOfferAgency = () => {
   const { get, create, edit, remove } = hotelOffer();
@@ -143,20 +144,33 @@ const HotelOfferAgency = () => {
                 {
                   title: "Category",
                   key: "category",
-                  render: (v: HotelOfferType) => getCategory(v.hotel.category),
+                  render: (v: HotelOfferType) => (
+                    <HotelCategoryComp x={v.hotel.category} />
+                  ),
                 },
-
                 {
-                  title: "StartDate",
+                  title: "Availability",
+                  key: "availability",
+                  render: (v: HotelOfferType) => <>{v.availability}</>,
+                },
+                {
+                  title: "Description",
+                  key: "description",
+                  render: (v: HotelOfferType) => <>{v.description}</>,
+                },
+                {
+                  title: "Initial Date",
                   key: "startDate",
-                  render: (v: HotelOfferType) =>
-                    new Date(v.startDate).toDateString(),
+                  render: (v: HotelOfferType) => (
+                    <>{dayjs(v.startDate).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
-                  title: "EndDate",
+                  title: "Final Date",
                   key: "endDate",
-                  render: (v: HotelOfferType) =>
-                    new Date(v.endDate).toDateString(),
+                  render: (v: HotelOfferType) => (
+                    <>{dayjs(v.endDate).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   title: "Price",

@@ -1,7 +1,7 @@
 import { Card, Col, Divider, Modal, Row, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import { FC } from "react";
-import { getPackagePrice } from "../../../common/functions";
+import { getPackagePrice } from "../../../common/packages/functions";
 import SlideCard from "../../../common/SlideCard";
 import { Package } from "../../../types/packages";
 

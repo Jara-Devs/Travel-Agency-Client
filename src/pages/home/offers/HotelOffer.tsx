@@ -5,12 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { hotelOffer } from "../../../api/offers";
 import { hotel } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
-import {
-  isGuid,
-  OfferFooterImage,
-  reactionLogic,
-  selectedReaction,
-} from "../../../common/functions";
+import { isGuid } from "../../../common/functions";
 import ShowEntities from "../../../common/ShowEntities";
 import SlideCard from "../../../common/SlideCard";
 import { UserContext } from "../../../context/UserProvider";
@@ -20,6 +15,11 @@ import ShowHotelOffer from "../../show/offers/ShowHotelOffer";
 import { ShowMiniHotel } from "../../show/services/ShowHotel";
 import { EyeOutlined, LikeFilled, DislikeFilled } from "@ant-design/icons";
 import ShowHotel from "../../show/services/ShowHotel";
+import {
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/offers/reactions";
+import OfferFooterImage from "./OfferFooterImage";
 
 const HotelOffer = () => {
   const { get } = hotelOffer();

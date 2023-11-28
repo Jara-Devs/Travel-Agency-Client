@@ -14,10 +14,10 @@ import TableEntities, {
 } from "../../../../common/TableEntities";
 import dayjs from "dayjs";
 import { excursionOffer } from "../../../../api/offers";
-import { getExcursionFacility } from "../../../../common/functions";
 import { Filter } from "odata-query";
 import { UserContext } from "../../../../context/UserProvider";
 import { UserAgencyContext } from "../../../../types/auth";
+import { getExcursionFacility } from "../../../../common/offers/functions";
 
 const ExcursionOffer = () => {
   const { get, create, edit, remove } = excursionOffer();
@@ -130,7 +130,7 @@ const ExcursionOffer = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Excursions</Title>
+              <Title>Excursion Offers</Title>
             </Typography>
           </Col>
           <Col>
@@ -147,7 +147,7 @@ const ExcursionOffer = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Excursions"
+              title="Excursion Offers"
               loading={loading}
               columns={[
                 {

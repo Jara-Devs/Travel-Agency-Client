@@ -15,7 +15,7 @@ import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getExcursionFacility } from "../../../../common/functions";
+import { getExcursionFacility } from "../../../../common/offers/functions";
 import {
   ExcursionFacility,
   ExcursionOfferFormType,
@@ -105,7 +105,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Excursion Offer</Title>
+          <Title level={3}>Excursion Offer</Title>
         </Typography>
       }
       onOk={form.submit}

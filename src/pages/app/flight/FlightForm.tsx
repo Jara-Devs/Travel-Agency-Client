@@ -84,7 +84,7 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Flight</Title>
+          <Title level={3}>Flight</Title>
         </Typography>
       }
       onOk={form.submit}

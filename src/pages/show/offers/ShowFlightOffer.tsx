@@ -4,7 +4,7 @@ import Title from "antd/es/typography/Title";
 import { FlightOfferType } from "../../../types/offers";
 import { ShowMiniFlight } from "../services/ShowFlight";
 import SlideCard from "../../../common/SlideCard";
-import { getFlightFacility } from "../../../common/functions";
+import { getFlightFacility } from "../../../common/offers/functions";
 
 export interface ShowFlightOfferProps {
   open: boolean;

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import PackagesAgency from "../pages/agency/PackagesAgency";
+import PackagesAgency from "../pages/agency/packages/PackagesAgency";
 import TicketAgency from "../pages/agency/TicketAgency";
 import UsersAgency from "../pages/agency/users/UsersAgency";
 import PrivateRoutes from "./PrivateRoutes";

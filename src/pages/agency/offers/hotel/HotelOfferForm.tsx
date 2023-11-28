@@ -102,7 +102,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Hotel</Title>
+          <Title level={3}>Hotel Offer</Title>
         </Typography>
       }
       onOk={form.submit}

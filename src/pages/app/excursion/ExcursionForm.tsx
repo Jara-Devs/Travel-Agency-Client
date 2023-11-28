@@ -83,7 +83,7 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Excursion</Title>
+          <Title level={3}>Excursion</Title>
         </Typography>
       }
       onOk={form.submit}

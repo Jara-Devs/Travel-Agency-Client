@@ -40,8 +40,6 @@ export interface Excursion {
   hotel: Hotel;
 }
 
-
-
 export interface ExcursionFormType {
   name: string;
   places: string[];
@@ -88,15 +86,4 @@ export interface FlightFormType {
   originId: string;
   destinationId: string;
   duration: number;
-}
-
-export enum FlightFacility {
-  FreeWifi = 0,
-  FreeMeals = 1,
-  FreeDrinks = 2,
-  FreeEntertainment = 3,
-  FreeBaggage = 4,
-  FreeSeatSelection = 5,
-  FreeAirportTaxi = 6,
-  PetTransportation = 7,
 }

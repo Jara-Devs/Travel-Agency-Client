@@ -4,7 +4,7 @@ import Title from "antd/es/typography/Title";
 import { ExcursionOfferType } from "../../../types/offers";
 import { ShowMiniExcursion } from "../services/ShowExcursion";
 import SlideCard from "../../../common/SlideCard";
-import { getExcursionFacility } from "../../../common/functions";
+import { getExcursionFacility } from "../../../common/offers/functions";
 
 export interface ShowExcursionOfferProps {
   open: boolean;

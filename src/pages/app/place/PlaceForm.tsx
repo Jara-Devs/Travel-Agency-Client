@@ -38,7 +38,7 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Place</Title>
+          <Title level={3}>Place</Title>
         </Typography>
       }
       onOk={form.submit}

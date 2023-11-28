@@ -10,7 +10,7 @@ import { touristPlace } from "../../../api/services";
 import { ApiResponse } from "../../../types/api";
 import { Image } from "../../../types/api";
 import UploadImage from "../../../common/UploadImage";
-import { getCategory } from "../../../common/functions";
+import { HotelCategoryComp } from "../../../common/service/HotelCategory";
 
 export interface HotelFormData {
   name: string;
@@ -72,7 +72,7 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Hotel</Title>
+          <Title level={3}>Hotel</Title>
         </Typography>
       }
       onOk={form.submit}
@@ -118,7 +118,7 @@ const HotelForm: FC<HotelFormProps> = ({ onOk, onCancel, values, open }) => {
               HotelCategory.FiveStars,
             ].map((x) => ({
               value: x,
-              label: getCategory(x),
+              label: <HotelCategoryComp x={x} />,
               key: x,
             }))}
             placeholder="Select the category"

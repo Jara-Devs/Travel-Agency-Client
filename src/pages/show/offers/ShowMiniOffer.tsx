@@ -1,7 +1,7 @@
 import { Avatar, Badge, Card } from "antd";
 import { FC } from "react";
 import { Offer, OffertTypeColor } from "../../../types/offers";
-import { offerTypeLabel } from "../../../common/functions";
+import { offerTypeLabel } from "../../../common/offers/functions";
 
 export interface ShowminiOfferProps {
   offer: Offer;

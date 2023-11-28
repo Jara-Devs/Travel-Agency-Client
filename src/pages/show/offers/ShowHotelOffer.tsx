@@ -10,7 +10,7 @@ import {
 } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { getHotelFacility } from "../../../common/functions";
+import { getHotelFacility } from "../../../common/offers/functions";
 import SlideCard from "../../../common/SlideCard";
 import { HotelOfferType } from "../../../types/offers";
 import { ShowMiniHotel } from "../services/ShowHotel";

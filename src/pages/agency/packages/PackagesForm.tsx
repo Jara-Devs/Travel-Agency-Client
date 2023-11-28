@@ -8,17 +8,17 @@ import {
   Typography,
 } from "antd";
 import { FC, useContext, useEffect, useState } from "react";
-import { excursionOffer, flightOffer, hotelOffer } from "../../api/offers";
-import { buildMessage } from "../../common/functions";
+import { excursionOffer, flightOffer, hotelOffer } from "../../../api/offers";
+import { buildMessage } from "../../../common/functions";
 import {
   ExcursionOfferType,
   FlightOfferType,
   HotelOfferType,
-} from "../../types/offers";
-import { PackageFormType } from "../../types/packages";
+} from "../../../types/offers";
+import { PackageFormType } from "../../../types/packages";
 import Title from "antd/es/typography/Title";
-import { UserContext } from "../../context/UserProvider";
-import { UserAgencyContext } from "../../types/auth";
+import { UserContext } from "../../../context/UserProvider";
+import { UserAgencyContext } from "../../../types/auth";
 
 export interface PackageFormData {
   name: string;
@@ -115,7 +115,7 @@ export const PackageForm: FC<PackageFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Package</Title>
+          <Title level={3}>Package</Title>
         </Typography>
       }
       onOk={form.submit}

@@ -12,7 +12,7 @@ import TableEntities, {
 } from "../../../../common/TableEntities";
 import dayjs from "dayjs";
 import { flightOffer } from "../../../../api/offers";
-import { getFlightFacility } from "../../../../common/functions";
+import { getFlightFacility } from "../../../../common/offers/functions";
 import { UserContext } from "../../../../context/UserProvider";
 import { UserAgencyContext } from "../../../../types/auth";
 
@@ -120,7 +120,7 @@ const FlightOfferAgency = () => {
         <Row justify="space-between" className="app-header">
           <Col>
             <Typography>
-              <Title>Flights</Title>
+              <Title>Flight Offers</Title>
             </Typography>
           </Col>
           <Col>
@@ -137,7 +137,7 @@ const FlightOfferAgency = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Flights"
+              title="Flight Offers"
               loading={loading}
               columns={[
                 {

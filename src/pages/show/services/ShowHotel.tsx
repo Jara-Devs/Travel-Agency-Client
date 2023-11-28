@@ -12,8 +12,8 @@ import {
 import { FC } from "react";
 import { Hotel } from "../../../types/services";
 import Title from "antd/es/typography/Title";
-import { getCategory } from "../../../common/functions";
 import { ShowMiniPlace } from "./ShowPlace";
+import { HotelCategoryComp } from "../../../common/service/HotelCategory";
 
 export interface ShowHotelProps {
   open: boolean;
@@ -32,7 +32,7 @@ export const ShowMiniHotel: FC<ShowminiHotelProps> = ({ hotel }) => (
         className="show-card"
         avatar={<Avatar size={50} src={hotel.image.url} />}
         title={hotel.name}
-        description={getCategory(hotel.category)}
+        description={<HotelCategoryComp x={hotel.category} />}
       />
     </Card>
   </Badge.Ribbon>
@@ -67,7 +67,10 @@ const ShowHotel: FC<ShowHotelProps> = ({ open, onOk, hotel }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card title="Category" hoverable>
-            {getCategory(hotel.category, { fontSize: "20px" })}
+            <HotelCategoryComp
+              x={hotel.category}
+              styles={{ fontSize: "20px" }}
+            />
           </Card>
         </Col>
       </Row>

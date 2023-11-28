@@ -9,7 +9,7 @@ import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
 import ShowHotel from "../../show/services/ShowHotel";
-import { getCategory } from "../../../common/functions";
+import { HotelCategoryComp } from "../../../common/service/HotelCategory";
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
@@ -123,7 +123,7 @@ const HotelApp = () => {
                 {
                   title: "Category",
                   key: "category",
-                  render: (v: Hotel) => getCategory(v.category),
+                  render: (v: Hotel) => <HotelCategoryComp x={v.category}/>,
                 },
                 {
                   title: "Place",

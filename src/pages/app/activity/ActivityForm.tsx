@@ -42,7 +42,7 @@ const TouristActivityForm: FC<TouristActivityFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Tourist Activity</Title>
+          <Title level={3}>Tourist Activity</Title>
         </Typography>
       }
       onOk={form.submit}

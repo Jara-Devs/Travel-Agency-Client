@@ -16,7 +16,7 @@ import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getFlightFacility } from "../../../../common/functions";
+import { getFlightFacility } from "../../../../common/offers/functions";
 
 export interface FlightOfferFormData {
   name: string;
@@ -98,7 +98,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Flight Offer</Title>
+          <Title level={3}>Flight Offer</Title>
         </Typography>
       }
       onOk={form.submit}

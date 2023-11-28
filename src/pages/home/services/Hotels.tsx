@@ -4,13 +4,14 @@ import { Hotel, HotelCategory, TouristPlace } from "../../../types/services";
 import { Col, Row, Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
-import { buildMessage, getCategory } from "../../../common/functions";
+import { buildMessage } from "../../../common/functions";
 import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import ShowHotel from "../../show/services/ShowHotel";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
 import SlideCard from "../../../common/SlideCard";
+import { HotelCategoryComp } from "../../../common/service/HotelCategory";
 
 const Hotels = () => {
   const { get } = hotel();
@@ -78,11 +79,31 @@ const Hotels = () => {
 
   const filterItem: FilterItem = {
     options: [
-      { label: getCategory(HotelCategory.OneStar), value: "0", key: 1 },
-      { label: getCategory(HotelCategory.TwoStars), value: "1", key: 2 },
-      { label: getCategory(HotelCategory.ThreeStars), value: "2", key: 3 },
-      { label: getCategory(HotelCategory.FourStars), value: "3", key: 4 },
-      { label: getCategory(HotelCategory.FiveStars), value: "4", key: 5 },
+      {
+        label: <HotelCategoryComp x={HotelCategory.OneStar} />,
+        value: "0",
+        key: 1,
+      },
+      {
+        label: <HotelCategoryComp x={HotelCategory.TwoStars} />,
+        value: "1",
+        key: 2,
+      },
+      {
+        label: <HotelCategoryComp x={HotelCategory.ThreeStars} />,
+        value: "2",
+        key: 3,
+      },
+      {
+        label: <HotelCategoryComp x={HotelCategory.FourStars} />,
+        value: "3",
+        key: 4,
+      },
+      {
+        label: <HotelCategoryComp x={HotelCategory.FiveStars} />,
+        value: "4",
+        key: 5,
+      },
     ],
     name: "Category",
     styles: { width: "120px" },
@@ -119,7 +140,7 @@ const Hotels = () => {
             ]}
             convert={(value: Hotel) => ({
               title: value.name,
-              description: getCategory(value.category),
+              description: <HotelCategoryComp x={value.category} />,
               image: value.image,
             })}
           />

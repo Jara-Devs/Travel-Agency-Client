@@ -41,7 +41,7 @@ const UserAgencyForm: FC<UserAgencyFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create Agency User</Title>
+          <Title level={3}>Agency User</Title>
         </Typography>
       }
       onOk={form.submit}

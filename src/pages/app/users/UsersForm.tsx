@@ -37,7 +37,7 @@ const UserForm: FC<UserSystemFormProps> = ({
       open={open}
       title={
         <Typography>
-          <Title level={3}>Create User</Title>
+          <Title level={3}>User</Title>
         </Typography>
       }
       onOk={form.submit}

@@ -17,11 +17,10 @@ import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
 import {
-  OfferFooterImage,
   isGuid,
-  reactionLogic,
-  selectedReaction,
 } from "../../../common/functions";
+import { reactionLogic, selectedReaction } from "../../../common/offers/reactions";
+import OfferFooterImage from "./OfferFooterImage";
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();

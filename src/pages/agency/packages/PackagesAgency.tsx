@@ -2,15 +2,15 @@ import { Button, Col, message, Row, Tag, Tooltip, Typography } from "antd";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import { useState, useRef, useContext } from "react";
-import { packageOffer } from "../../api/offers";
-import { getPackagePrice } from "../../common/functions";
-import TableEntities, { TableEntitiesRef } from "../../common/TableEntities";
-import { UserContext } from "../../context/UserProvider";
-import { UserAgencyContext } from "../../types/auth";
-import { Package, PackageFormType } from "../../types/packages";
+import { packageOffer } from "../../../api/offers";
+import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
+import { UserContext } from "../../../context/UserProvider";
+import { UserAgencyContext } from "../../../types/auth";
+import { Package, PackageFormType } from "../../../types/packages";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { PackageForm } from "./PackagesForm";
-import ShowPackage from "../show/offers/ShowPackage";
+import ShowPackage from "../../show/offers/ShowPackage";
+import { endDate, getPackagePrice, startDate } from "../../../common/packages/functions";
 
 const PackagesAgency = () => {
   const { get, create, edit, remove } = packageOffer();
@@ -56,15 +56,39 @@ const PackagesAgency = () => {
     const response = await get({
       expand: {
         flightOffers: {
-          select: ["id", "name", "description", "price", "type"],
+          select: [
+            "id",
+            "name",
+            "description",
+            "price",
+            "type",
+            "startDate",
+            "endDate",
+          ],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         hotelOffers: {
-          select: ["id", "name", "description", "price", "type"],
+          select: [
+            "id",
+            "name",
+            "description",
+            "price",
+            "type",
+            "startDate",
+            "endDate",
+          ],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         excursionOffers: {
-          select: ["id", "name", "description", "price", "type"],
+          select: [
+            "id",
+            "name",
+            "description",
+            "price",
+            "type",
+            "startDate",
+            "endDate",
+          ],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
@@ -149,9 +173,18 @@ const PackagesAgency = () => {
                   key: "discount",
                   render: (v: Package) => <>{`${v.discount}% `}</>,
                 },
-
                 {
-                  title: "HotelOffers",
+                  key: "start",
+                  title: "Initial Date",
+                  render: (v: Package) => <>{startDate(v)}</>,
+                },
+                {
+                  key: "end",
+                  title: "Final Date",
+                  render: (v: Package) => <>{endDate(v)}</>,
+                },
+                {
+                  title: "Hotel Offers",
                   key: "hotelOffers",
                   render: (v: Package) => (
                     <>
@@ -166,7 +199,7 @@ const PackagesAgency = () => {
                   ),
                 },
                 {
-                  title: "FlightOffers",
+                  title: "Flight Offers",
                   key: "flightOffers",
                   render: (v: Package) => (
                     <>
@@ -181,7 +214,7 @@ const PackagesAgency = () => {
                   ),
                 },
                 {
-                  title: "ExcursionOffers",
+                  title: "Excursion Offers",
                   key: "excursionOffers",
                   render: (v: Package) => (
                     <>
