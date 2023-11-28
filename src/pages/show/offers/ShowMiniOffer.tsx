@@ -1,24 +1,26 @@
+import { Avatar, Badge, Card } from "antd";
 import { FC } from "react";
-import { Excursion } from "../../../types/services";
+import { Offer, OffertTypeColor } from "../../../types/offers";
+import { offerTypeLabel } from "../../../common/functions";
 
-export interface ShowMiniExcursionProps {
-  place: Excursion;
-  ribbon?: string;
+export interface ShowminiOfferProps {
+  offer: Offer;
 }
 
-const ShowMiniOffer: FC<ShowMiniExcursionProps> = ({}) => (
-  //   <Badge.Ribbon text={ribbon ?? "Place"}>
-  //     <Card hoverable>
-  //       <Card.Meta
-  //         className="show-card"
-  //         avatar={<Avatar size={50} src={place.image.url} />}
-  //         title={place.name}
-  //         description={place.description}
-  //       />
-  //     </Card>
-  //   </Badge.Ribbon>
-
-  <></>
+const ShowMiniOffer: FC<ShowminiOfferProps> = ({ offer }) => (
+  <Badge.Ribbon
+    text={offerTypeLabel(offer.type)}
+    color={OffertTypeColor[offer.type]}
+  >
+    <Card hoverable>
+      <Card.Meta
+        className="show-card"
+        avatar={<Avatar size={50} src={offer.image.url} />}
+        title={offer.name}
+        description={offer.description}
+      />
+    </Card>
+  </Badge.Ribbon>
 );
 
 export default ShowMiniOffer;

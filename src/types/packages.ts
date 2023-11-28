@@ -1,14 +1,20 @@
-import { Offer } from "./offers";
+import { ExcursionOfferType, FlightOfferType, HotelOfferType } from "./offers";
 
 export interface Package {
   id: string;
+  name: string;
   discount: number;
   description: string;
-  offers: Offer[];
+  hotelOffers: HotelOfferType[];
+  excursionOffers: ExcursionOfferType[];
+  flightOffers: FlightOfferType[];
 }
 
-export interface PackageForm {
+export interface PackageFormType {
+  name: string;
   discount: number;
   description: string;
-  offers: number[];
+  hotelOffers: string[] | undefined;
+  excursionOffers: string[] | undefined;
+  flightOffers: string[] | undefined;
 }
