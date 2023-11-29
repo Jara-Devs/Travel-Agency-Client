@@ -10,7 +10,11 @@ import { Package, PackageFormType } from "../../../types/packages";
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { PackageForm } from "./PackagesForm";
 import ShowPackage from "../../show/offers/ShowPackage";
-import { endDate, getPackagePrice, startDate } from "../../../common/packages/functions";
+import {
+  endDate,
+  getPackagePrice,
+  startDate,
+} from "../../../common/packages/functions";
 
 const PackagesAgency = () => {
   const { get, create, edit, remove } = packageOffer();
@@ -40,6 +44,30 @@ const PackagesAgency = () => {
         searchFilter,
         {
           flightOffers: {
+            all: {
+              agencyId: {
+                eq: {
+                  type: "guid",
+                  value: (user as UserAgencyContext).agencyId,
+                },
+              },
+            },
+          },
+        },
+        {
+          excursionOffers: {
+            all: {
+              agencyId: {
+                eq: {
+                  type: "guid",
+                  value: (user as UserAgencyContext).agencyId,
+                },
+              },
+            },
+          },
+        },
+        {
+          hotelOffers: {
             all: {
               agencyId: {
                 eq: {

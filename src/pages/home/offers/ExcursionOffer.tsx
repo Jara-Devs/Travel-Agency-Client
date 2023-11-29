@@ -117,9 +117,7 @@ const ExcursionOffer = () => {
     setLoading(true);
 
     const result = await getExcursion({
-      expand: {
-        image: { select: ["id", "name", "url"] },
-      },
+      select: ["id", "name"],
     });
 
     if (result.ok) setExcursions(result.value || []);

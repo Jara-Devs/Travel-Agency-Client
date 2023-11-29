@@ -7,6 +7,7 @@ import { UndoOutlined } from "@ant-design/icons";
 export interface FilterItem {
   options: DefaultOptionType[];
   name: string;
+  key?: string;
   styles?: CSSProperties;
   search?: boolean;
 }
@@ -38,8 +39,9 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
                     onChange={(e) => {
                       const params = Object.fromEntries(searchParams);
 
-                      if (e) params[f.name.toLowerCase()] = e;
-                      else delete params[f.name.toLowerCase()];
+                      const key = f.key ?? f.name.toLowerCase();
+                      if (e) params[key] = e;
+                      else delete params[key];
 
                       setSearchParams(params);
                     }}
