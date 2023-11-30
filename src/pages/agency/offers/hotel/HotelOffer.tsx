@@ -9,7 +9,6 @@ import { hotelOffer } from "../../../../api/offers";
 import TableEntities, {
   TableEntitiesRef,
 } from "../../../../common/TableEntities";
-import { getHotelFacility } from "../../../../common/offers/functions";
 import HotelOfferForm from "./HotelOfferForm";
 import ShowHotelOffer from "../../../show/offers/ShowHotelOffer";
 import { UserAgencyContext } from "../../../../types/auth";
@@ -53,12 +52,23 @@ const HotelOfferAgency = () => {
       ],
     };
     const response = await get({
+      select: [
+        "id",
+        "name",
+        "description",
+        "price",
+        "image",
+        "startDate",
+        "endDate",
+        "availability",
+      ],
       expand: {
         image: { select: ["id", "name", "url"] },
         hotel: {
           select: ["id", "category", "name", "touristPlace"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
+        facilities: { select: ["id", "name"] },
       },
       filter: finalFilter,
     });
@@ -186,7 +196,7 @@ const HotelOfferAgency = () => {
                       <Row>
                         {v.facilities.map((f, idx) => (
                           <Tag key={idx} color="blue">
-                            {getHotelFacility(f)}
+                            {f.name}
                           </Tag>
                         ))}
                       </Row>
@@ -240,7 +250,6 @@ const HotelOfferAgency = () => {
       <HotelOfferForm
         onOk={(form: HotelOfferFormType) => {
           setCreateModal(false);
-          console.log(form.startDate);
 
           createHotelOffer(form);
         }}
@@ -264,7 +273,7 @@ const HotelOfferAgency = () => {
             endDate: dayjs(selected.endDate),
             availability: selected.availability,
             hotelId: selected.hotel.id,
-            facilities: selected.facilities,
+            facilities: selected.facilities.map((f) => f.id),
           }}
         />
       )}

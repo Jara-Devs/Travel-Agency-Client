@@ -17,7 +17,6 @@ import { excursionOffer } from "../../../../api/offers";
 import { Filter } from "odata-query";
 import { UserContext } from "../../../../context/UserProvider";
 import { UserAgencyContext } from "../../../../types/auth";
-import { getExcursionFacility } from "../../../../common/offers/functions";
 
 const ExcursionOffer = () => {
   const { get, create, edit, remove } = excursionOffer();
@@ -54,7 +53,17 @@ const ExcursionOffer = () => {
     };
 
     const response = await get({
+      select: [
+        "id",
+        "name",
+        "availability",
+        "description",
+        "price",
+        "startDate",
+        "endDate",
+      ],
       expand: {
+        facilities: { select: ["id", "name"] },
         image: {
           select: ["id", "name", "url"],
         },
@@ -215,7 +224,7 @@ const ExcursionOffer = () => {
                       <Row>
                         {v.facilities.map((f, idx) => (
                           <Tag key={idx} color="blue">
-                            {getExcursionFacility(f)}
+                            {f.name}
                           </Tag>
                         ))}
                       </Row>
@@ -290,7 +299,7 @@ const ExcursionOffer = () => {
             price: selected.price,
             startDate: dayjs(selected.startDate),
             endDate: dayjs(selected.endDate),
-            facilities: selected.facilities,
+            facilities: selected.facilities.map((f) => f.id),
             image: selected.image,
           }}
         />

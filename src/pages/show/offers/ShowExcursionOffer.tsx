@@ -4,7 +4,6 @@ import Title from "antd/es/typography/Title";
 import { ExcursionOfferType } from "../../../types/offers";
 import { ShowMiniExcursion } from "../services/ShowExcursion";
 import SlideCard from "../../../common/SlideCard";
-import { getExcursionFacility } from "../../../common/offers/functions";
 
 export interface ShowExcursionOfferProps {
   open: boolean;
@@ -72,7 +71,7 @@ const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
           <SlideCard
             data={excursionOffer.facilities.map((f) => (
               <Card hoverable>
-                <Card.Meta title={getExcursionFacility(f)} />
+                <Card.Meta title={f.name} />
               </Card>
             ))}
             size="2"

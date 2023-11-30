@@ -43,12 +43,12 @@ export interface Offer {
   reactions: Reaction[];
   imageId: string;
   type: OfferType;
+  facilities: Facility[];
 }
 
 export interface FlightOfferType extends Offer {
   flight: Flight;
   flightId: string;
-  facilities: FlightFacility[];
 }
 
 export interface FlightOfferFormType {
@@ -59,25 +59,13 @@ export interface FlightOfferFormType {
   price: number;
   startDate: number;
   endDate: number;
-  facilities: number[];
+  facilities: string[];
   imageId: string;
-}
-
-export enum FlightFacility {
-  FreeWifi = 0,
-  FreeMeals = 1,
-  FreeDrinks = 2,
-  FreeEntertainment = 3,
-  FreeBaggage = 4,
-  FreeSeatSelection = 5,
-  FreeAirportTaxi = 6,
-  PetTransportation = 7,
 }
 
 export interface HotelOfferType extends Offer {
   hotel: Hotel;
   availability: number;
-  facilities: HotelFacility[];
 }
 
 export interface HotelOfferFormType {
@@ -89,39 +77,12 @@ export interface HotelOfferFormType {
   imageId: string;
   hotelId: string;
   price: number;
-  facilities: number[];
+  facilities: string[];
 }
 
-export enum HotelFacility {
-  Wifi = 0,
-  Pool = 1,
-  Gym = 2,
-  RoomService = 3,
-  Restaurant = 4,
-  Bar = 5,
-  Spa = 6,
-  Parking = 7,
-  ChildCare = 8,
-  PetFriendly = 9,
-  FacilitiesForDisabledGuests = 10,
-  Garden = 11,
-  Shops = 12,
-  AirConditioning = 13,
-  AirportShuttle = 14,
-}
-
-export enum ExcursionFacility {
-  TourGuides = 0,
-  Transportation = 1,
-  Equipment = 2,
-  Meals = 3,
-  Drinks = 4,
-  EntranceTickets = 5,
-  RecreationalActivities = 6,
-  FreeTime = 7,
-  Communication = 8,
-  EnvironmentalEducation = 9,
-  SafetyAndFirstAid = 10,
+export interface Facility {
+  id: string;
+  name: string;
 }
 
 export interface ExcursionOfferFormType {
@@ -132,7 +93,7 @@ export interface ExcursionOfferFormType {
   price: number;
   startDate: number;
   endDate: number;
-  facilities: number[];
+  facilities: string[];
   imageId: string;
 }
 
@@ -140,5 +101,4 @@ export interface ExcursionOfferType extends Offer {
   excursion: Excursion;
   excursionId: string;
   image: Image;
-  facilities: ExcursionFacility[];
 }

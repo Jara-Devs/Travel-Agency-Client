@@ -15,11 +15,9 @@ import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getExcursionFacility } from "../../../../common/offers/functions";
-import {
-  ExcursionFacility,
-  ExcursionOfferFormType,
-} from "../../../../types/offers";
+import { ExcursionOfferFormType, Facility } from "../../../../types/offers";
+import { facility } from "../../../../api/services";
+import { buildMessage } from "../../../../common/functions";
 
 export interface ExcursionOfferFormData {
   name: string;
@@ -29,7 +27,7 @@ export interface ExcursionOfferFormData {
   price: number;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
-  facilities: number[];
+  facilities: string[];
   image: Image;
 }
 
@@ -46,7 +44,10 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   values,
   open,
 }) => {
-  const [Excursion, setExcursion] = useState<Excursion[]>([]);
+  const [excursions, setExcursions] = useState<Excursion[]>([]);
+  const [excursionFacilities, setExcursionFacilities] = useState<Facility[]>(
+    []
+  );
   const [form] = Form.useForm<ExcursionOfferFormData>();
 
   const [image, setImage] = useState<Image>();
@@ -67,23 +68,20 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   const load = async () => {
     const responseExcursion = await excursion().get({
       select: ["id", "name"],
-      expand: {
-        image: {
-          select: ["id", "name", "url"],
-        },
-        places: {
-          select: ["id", "name"],
-        },
-        activities: {
-          select: ["id", "name"],
-        },
-      },
     });
 
-    if (responseExcursion.ok) {
-      setExcursion(responseExcursion.value!);
+    const responseExcursionFacilities = await facility().get({
+      select: ["id", "name"],
+      filter: { type: "Excursion" },
+    });
+
+    if (responseExcursion.ok && responseExcursionFacilities.ok) {
+      setExcursions(responseExcursion.value!);
+      setExcursionFacilities(responseExcursionFacilities.value!);
     } else {
-      message.error(responseExcursion.message);
+      message.error(
+        buildMessage([responseExcursion, responseExcursionFacilities])
+      );
     }
   };
 
@@ -149,7 +147,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             showSearch
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={Excursion.map((x) => ({
+            options={excursions.map((x) => ({
               value: x.id,
               label: `${x.name}`,
               key: x.id,
@@ -236,22 +234,10 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            options={[
-              ExcursionFacility.TourGuides,
-              ExcursionFacility.Transportation,
-              ExcursionFacility.Communication,
-              ExcursionFacility.Meals,
-              ExcursionFacility.Drinks,
-              ExcursionFacility.EntranceTickets,
-              ExcursionFacility.EnvironmentalEducation,
-              ExcursionFacility.Equipment,
-              ExcursionFacility.FreeTime,
-              ExcursionFacility.RecreationalActivities,
-              ExcursionFacility.SafetyAndFirstAid,
-            ].map((x) => ({
-              value: x,
-              label: getExcursionFacility(x),
-              key: x,
+            options={excursionFacilities.map((x) => ({
+              value: x.id,
+              label: x.name,
+              key: x.id,
             }))}
             placeholder="Select the facilities"
           />

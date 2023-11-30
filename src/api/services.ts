@@ -13,6 +13,7 @@ import {
 } from "../types/services";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
+import { Facility } from "../types/offers";
 
 export const serviceController = <T1, T2>(controller: string) => {
   const get = (odataQuery: Partial<QueryOptions<T1>>) =>
@@ -48,3 +49,6 @@ export const activity = () =>
   );
 
 export const flight = () => serviceController<Flight, FlightFormType>("flight");
+
+export const facility = () => serviceController<Facility, any>("facility");
+

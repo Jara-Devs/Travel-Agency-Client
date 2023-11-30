@@ -9,13 +9,15 @@ import {
   message,
   InputNumber,
 } from "antd";
-import { ApiResponse, Image } from "../../../../types/api";
+import { Image } from "../../../../types/api";
 import { Hotel } from "../../../../types/services";
 import { hotel } from "../../../../api/services";
 import UploadImage from "../../../../common/UploadImage";
 import Title from "antd/es/typography/Title";
 import dayjs from "dayjs";
-import { HotelFacility, HotelOfferFormType } from "../../../../types/offers";
+import { Facility, HotelOfferFormType } from "../../../../types/offers";
+import { facility } from "../../../../api/services";
+import { buildMessage } from "../../../../common/functions";
 
 export interface HotelFormProps {
   onOk: (form: HotelOfferFormType) => void;
@@ -33,7 +35,7 @@ export interface HotelOfferFormData {
   image: Image;
   hotelId: string;
   price: number;
-  facilities: number[];
+  facilities: string[];
 }
 
 const HotelOfferForm: FC<HotelFormProps> = ({
@@ -42,10 +44,8 @@ const HotelOfferForm: FC<HotelFormProps> = ({
   values,
   open,
 }) => {
-  const [_hotel, setHotel] = useState<Hotel[]>([]);
-  // const [selectedStartDate, setSelectedStartDate] = useState<number>();
-  // const [selectedEndDate, setSelectedEndDate] = useState<number>();
-
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [hotelFacilities, setHotelFacilities] = useState<Facility[]>([]);
   const [form] = Form.useForm<HotelOfferFormData>();
 
   useEffect(() => {
@@ -66,21 +66,16 @@ const HotelOfferForm: FC<HotelFormProps> = ({
       select: ["id", "name", "category"],
     });
 
-    if (responseHotel.ok) {
-      setHotel(responseHotel.value!);
+    const responseFacilities = await facility().get({
+      select: ["id", "name"],
+      filter: { type: "Hotel" },
+    });
+
+    if (responseHotel.ok && responseFacilities.ok) {
+      setHotels(responseHotel.value!);
+      setHotelFacilities(responseFacilities.value!);
     } else {
-      let msg = "";
-
-      const aux = (response: ApiResponse<any>) => {
-        if (!responseHotel.ok) {
-          if (msg.length === 0) msg = response.message;
-          else msg = `${message}, ${response.message}`;
-        }
-      };
-
-      aux(responseHotel);
-
-      message.error(msg);
+      message.error(buildMessage([responseHotel, responseFacilities]));
     }
   };
 
@@ -146,7 +141,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           <Select
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={_hotel.map((x) => ({
+            options={hotels.map((x) => ({
               value: x.id,
               label: x.name,
               key: x.id,
@@ -223,26 +218,10 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            options={[
-              HotelFacility.AirConditioning,
-              HotelFacility.AirportShuttle,
-              HotelFacility.Bar,
-              HotelFacility.ChildCare,
-              HotelFacility.FacilitiesForDisabledGuests,
-              HotelFacility.Garden,
-              HotelFacility.Gym,
-              HotelFacility.Parking,
-              HotelFacility.PetFriendly,
-              HotelFacility.Pool,
-              HotelFacility.Restaurant,
-              HotelFacility.RoomService,
-              HotelFacility.Shops,
-              HotelFacility.Spa,
-              HotelFacility.Wifi,
-            ].map((x) => ({
-              value: x,
-              label: HotelFacility[x],
-              key: x,
+            options={hotelFacilities.map((x) => ({
+              value: x.id,
+              label: x.name,
+              key: x.id,
             }))}
             placeholder="Select the facilities"
           />

@@ -10,7 +10,6 @@ import {
 } from "antd";
 import { FC } from "react";
 import Title from "antd/es/typography/Title";
-import { getHotelFacility } from "../../../common/offers/functions";
 import SlideCard from "../../../common/SlideCard";
 import { HotelOfferType } from "../../../types/offers";
 import { ShowMiniHotel } from "../services/ShowHotel";
@@ -92,7 +91,7 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
           <SlideCard
             data={hoteloffer.facilities.map((f) => (
               <Card hoverable>
-                <Card.Meta title={getHotelFacility(f)} />
+                <Card.Meta title={f.name} />
               </Card>
             ))}
             size="2"

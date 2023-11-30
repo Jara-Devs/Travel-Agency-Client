@@ -4,7 +4,6 @@ import Title from "antd/es/typography/Title";
 import { FlightOfferType } from "../../../types/offers";
 import { ShowMiniFlight } from "../services/ShowFlight";
 import SlideCard from "../../../common/SlideCard";
-import { getFlightFacility } from "../../../common/offers/functions";
 
 export interface ShowFlightOfferProps {
   open: boolean;
@@ -72,7 +71,7 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
           <SlideCard
             data={flightOffer.facilities.map((f) => (
               <Card hoverable>
-                <Card.Meta title={getFlightFacility(f)} />
+                <Card.Meta title={f.name} />
               </Card>
             ))}
             size="2"

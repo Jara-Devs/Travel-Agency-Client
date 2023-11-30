@@ -1,5 +1,5 @@
 import { Flight } from "../../../../types/services";
-import { FlightOfferFormType, FlightFacility } from "../../../../types/offers";
+import { Facility, FlightOfferFormType } from "../../../../types/offers";
 import { FC, useState, useEffect } from "react";
 import {
   Form,
@@ -16,7 +16,8 @@ import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { getFlightFacility } from "../../../../common/offers/functions";
+import { facility } from "../../../../api/services";
+import { buildMessage } from "../../../../common/functions";
 
 export interface FlightOfferFormData {
   name: string;
@@ -26,7 +27,7 @@ export interface FlightOfferFormData {
   price: number;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
-  facilities: number[];
+  facilities: string[];
   image: Image;
 }
 
@@ -46,7 +47,8 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
   values,
   open,
 }) => {
-  const [Flight, setFlight] = useState<Flight[]>([]);
+  const [flights, setFlights] = useState<Flight[]>([]);
+  const [flightFacilities, setFlightFacilities] = useState<Facility[]>([]);
   const [form] = Form.useForm<FlightOfferFormData>();
 
   const [image, setImage] = useState<Image>();
@@ -73,10 +75,16 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
       },
     });
 
-    if (responseFlight.ok) {
-      setFlight(responseFlight.value!);
+    const responseFacilities = await facility().get({
+      select: ["id", "name"],
+      filter: { type: "Flight" },
+    });
+
+    if (responseFlight.ok && responseFacilities.ok) {
+      setFlights(responseFlight.value!);
+      setFlightFacilities(responseFacilities.value!);
     } else {
-      message.error(responseFlight.message);
+      message.error(buildMessage([responseFlight, responseFacilities]));
     }
   };
 
@@ -142,7 +150,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             showSearch
             allowClear
             filterOption={(input, option) => option?.label === input}
-            options={Flight.map((x) => ({
+            options={flights.map((x) => ({
               value: x.id,
               label: `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`,
               key: x.id,
@@ -229,19 +237,10 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            options={[
-              FlightFacility.FreeAirportTaxi,
-              FlightFacility.FreeBaggage,
-              FlightFacility.FreeDrinks,
-              FlightFacility.FreeEntertainment,
-              FlightFacility.FreeMeals,
-              FlightFacility.FreeSeatSelection,
-              FlightFacility.FreeWifi,
-              FlightFacility.PetTransportation,
-            ].map((x) => ({
-              value: x,
-              label: getFlightFacility(x),
-              key: x,
+            options={flightFacilities.map((x) => ({
+              value: x.id,
+              label: x.name,
+              key: x.id,
             }))}
             placeholder="Select the facilities"
           />

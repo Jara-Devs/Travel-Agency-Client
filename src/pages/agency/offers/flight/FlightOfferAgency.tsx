@@ -12,7 +12,6 @@ import TableEntities, {
 } from "../../../../common/TableEntities";
 import dayjs from "dayjs";
 import { flightOffer } from "../../../../api/offers";
-import { getFlightFacility } from "../../../../common/offers/functions";
 import { UserContext } from "../../../../context/UserProvider";
 import { UserAgencyContext } from "../../../../types/auth";
 
@@ -53,6 +52,17 @@ const FlightOfferAgency = () => {
     };
 
     const response = await get({
+      select: [
+        "id",
+        "name",
+        "availability",
+        "description",
+        "price",
+        "startDate",
+        "endDate",
+        "flightId",
+        "agencyId",
+      ],
       expand: {
         image: {
           select: ["id", "name", "url"],
@@ -68,6 +78,7 @@ const FlightOfferAgency = () => {
             },
           },
         },
+        facilities: { select: ["id", "name"] },
       },
       filter: finalFilter,
     });
@@ -187,7 +198,7 @@ const FlightOfferAgency = () => {
                       <Row>
                         {v.facilities.map((f, idx) => (
                           <Tag key={idx} color="blue">
-                            {getFlightFacility(f)}
+                            {f.name}
                           </Tag>
                         ))}
                       </Row>
@@ -262,7 +273,7 @@ const FlightOfferAgency = () => {
             price: selected.price,
             startDate: dayjs(selected.startDate),
             endDate: dayjs(selected.endDate),
-            facilities: selected.facilities,
+            facilities: selected.facilities.map((f) => f.id),
             image: selected.image,
           }}
         />
