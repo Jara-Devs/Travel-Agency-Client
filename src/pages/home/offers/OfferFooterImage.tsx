@@ -1,19 +1,33 @@
 import { FC } from "react";
-import { Offer } from "../../../types/offers";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import dayjs from "dayjs";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
-const OfferFooterImage: FC<{ value: Offer }> = ({ value }) => (
+export interface OfferFooterImageProps {
+  price: number;
+  startDate: number;
+  endDate: number;
+}
+
+const OfferFooterImage: FC<OfferFooterImageProps> = ({
+  price,
+  startDate,
+  endDate,
+}) => (
   <div>
     <div className="center-content">
-      <Typography.Title level={3}>{`$ ${value.price.toFixed(
-        2
-      )}`}</Typography.Title>
+      <Typography.Title level={3}>{`$ ${price.toFixed(2)}`}</Typography.Title>
     </div>
 
-    <div style={{ fontSize: "12px" }}>{`${dayjs(value.startDate).format(
-      "D MMM YYYY"
-    )} / ${dayjs(value.startDate).format("D MMM YYYY")}`}</div>
+    <div style={{ fontSize: "12px" }} className="center-content">{`${dayjs(
+      startDate
+    ).format("D MMM YYYY")} - ${dayjs(endDate).format("D MMM YYYY")}`}</div>
+
+    <div className="center-content mt-5">
+      <Button type="primary">
+        <ShoppingCartOutlinedIcon />
+      </Button>
+    </div>
   </div>
 );
 

@@ -195,7 +195,13 @@ const HotelOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: <OfferFooterImage value={value} />,
+              footerImage: (
+                <OfferFooterImage
+                  price={value.price}
+                  startDate={value.startDate}
+                  endDate={value.endDate}
+                />
+              ),
             })}
           />
         </Col>

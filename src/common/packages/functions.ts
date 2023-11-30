@@ -1,19 +1,18 @@
 import { Package } from "../../types/packages";
-import dayjs from "dayjs";
 
 export const startDate = (v: Package) => {
   let start = Math.min(...v.excursionOffers.map((e) => e.startDate));
   start = Math.min(start, ...v.hotelOffers.map((e) => e.startDate));
   start = Math.min(start, ...v.flightOffers.map((e) => e.startDate));
 
-  return dayjs(start).format("DD/MM/YYYY");
+  return start;
 };
 export const endDate = (v: Package) => {
-  let start = Math.max(...v.excursionOffers.map((e) => e.endDate));
-  start = Math.max(start, ...v.hotelOffers.map((e) => e.endDate));
-  start = Math.max(start, ...v.flightOffers.map((e) => e.endDate));
+  let end = Math.max(...v.excursionOffers.map((e) => e.endDate));
+  end = Math.max(end, ...v.hotelOffers.map((e) => e.endDate));
+  end = Math.max(end, ...v.flightOffers.map((e) => e.endDate));
 
-  return dayjs(start).format("DD/MM/YYYY");
+  return end;
 };
 
 export const getPackagePrice = (x: Package) => {
@@ -29,5 +28,5 @@ export const getPackagePrice = (x: Package) => {
     sum += offer.price;
   });
 
-  return (sum - (x.discount / 100) * sum).toFixed(2);
+  return sum - (x.discount / 100) * sum;
 };

@@ -15,6 +15,7 @@ import {
   getPackagePrice,
   startDate,
 } from "../../../common/packages/functions";
+import dayjs from "dayjs";
 
 const PackagesAgency = () => {
   const { get, create, edit, remove } = packageOffer();
@@ -204,12 +205,16 @@ const PackagesAgency = () => {
                 {
                   key: "start",
                   title: "Initial Date",
-                  render: (v: Package) => <>{startDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(startDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   key: "end",
                   title: "Final Date",
-                  render: (v: Package) => <>{endDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(endDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   title: "Hotel Offers",
@@ -260,7 +265,9 @@ const PackagesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: Package) => <>{`$ ${getPackagePrice(v)}`}</>,
+                  render: (v: Package) => (
+                    <>{`$ ${getPackagePrice(v).toFixed(2)}`}</>
+                  ),
                 },
 
                 {

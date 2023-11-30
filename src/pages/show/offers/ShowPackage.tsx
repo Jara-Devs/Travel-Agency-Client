@@ -41,7 +41,9 @@ const ShowPackage: FC<ShowPackageProps> = ({ open, onOk, packageOffer }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
-            <Card.Meta title={`$ ${getPackagePrice(packageOffer)}`} />
+            <Card.Meta
+              title={`$ ${getPackagePrice(packageOffer).toFixed(2)}`}
+            />
           </Card>
         </Col>
       </Row>

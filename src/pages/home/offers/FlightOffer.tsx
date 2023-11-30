@@ -72,14 +72,7 @@ const FlightOffer = () => {
     const finalFilter = { and: [filter, { startDate: { ge: toDate } }] };
 
     const result = await get({
-      select: [
-        "id",
-        "name",
-        "description",
-        "startDate",
-        "endDate",
-        "price",
-      ],
+      select: ["id", "name", "description", "startDate", "endDate", "price"],
       expand: {
         image: { select: ["id", "name", "url"] },
         flight: {
@@ -214,7 +207,13 @@ const FlightOffer = () => {
               title: value.name,
               image: value.image,
               description: value.description,
-              footerImage: <OfferFooterImage value={value} />,
+              footerImage: (
+                <OfferFooterImage
+                  price={value.price}
+                  startDate={value.startDate}
+                  endDate={value.endDate}
+                />
+              ),
             })}
           />
         </Col>

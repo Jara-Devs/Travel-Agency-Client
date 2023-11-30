@@ -25,6 +25,12 @@ import ShowMiniOffer from "../../show/offers/ShowMiniOffer";
 import ShowPackage from "../../show/offers/ShowPackage";
 import ShowHotelOffer from "../../show/offers/ShowHotelOffer";
 import ShowFlightOffer from "../../show/offers/ShowFlightOffer";
+import OfferFooterImage from "../offers/OfferFooterImage";
+import {
+  endDate,
+  getPackagePrice,
+  startDate,
+} from "../../../common/packages/functions";
 
 const PackageOffer = () => {
   const { get } = packageOffer();
@@ -306,7 +312,13 @@ const PackageOffer = () => {
               title: value.name,
               image: getOffers(value)[0].image,
               description: value.description,
-              // footerImage: <OfferFooterImage value={value} />,
+              footerImage: (
+                <OfferFooterImage
+                  price={getPackagePrice(value)}
+                  startDate={startDate(value)}
+                  endDate={endDate(value)}
+                />
+              ),
             })}
           />
         </Col>
