@@ -1,4 +1,4 @@
-import { Excursion } from "../../../../types/services";
+import { Excursion, Facility, FacilityType } from "../../../../types/services";
 import { FC, useState, useEffect } from "react";
 import {
   Form,
@@ -15,7 +15,7 @@ import { Image } from "../../../../types/api";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../../common/UploadImage";
 import dayjs from "dayjs";
-import { ExcursionOfferFormType, Facility } from "../../../../types/offers";
+import { ExcursionOfferFormType } from "../../../../types/offers";
 import { facility } from "../../../../api/services";
 import { buildMessage } from "../../../../common/functions";
 
@@ -72,7 +72,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
 
     const responseExcursionFacilities = await facility().get({
       select: ["id", "name"],
-      filter: { type: "Excursion" },
+      filter: { type: FacilityType[FacilityType.Excursion] },
     });
 
     if (responseExcursion.ok && responseExcursionFacilities.ok) {

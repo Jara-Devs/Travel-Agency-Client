@@ -10,12 +10,12 @@ import {
   InputNumber,
 } from "antd";
 import { Image } from "../../../../types/api";
-import { Hotel } from "../../../../types/services";
+import { Facility, FacilityType, Hotel } from "../../../../types/services";
 import { hotel } from "../../../../api/services";
 import UploadImage from "../../../../common/UploadImage";
 import Title from "antd/es/typography/Title";
 import dayjs from "dayjs";
-import { Facility, HotelOfferFormType } from "../../../../types/offers";
+import { HotelOfferFormType } from "../../../../types/offers";
 import { facility } from "../../../../api/services";
 import { buildMessage } from "../../../../common/functions";
 
@@ -68,7 +68,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
 
     const responseFacilities = await facility().get({
       select: ["id", "name"],
-      filter: { type: "Hotel" },
+      filter: { type: FacilityType[FacilityType.Hotel] },
     });
 
     if (responseHotel.ok && responseFacilities.ok) {

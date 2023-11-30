@@ -14,10 +14,11 @@ import { flight } from "../../../api/services";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { UserContext } from "../../../context/UserProvider";
 import { useContext } from "react";
+import { isGuid } from "../../../common/functions";
 import {
-  isGuid,
-} from "../../../common/functions";
-import { reactionLogic, selectedReaction } from "../../../common/offers/reactions";
+  reactionLogic,
+  selectedReaction,
+} from "../../../common/offers/reactions";
 import OfferFooterImage from "./OfferFooterImage";
 import dayjs from "dayjs";
 
@@ -70,8 +71,15 @@ const FlightOffer = () => {
     const toDate = dayjs().toDate().valueOf();
     const finalFilter = { and: [filter, { startDate: { ge: toDate } }] };
 
-
     const result = await get({
+      select: [
+        "id",
+        "name",
+        "description",
+        "startDate",
+        "endDate",
+        "price",
+      ],
       expand: {
         image: { select: ["id", "name", "url"] },
         flight: {
@@ -88,8 +96,9 @@ const FlightOffer = () => {
           },
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
+        facilities: { select: ["id", "name"] },
       },
-      filter:finalFilter,
+      filter: finalFilter,
     });
 
     if (result.ok) setData(result.value || []);

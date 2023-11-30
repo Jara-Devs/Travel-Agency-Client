@@ -85,3 +85,18 @@ export interface FlightFormType {
   destinationId: string;
   duration: number;
 }
+
+export interface Facility {
+  id: string;
+  name: string;
+}
+
+export interface FacilityFormType {
+  name: string;
+}
+
+export enum FacilityType {
+  Hotel = 0,
+  Excursion = 1,
+  Flight = 2,
+}

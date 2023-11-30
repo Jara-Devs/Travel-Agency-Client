@@ -1,5 +1,5 @@
 import { Image } from "./api";
-import { Excursion, Flight, Hotel } from "./services";
+import { Excursion, Facility, Flight, Hotel } from "./services";
 
 export interface Reaction {
   id: string;
@@ -78,11 +78,6 @@ export interface HotelOfferFormType {
   hotelId: string;
   price: number;
   facilities: string[];
-}
-
-export interface Facility {
-  id: string;
-  name: string;
 }
 
 export interface ExcursionOfferFormType {

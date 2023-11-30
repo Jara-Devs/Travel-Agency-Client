@@ -69,6 +69,7 @@ const HotelOffer = () => {
     const finalFilter = { and: [filter, { startDate: { ge: toDate } }] };
 
     const result = await get({
+      select: ["id", "name", "description", "startDate", "endDate", "price"],
       expand: {
         image: { select: ["id", "name", "url"] },
         hotel: {
@@ -83,6 +84,7 @@ const HotelOffer = () => {
           },
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
+        facilities: { select: ["id", "name"] },
       },
       filter: finalFilter,
     });

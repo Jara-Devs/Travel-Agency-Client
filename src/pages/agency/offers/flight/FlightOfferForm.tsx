@@ -1,5 +1,5 @@
-import { Flight } from "../../../../types/services";
-import { Facility, FlightOfferFormType } from "../../../../types/offers";
+import { Facility, FacilityType, Flight } from "../../../../types/services";
+import { FlightOfferFormType } from "../../../../types/offers";
 import { FC, useState, useEffect } from "react";
 import {
   Form,
@@ -77,7 +77,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
 
     const responseFacilities = await facility().get({
       select: ["id", "name"],
-      filter: { type: "Flight" },
+      filter: { type: FacilityType[FacilityType.Flight] },
     });
 
     if (responseFlight.ok && responseFacilities.ok) {
