@@ -89,10 +89,12 @@ export interface FlightFormType {
 export interface Facility {
   id: string;
   name: string;
+  type: FacilityType;
 }
 
 export interface FacilityFormType {
   name: string;
+  type: FacilityType;
 }
 
 export enum FacilityType {
