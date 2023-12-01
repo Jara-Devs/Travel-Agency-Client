@@ -1,4 +1,4 @@
-import { Button, Col, message, Row, Tag, Tooltip } from "antd";
+import { Col, message, Row, Tag, Tooltip, Typography } from "antd";
 import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import { useState, useRef, useContext } from "react";
@@ -144,6 +144,13 @@ const TicketAgency = () => {
   return (
     <>
       <div className="m-5">
+        <Row justify="space-between" className="app-header">
+          <Col>
+            <Typography>
+              <Typography.Title>Ticket</Typography.Title>
+            </Typography>
+          </Col>
+        </Row>
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
@@ -227,23 +234,23 @@ const TicketAgency = () => {
                   title: "Actions",
                   key: "Actions",
                   render: (v: Package) => (
-                    <Row gutter={25}>
-                      <Col>
-                        <Button
-                          type="primary"
-                          disabled={loading}
-                          onClick={() => setReserveModal(true)}
-                        >
-                          Reserve
-                        </Button>
-                      </Col>
+                    <Row gutter={5}>
                       <Col>
                         <Tooltip title="Show">
                           <EyeOutlined
-                            style={{ fontSize: "24px" }}
                             onClick={() => {
                               setSelected(v);
                               setShowModal(true);
+                            }}
+                          />
+                        </Tooltip>
+                      </Col>
+                      <Col>
+                        <Tooltip title="Reserve">
+                          <EyeOutlined
+                            onClick={() => {
+                              setSelected(v);
+                              setReserveModal(true);
                             }}
                           />
                         </Tooltip>
