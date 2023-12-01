@@ -15,9 +15,14 @@ import { UserAgencyContext } from "../../types/auth";
 import { Package } from "../../types/packages";
 import ShowPackage from "../show/offers/ShowPackage";
 import dayjs from "dayjs";
+import ReserveForm from "../reserve/ReserveForm";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { reserveTicket } from "../../api/reserves";
+import { ReserveFormType } from "../../types/reserves";
 
 const TicketAgency = () => {
   const { get } = packageOffer();
+  const { create } = reserveTicket();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [reserveModal, setReserveModal] = useState<boolean>(false);
@@ -31,6 +36,17 @@ const TicketAgency = () => {
   });
   const { user } = useContext(UserContext);
   const toDate = dayjs().toDate().valueOf();
+
+  const reserve = async (form: ReserveFormType) => {
+    setLoading(true);
+
+    const response = await create(form);
+
+    if (response.ok) message.success("Reserve created");
+    else message.error(response.message);
+
+    setLoading(false);
+  };
 
   const load = async (
     _: Record<string, FilterValue | null>,
@@ -247,7 +263,8 @@ const TicketAgency = () => {
                       </Col>
                       <Col>
                         <Tooltip title="Reserve">
-                          <EyeOutlined
+                          <ShoppingCartOutlinedIcon
+                            style={{ fontSize: "14px", cursor: "pointer" }}
                             onClick={() => {
                               setSelected(v);
                               setReserveModal(true);
@@ -270,8 +287,29 @@ const TicketAgency = () => {
           open={showModal}
           onOk={() => {
             setShowModal(false);
+            setSelected(undefined);
           }}
           packageOffer={selected}
+        />
+      )}
+      {selected && (
+        <ReserveForm
+          isOnline={false}
+          packageOffer={selected}
+          open={reserveModal}
+          onOk={(form) => {
+            setReserveModal(false);
+            setSelected(undefined);
+            reserve({
+              userIdentities: form.userIdentities,
+              packageId: form.packageId,
+              userIdentity: form.userIdentity,
+            });
+          }}
+          onCancel={() => {
+            setReserveModal(false);
+            setSelected(undefined);
+          }}
         />
       )}
     </>
