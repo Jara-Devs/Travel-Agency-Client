@@ -108,7 +108,7 @@ const TicketAgency = () => {
     };
 
     const response = await get({
-      select: ["id", "description", "name", "discount"],
+      select: ["id", "description", "name", "discount", "isSingleOffer"],
       expand: {
         flightOffers: {
           select: [
@@ -164,6 +164,8 @@ const TicketAgency = () => {
 
     if (response.ok) {
       const data = response.value || [];
+      console.log(data);
+
       setDataValue(data.filter((x) => getPackageAvailability(x) > 0));
     } else {
       message.error(response.message);
@@ -185,7 +187,7 @@ const TicketAgency = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Packages"
+              title="Packages - Offers"
               loading={loading}
               columns={[
                 {
@@ -194,9 +196,32 @@ const TicketAgency = () => {
                   render: (v: Package) => <>{v.name}</>,
                 },
                 {
+                  title: "Description",
+                  key: "description",
+                  render: (v: Package) => <>{v.description}</>,
+                },
+                {
                   title: "Discount",
                   key: "discount",
                   render: (v: Package) => <>{`${v.discount}% `}</>,
+                },
+                {
+                  title: "Availability",
+                  key: "availability",
+                  render: (v: Package) => <>{getPackageAvailability(v)}</>,
+                },
+                {
+                  title: "Type",
+                  key: "type",
+                  render: (v: Package) => (
+                    <>
+                      {v.isSingleOffer ? (
+                        <Tag color="blue">Package</Tag>
+                      ) : (
+                        <Tag color="green">Offer</Tag>
+                      )}
+                    </>
+                  ),
                 },
                 {
                   key: "start",
@@ -313,18 +338,17 @@ const TicketAgency = () => {
       {selected && (
         <ReserveForm
           isOnline={false}
-          isSingleOffer={false}
           availability={getPackageAvailability(selected)}
-          id={selected.id}
           open={reserveModal}
           onOk={(form) => {
+            let p = selected;
             setReserveModal(false);
             setSelected(undefined);
             reserve({
               userIdentities: form.userIdentities,
-              id: form.id,
-              isSingleOffer: form.isSingleOffer,
-              userIdentity: form.userIdentity,
+              id: p.id,
+              isSingleOffer: false,
+              userIdentity: form.userIdentities[0],
             });
           }}
           onCancel={() => {

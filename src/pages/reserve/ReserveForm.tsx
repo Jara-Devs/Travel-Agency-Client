@@ -8,10 +8,11 @@ import {
   Alert,
   Tooltip,
   InputNumber,
+  message,
 } from "antd";
 import { FC } from "react";
 import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
-import { ReserveOnlineForm, UserIdentity } from "../../types/reserves";
+import { UserIdentity } from "../../types/reserves";
 import Title from "antd/es/typography/Title";
 
 export interface ReserveData {
@@ -20,10 +21,8 @@ export interface ReserveData {
 }
 
 export interface ReserveFormProps {
-  id: string;
   availability: number;
-  isSingleOffer: boolean;
-  onOk: (values: ReserveOnlineForm) => void;
+  onOk: (values: ReserveData) => void;
   onCancel: () => void;
   open: boolean;
   isOnline: boolean;
@@ -31,9 +30,7 @@ export interface ReserveFormProps {
 
 const ReserveForm: FC<ReserveFormProps> = ({
   onOk,
-  id,
   availability,
-  isSingleOffer,
   open,
   isOnline,
   onCancel,
@@ -61,13 +58,8 @@ const ReserveForm: FC<ReserveFormProps> = ({
         layout="vertical"
         style={{ marginTop: "20px" }}
         onFinish={(values: ReserveData) => {
-          onOk({
-            userIdentities: values.userIdentities,
-            userIdentity: values.userIdentities[0],
-            id,
-            isSingleOffer,
-            creditCard: values.creditCard,
-          });
+          if (values.userIdentities) onOk(values);
+          else message.error("Select at least one person");
         }}
       >
         <Alert message={info} type="info" style={{ marginBottom: "30px" }} />
@@ -148,7 +140,7 @@ const ReserveForm: FC<ReserveFormProps> = ({
                 : []
             }
           >
-            <InputNumber />
+            <InputNumber style={{ width: "100%" }} />
           </Form.Item>
         )}
       </Form>

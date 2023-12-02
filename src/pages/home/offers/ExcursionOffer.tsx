@@ -244,6 +244,9 @@ const ExcursionOffer = () => {
                 <OfferFooterImage
                   reserveBtn={
                     <ReserveOnline
+                      isSingleOffer={true}
+                      loading={loading}
+                      setLoading={setLoading}
                       id={value.id}
                       availability={offerAvailability(value)}
                     />

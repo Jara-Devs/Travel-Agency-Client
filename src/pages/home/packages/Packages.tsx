@@ -371,6 +371,9 @@ const PackageOffer = () => {
                 <OfferFooterImage
                   reserveBtn={
                     <ReserveOnline
+                      isSingleOffer={false}
+                      loading={loading}
+                      setLoading={setLoading}
                       id={value.id}
                       availability={getPackageAvailability(value)}
                     />
