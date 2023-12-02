@@ -103,6 +103,9 @@ const PackageOffer = () => {
       and: [
         filter,
         {
+          isSingleOffer: { eq: false },
+        },
+        {
           hotelOffers: {
             all: {
               startDate: {

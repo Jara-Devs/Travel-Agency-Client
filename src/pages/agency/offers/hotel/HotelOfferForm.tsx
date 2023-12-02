@@ -52,7 +52,6 @@ const HotelOfferForm: FC<HotelFormProps> = ({
     if (open) form.resetFields();
     if (values) {
       form.setFieldsValue({ ...values });
-      console.log(values.startDate);
       setImage(values.image);
     } else {
       form.setFieldsValue({ price: 0.01, availability: 1 });
@@ -118,7 +117,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
               endDate: values.endDate.valueOf(),
               description: values.description,
               imageId: image.id,
-              facilities: values.facilities,
+              facilities: values.facilities ?? [],
             });
           else {
             message.error("You must upload an image");
@@ -210,11 +209,7 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item
-          name="facilities"
-          label="Facilities"
-          rules={[{ required: true, message: "Select the facilities" }]}
-        >
+        <Form.Item name="facilities" label="Facilities">
           <Select
             mode="multiple"
             allowClear
@@ -235,5 +230,3 @@ const HotelOfferForm: FC<HotelFormProps> = ({
 
 export default HotelOfferForm;
 
-// onChange={endDateChange}
-// onChange={startDateChange}
