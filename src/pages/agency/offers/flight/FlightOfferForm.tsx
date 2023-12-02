@@ -149,7 +149,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             style={{ width: "100%" }}
             showSearch
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={flights.map((x) => ({
               value: x.id,
               label: `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`,
@@ -233,6 +238,13 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           <Select
             mode="multiple"
             allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={flightFacilities.map((x) => ({
               value: x.id,
               label: x.name,

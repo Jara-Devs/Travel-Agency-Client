@@ -138,8 +138,14 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           rules={[{ required: true, message: "Select the hotel" }]}
         >
           <Select
+            showSearch
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={hotels.map((x) => ({
               value: x.id,
               label: x.name,
@@ -213,6 +219,13 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           <Select
             mode="multiple"
             allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={hotelFacilities.map((x) => ({
               value: x.id,
               label: x.name,
@@ -229,4 +242,3 @@ const HotelOfferForm: FC<HotelFormProps> = ({
 };
 
 export default HotelOfferForm;
-

@@ -112,7 +112,12 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
             mode="multiple"
             showSearch
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={hotels.map((x) => ({
               value: x.id,
               label: x.name,
@@ -130,7 +135,13 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={places.map((x) => ({
               value: x.id,
               label: x.name,
@@ -148,7 +159,13 @@ const ExcursionForm: FC<ExcursionFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={activities.map((x) => ({
               value: x.id,
               label: x.name,

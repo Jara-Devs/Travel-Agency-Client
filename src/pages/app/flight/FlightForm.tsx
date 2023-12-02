@@ -144,7 +144,13 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         >
           <Select
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={place.map((x) => ({
               value: x.id,
               label: x.name,
@@ -161,7 +167,13 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         >
           <Select
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={place.map((x) => ({
               value: x.id,
               label: x.name,

@@ -47,7 +47,12 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
                     }}
                     style={f.styles}
                     showSearch={f.search}
-                    filterOption={(input, option) => option?.label === input}
+                    filterOption={(input, option) =>
+                      (option?.label
+                        ?.toString()
+                        ?.toLowerCase()
+                        ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+                    }
                     allowClear
                     options={f.options}
                     placeholder={f.name}
