@@ -98,6 +98,17 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
         form={form}
         onFinish={(values: FlightFormData) => {
           const duration = dayjs.duration({ hours: hours, minutes: minutes });
+
+          if (duration.asMilliseconds() === 0) {
+            message.error("You must introduce a duration");
+            return;
+          }
+
+          if (values.originId === values.destinationId) {
+            message.error("Origin and destination must be different");
+            return;
+          }
+          
           onOk({
             company: values.company,
             originId: values.originId,

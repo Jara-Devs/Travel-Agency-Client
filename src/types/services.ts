@@ -11,6 +11,7 @@ export interface City {
 export interface CityFormType {
   name: string;
   country: string;
+  imageId: string;
 }
 
 export interface TouristPlace {

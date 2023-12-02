@@ -11,7 +11,8 @@ import AirplaneTicketOutlinedIcon from "@mui/icons-material/AirplaneTicketOutlin
 import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
 import PoolOutlinedIcon from "@mui/icons-material/PoolOutlined";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
-import AccessibilityNewOutlinedIcon from '@mui/icons-material/AccessibilityNewOutlined';
+import AccessibilityNewOutlinedIcon from "@mui/icons-material/AccessibilityNewOutlined";
+import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
 import MyHeader from "../layout/Header";
 
 import React, { useContext, useState } from "react";
@@ -161,8 +162,15 @@ const MyLayout = () => {
           getItem("Activities", "19", <PoolOutlinedIcon />, undefined, () =>
             navigate("/app/activity")
           ),
-          getItem("Facilities", "21", <AccessibilityNewOutlinedIcon />, undefined, () =>
-            navigate("/app/facility")
+          getItem(
+            "Facilities",
+            "21",
+            <AccessibilityNewOutlinedIcon />,
+            undefined,
+            () => navigate("/app/facility")
+          ),
+          getItem("Cities", "22", <LocationCityOutlinedIcon />, undefined, () =>
+            navigate("/app/city")
           ),
         ]),
       ].concat(appAdmin)
