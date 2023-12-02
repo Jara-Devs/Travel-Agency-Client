@@ -36,7 +36,10 @@ const PlaceApp = () => {
 
     const response = await get({
       select: ["id", "description", "name", "address"],
-      expand: { image: { select: ["id", "url", "name"] } },
+      expand: {
+        image: { select: ["id", "url", "name"] },
+        city: { select: ["id", "name", "country"] },
+      },
       filter: searchFilter,
     });
 
@@ -122,7 +125,7 @@ const PlaceApp = () => {
                   title: "Address",
                   key: "address",
                   render: (v: TouristPlace) => (
-                    <>{`${v.address.description}, ${v.address.city}, ${v.address.country}`}</>
+                    <>{`${v.address}, ${v.city.name}, ${v.city.country}`}</>
                   ),
                 },
                 {
@@ -187,9 +190,8 @@ const PlaceApp = () => {
           values={{
             name: selected.name,
             description: selected.description,
-            address: selected.address.description,
-            city: selected.address.city,
-            country: selected.address.country,
+            address: selected.address,
+            cityId: selected.city.id,
             image: selected.image,
           }}
         />

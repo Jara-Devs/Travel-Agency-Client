@@ -1,16 +1,16 @@
 import { FC, useEffect, useState } from "react";
-import { TouristPlaceFormType } from "../../../types/services";
-import { Form, Input, Modal, Typography, message } from "antd";
+import { City, TouristPlaceFormType } from "../../../types/services";
+import { Form, Input, Modal, Select, Typography, message } from "antd";
 import Title from "antd/es/typography/Title";
 import UploadImage from "../../../common/UploadImage";
-import { Image } from "../../../types/api";
+import { ApiResponse, Image } from "../../../types/api";
+import { city } from "../../../api/services";
 
 export interface PlaceFormData {
   name: string;
   description: string;
   address: string;
-  city: string;
-  country: string;
+  cityId: string;
   image: Image;
 }
 export interface PlaceFormProps {
@@ -22,6 +22,7 @@ export interface PlaceFormProps {
 
 const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
   const [form] = Form.useForm<PlaceFormData>();
+  const [cities, setCities] = useState<City[]>([]);
 
   useEffect(() => {
     if (open) form.resetFields();
@@ -32,6 +33,31 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
   }, [open, form, values]);
 
   const [image, setImage] = useState<Image>();
+
+  const load = async () => {
+    const responsePlace = await city().get({ select: ["id", "name"] });
+
+    if (responsePlace.ok) {
+      setCities(responsePlace.value!);
+    } else {
+      let msg = "";
+
+      const aux = (response: ApiResponse<any>) => {
+        if (!responsePlace.ok) {
+          if (msg.length === 0) msg = response.message;
+          else msg = `${message}, ${response.message}`;
+        }
+      };
+
+      aux(responsePlace);
+
+      message.error(msg);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
 
   return (
     <Modal
@@ -53,11 +79,8 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
             onOk({
               name: values.name,
               description: values.description,
-              address: {
-                description: values.address,
-                country: values.country,
-                city: values.city,
-              },
+              address: values.address,
+              cityId: values.cityId,
               imageId: image.id,
             });
           else {
@@ -86,19 +109,28 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
         >
           <Input placeholder="Introduce the address" />
         </Form.Item>
+
         <Form.Item
-          name="city"
+          name="cityId"
           label="City"
-          rules={[{ required: true, message: "Introduce the city" }]}
+          rules={[{ required: true, message: "Select the city" }]}
         >
-          <Input placeholder="Introduce the country" />
-        </Form.Item>
-        <Form.Item
-          name="country"
-          label="Country"
-          rules={[{ required: true, message: "Introduce the country" }]}
-        >
-          <Input placeholder="Introduce the country" />
+          <Select
+            allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
+            options={cities.map((x) => ({
+              value: x.id,
+              label: `${x.name}, ${x.country}`,
+              key: x.id,
+            }))}
+            placeholder="Select the city"
+          />
         </Form.Item>
 
         <UploadImage setImage={setImage} image={image} />

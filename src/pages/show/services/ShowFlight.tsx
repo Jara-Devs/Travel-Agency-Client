@@ -68,7 +68,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
           <Title level={4}>Origin</Title>
           <Divider />
 
-          <ShowMiniPlace place={flight.origin} />
+          {/* <ShowMiniPlace place={flight.origin} /> */}
         </Col>
       </Row>
       <Row className="m-5">
@@ -76,7 +76,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
           <Title level={4}>Destination</Title>
           <Divider />
 
-          <ShowMiniPlace place={flight.destination} />
+          {/* <ShowMiniPlace place={flight.destination} /> */}
         </Col>
       </Row>
     </Modal>

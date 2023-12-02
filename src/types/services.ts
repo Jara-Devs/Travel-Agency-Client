@@ -1,18 +1,33 @@
 import { Image } from "./api";
-import { Address } from "./common";
+
+export interface City {
+  name: string;
+  id: string;
+  country: string;
+  imageId: string;
+  image: Image;
+}
+
+export interface CityFormType {
+  name: string;
+  country: string;
+}
 
 export interface TouristPlace {
   id: string;
   name: string;
   description: string;
-  address: Address;
+  address: string;
+  cityId: string;
+  city: City;
   image: Image;
 }
 
 export interface TouristPlaceFormType {
   name: string;
   description: string;
-  address: Address;
+  address: string;
+  cityId: string;
   imageId: string;
 }
 
@@ -72,8 +87,8 @@ export interface HotelFormType {
 export interface Flight {
   id: string;
   company: string;
-  origin: TouristPlace;
-  destination: TouristPlace;
+  origin: City;
+  destination: City;
   duration: number;
   originId: string;
   destinationId: string;

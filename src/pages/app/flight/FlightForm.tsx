@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { TouristPlace, FlightFormType } from "../../../types/services";
+import { FlightFormType, City } from "../../../types/services";
 import {
   Form,
   Input,
@@ -12,7 +12,7 @@ import {
   InputNumber,
 } from "antd";
 import Title from "antd/es/typography/Title";
-import { touristPlace } from "../../../api/services";
+import { city } from "../../../api/services";
 import { ApiResponse } from "../../../types/api";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -34,7 +34,7 @@ export interface FlightFormProps {
 }
 
 const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
-  const [place, setPlace] = useState<TouristPlace[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
 
   const [form] = Form.useForm<FlightFormData>();
 
@@ -55,10 +55,12 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
   }, [open, form, values]);
 
   const load = async () => {
-    const responsePlace = await touristPlace().get({ select: ["id", "name"] });
+    const responsePlace = await city().get({
+      select: ["id", "name", "country"],
+    });
 
     if (responsePlace.ok) {
-      setPlace(responsePlace.value!);
+      setCities(responsePlace.value!);
     } else {
       let msg = "";
 
@@ -151,9 +153,9 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 ?.toLowerCase()
                 ?.indexOf(input.toLowerCase()) ?? -1) >= 0
             }
-            options={place.map((x) => ({
+            options={cities.map((x) => ({
               value: x.id,
-              label: x.name,
+              label: `${x.name}, ${x.country}`,
               key: x.id,
             }))}
             placeholder="Select the origin"
@@ -174,9 +176,9 @@ const FlightForm: FC<FlightFormProps> = ({ onOk, onCancel, values, open }) => {
                 ?.toLowerCase()
                 ?.indexOf(input.toLowerCase()) ?? -1) >= 0
             }
-            options={place.map((x) => ({
+            options={cities.map((x) => ({
               value: x.id,
-              label: x.name,
+              label: `${x.name}, ${x.country}`,
               key: x.id,
             }))}
             placeholder="Select the destination"

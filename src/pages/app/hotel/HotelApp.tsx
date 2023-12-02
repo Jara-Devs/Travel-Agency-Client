@@ -40,7 +40,10 @@ const HotelApp = () => {
       expand: {
         touristPlace: {
           select: ["id", "name", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            city: { select: ["id", "name", "country"] },
+          },
         },
         image: { select: ["id", "url", "name"] },
       },
@@ -123,14 +126,12 @@ const HotelApp = () => {
                 {
                   title: "Category",
                   key: "category",
-                  render: (v: Hotel) => <HotelCategoryComp x={v.category}/>,
+                  render: (v: Hotel) => <HotelCategoryComp x={v.category} />,
                 },
                 {
                   title: "Place",
                   key: "place",
-                  render: (v: Hotel) => (
-                    <>{`${v.touristPlace.name}, ${v.touristPlace.address.country}`}</>
-                  ),
+                  render: (v: Hotel) => <>{v.touristPlace.name}</>,
                 },
                 {
                   title: "Actions",

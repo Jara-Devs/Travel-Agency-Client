@@ -153,12 +153,10 @@ const PackageOffer = () => {
               select: ["company", "duration"],
               expand: {
                 origin: {
-                  select: ["name", "description"],
-                  expand: { image: { select: ["id", "name", "url"] } },
+                  select: ["name", "country"],
                 },
                 destination: {
-                  select: ["name", "description"],
-                  expand: { image: { select: ["id", "name", "url"] } },
+                  select: ["name", "country"],
                 },
               },
             },

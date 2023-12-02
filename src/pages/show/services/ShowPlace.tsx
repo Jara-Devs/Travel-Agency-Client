@@ -65,7 +65,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
           <Card hoverable>
             <Card.Meta
               title="Address"
-              description={`${place.address.description}, ${place.address.city}, ${place.address.country}`}
+              description={`${place.address}, ${place.city.name}, ${place.city.country}`}
             />
           </Card>
         </Col>
