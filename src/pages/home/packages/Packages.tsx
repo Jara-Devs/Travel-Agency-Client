@@ -347,27 +347,19 @@ const PackageOffer = () => {
                 />
               </Tooltip>,
               <Tooltip title="Availability">
-                <Row gutter={2}>
-                  <Col>
-                    <LocalOfferIcon
-                      style={{ paddingTop: "3px" }}
-                      fontSize="small"
-                    />
-                  </Col>
-                  <Col>{getPackageAvailability(value)}</Col>
-                </Row>
+                <LocalOfferIcon
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
+                />{" "}
+                {getPackageAvailability(value)}
               </Tooltip>,
 
               <Tooltip title="Discount">
-                <Row gutter={2}>
-                  <Col>
-                    <DiscountOutlinedIcon
-                      style={{ paddingTop: "3px" }}
-                      fontSize="small"
-                    />
-                  </Col>
-                  <Col>{value.discount} %</Col>
-                </Row>
+                <DiscountOutlinedIcon
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
+                />{" "}
+                {value.discount} %
               </Tooltip>,
             ]}
             convert={(value: Package) => ({

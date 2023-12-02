@@ -1,4 +1,4 @@
-import { OfferType } from "../../types/offers";
+import { Offer, OfferType } from "../../types/offers";
 
 export const offerTypeLabel = (type: OfferType) => {
   switch (type) {
@@ -10,3 +10,6 @@ export const offerTypeLabel = (type: OfferType) => {
       return "Excursion Offer";
   }
 };
+
+export const offerAvailability = (offer: Offer) =>
+  offer.availability - offer.reserves.length;
