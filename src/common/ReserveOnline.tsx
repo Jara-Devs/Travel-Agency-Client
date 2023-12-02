@@ -13,6 +13,7 @@ export interface ReserveOnlineProps {
   isSingleOffer: boolean;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  reload: () => void;
 }
 
 const ReserveOnline: FC<ReserveOnlineProps> = ({
@@ -21,6 +22,7 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
   isSingleOffer,
   id,
   availability,
+  reload,
 }) => {
   const { user } = useContext(UserContext);
   const { create } = reserveOnline();
@@ -32,8 +34,10 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
 
     const response = await create(form);
 
-    if (response.ok) message.success("Reserve created");
-    else message.error(response.message);
+    if (response.ok) {
+      message.success("Reserve created");
+      reload();
+    } else message.error(response.message);
 
     setLoading(false);
   };

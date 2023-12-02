@@ -244,6 +244,7 @@ const ExcursionOffer = () => {
                 <OfferFooterImage
                   reserveBtn={
                     <ReserveOnline
+                      reload={() => load(buildFilter())}
                       isSingleOffer={true}
                       loading={loading}
                       setLoading={setLoading}

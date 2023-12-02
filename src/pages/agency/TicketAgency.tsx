@@ -43,8 +43,10 @@ const TicketAgency = () => {
 
     const response = await create(form);
 
-    if (response.ok) message.success("Reserve created");
-    else message.error(response.message);
+    if (response.ok) {
+      message.success("Reserve created");
+      tableRef.current.reload();
+    } else message.error(response.message);
 
     setLoading(false);
   };

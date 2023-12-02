@@ -371,6 +371,7 @@ const PackageOffer = () => {
                 <OfferFooterImage
                   reserveBtn={
                     <ReserveOnline
+                      reload={() => load(buildFilter())}
                       isSingleOffer={false}
                       loading={loading}
                       setLoading={setLoading}
