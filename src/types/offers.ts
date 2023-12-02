@@ -1,4 +1,5 @@
 import { Image } from "./api";
+import { Reserve } from "./reserves";
 import { Excursion, Facility, Flight, Hotel } from "./services";
 
 export interface Reaction {
@@ -44,6 +45,7 @@ export interface Offer {
   imageId: string;
   type: OfferType;
   facilities: Facility[];
+  reserves: Reserve[];
 }
 
 export interface FlightOfferType extends Offer {

@@ -28,9 +28,12 @@ import ShowFlightOffer from "../../show/offers/ShowFlightOffer";
 import OfferFooterImage from "../offers/OfferFooterImage";
 import {
   endDate,
+  getPackageAvailability,
   getPackagePrice,
   startDate,
 } from "../../../common/packages/functions";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import DiscountOutlinedIcon from "@mui/icons-material/DiscountOutlined";
 
 const PackageOffer = () => {
   const { get } = packageOffer();
@@ -135,6 +138,14 @@ const PackageOffer = () => {
       select: ["id", "description", "name", "discount"],
       expand: {
         flightOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             flight: {
@@ -150,18 +161,38 @@ const PackageOffer = () => {
                 },
               },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["id"] },
           },
         },
         hotelOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             hotel: {
               select: ["name", "category"],
               expand: { image: { select: ["id", "name", "url"] } },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["id"] },
           },
         },
         excursionOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             excursion: {
@@ -171,13 +202,18 @@ const PackageOffer = () => {
                 image: { select: ["id", "name", "url"] },
               },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["id"] },
           },
         },
       },
       filter: finalFilter,
     });
 
-    if (result.ok) setData(result.value || []);
+    if (result.ok)
+      setData(
+        (result.value || []).filter((x) => getPackageAvailability(x) > 0)
+      );
     else message.error(result.message);
 
     setLoading(false);
@@ -309,6 +345,29 @@ const PackageOffer = () => {
                   style={{ fontSize: "20px" }}
                   onClick={() => setSelected(value)}
                 />
+              </Tooltip>,
+              <Tooltip title="Availability">
+                <Row gutter={2}>
+                  <Col>
+                    <LocalOfferIcon
+                      style={{ paddingTop: "3px" }}
+                      fontSize="small"
+                    />
+                  </Col>
+                  <Col>{getPackageAvailability(value)}</Col>
+                </Row>
+              </Tooltip>,
+
+              <Tooltip title="Discount">
+                <Row gutter={2}>
+                  <Col>
+                    <DiscountOutlinedIcon
+                      style={{ paddingTop: "3px" }}
+                      fontSize="small"
+                    />
+                  </Col>
+                  <Col>{value.discount} %</Col>
+                </Row>
               </Tooltip>,
             ]}
             convert={(value: Package) => ({

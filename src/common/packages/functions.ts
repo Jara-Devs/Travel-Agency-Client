@@ -30,3 +30,28 @@ export const getPackagePrice = (x: Package) => {
 
   return sum - (x.discount / 100) * sum;
 };
+
+export const getPackageAvailability = (x: Package) => {
+  const minHotel =
+    x.hotelOffers.length === 0
+      ? Number.MAX_SAFE_INTEGER
+      : Math.min(
+          ...x.hotelOffers.map((e) => e.availability - e.reserves.length)
+        );
+
+  const minFlight =
+    x.flightOffers.length === 0
+      ? Number.MAX_SAFE_INTEGER
+      : Math.min(
+          ...x.flightOffers.map((e) => e.availability - e.reserves.length)
+        );
+
+  const minExcursion =
+    x.excursionOffers.length === 0
+      ? Number.MAX_SAFE_INTEGER
+      : Math.min(
+          ...x.excursionOffers.map((e) => e.availability - e.reserves.length)
+        );
+
+  return Math.min(minHotel, minFlight, minExcursion);
+};

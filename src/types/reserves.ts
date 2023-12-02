@@ -1,3 +1,5 @@
+import { Offer } from "./offers";
+
 export interface UserIdentity {
   name: string;
   identityDocument: string;
@@ -8,6 +10,7 @@ export interface Reserve {
   packageId: string;
   userIdentities: UserIdentity[];
   userIdentity: UserIdentity;
+  offers: Offer[];
 }
 
 export interface ReserveOnline extends Reserve {
