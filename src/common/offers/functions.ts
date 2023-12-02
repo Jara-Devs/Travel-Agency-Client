@@ -12,4 +12,5 @@ export const offerTypeLabel = (type: OfferType) => {
 };
 
 export const offerAvailability = (offer: Offer) =>
-  offer.availability - offer.reserves.length;
+  offer.availability -
+  offer.reserves.reduce((acc, reserve) => acc + reserve.cant, 0);
