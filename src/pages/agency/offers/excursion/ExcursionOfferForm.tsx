@@ -146,7 +146,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             style={{ width: "100%" }}
             showSearch
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={excursions.map((x) => ({
               value: x.id,
               label: `${x.name}`,
@@ -233,7 +238,14 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
         >
           <Select
             mode="multiple"
+            showSearch
             allowClear
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={excursionFacilities.map((x) => ({
               value: x.id,
               label: x.name,

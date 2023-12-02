@@ -44,6 +44,9 @@ const PackagesAgency = () => {
       and: [
         searchFilter,
         {
+          isSingleOffer: { eq: false },
+        },
+        {
           flightOffers: {
             all: {
               agencyId: {

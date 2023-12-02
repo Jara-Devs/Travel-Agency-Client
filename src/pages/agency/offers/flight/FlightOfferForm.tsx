@@ -126,7 +126,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
               price: values.price,
               startDate: values.startDate.valueOf(),
               endDate: values.endDate.valueOf(),
-              facilities: values.facilities,
+              facilities: values.facilities ?? [],
               imageId: image.id,
             });
           else message.error("You must upload an image");
@@ -149,7 +149,12 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
             style={{ width: "100%" }}
             showSearch
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={flights.map((x) => ({
               value: x.id,
               label: `Company ${x.company}, From ${x.origin.name} to ${x.destination.name}`,
@@ -229,14 +234,17 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item
-          name="facilities"
-          label="Facilities"
-          rules={[{ required: true, message: "Select the facilities" }]}
-        >
+        <Form.Item name="facilities" label="Facilities">
           <Select
             mode="multiple"
             allowClear
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={flightFacilities.map((x) => ({
               value: x.id,
               label: x.name,

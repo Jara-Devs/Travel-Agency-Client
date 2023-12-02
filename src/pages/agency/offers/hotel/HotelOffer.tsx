@@ -192,7 +192,6 @@ const HotelOfferAgency = () => {
                   key: "facilities",
                   render: (v: HotelOfferType) => (
                     <>
-                      {console.log(v.facilities)}
                       <Row>
                         {v.facilities.map((f, idx) => (
                           <Tag key={idx} color="blue">

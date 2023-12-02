@@ -21,8 +21,11 @@ import {
   reactionLogic,
   selectedReaction,
 } from "../../../common/offers/reactions";
-import OfferFooterImage from "./OfferFooterImage";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import dayjs from "dayjs";
+import { offerAvailability } from "../../../common/offers/functions";
+import OfferFooterImage from "../../../common/OfferFooterImage";
+import ReserveOnline from "../../../common/ReserveOnline";
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();
@@ -76,7 +79,15 @@ const ExcursionOffer = () => {
     const finalFilter = { and: [filter, { startDate: { ge: toDate } }] };
 
     const result = await get({
-      select: ["id", "name", "description", "price", "startDate", "endDate"],
+      select: [
+        "id",
+        "availability",
+        "name",
+        "description",
+        "startDate",
+        "endDate",
+        "price",
+      ],
       expand: {
         image: { select: ["id", "name", "url"] },
         excursion: {
@@ -105,11 +116,15 @@ const ExcursionOffer = () => {
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
         facilities: { select: ["id", "name"] },
+        reserves: { select: ["cant"] },
       },
       filter: finalFilter,
     });
 
-    if (result.ok) setData(result.value || []);
+    if (result.ok)
+      setData(
+        (result.value || []).filter((x) => x.availability > x.reserves.length)
+      );
     else message.error(result.message);
 
     setLoading(false);
@@ -179,6 +194,17 @@ const ExcursionOffer = () => {
                   onClick={() => setSelected(value)}
                 />
               </Tooltip>,
+              <Tooltip title="Availability">
+                <Row gutter={2}>
+                  <Col>
+                    <LocalOfferIcon
+                      style={{ paddingTop: "3px" }}
+                      fontSize="small"
+                    />
+                  </Col>
+                  <Col>{offerAvailability(value)}</Col>
+                </Row>
+              </Tooltip>,
               <>
                 <LikeFilled
                   style={
@@ -216,6 +242,16 @@ const ExcursionOffer = () => {
               description: value.description,
               footerImage: (
                 <OfferFooterImage
+                  reserveBtn={
+                    <ReserveOnline
+                      reload={() => load(buildFilter())}
+                      isSingleOffer={true}
+                      loading={loading}
+                      setLoading={setLoading}
+                      id={value.id}
+                      availability={offerAvailability(value)}
+                    />
+                  }
                   price={value.price}
                   startDate={value.startDate}
                   endDate={value.endDate}

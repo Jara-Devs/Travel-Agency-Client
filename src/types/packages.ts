@@ -5,6 +5,7 @@ export interface Package {
   name: string;
   discount: number;
   description: string;
+  isSingleOffer: boolean;
   hotelOffers: HotelOfferType[];
   excursionOffers: ExcursionOfferType[];
   flightOffers: FlightOfferType[];

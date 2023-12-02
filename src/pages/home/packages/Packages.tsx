@@ -25,12 +25,16 @@ import ShowMiniOffer from "../../show/offers/ShowMiniOffer";
 import ShowPackage from "../../show/offers/ShowPackage";
 import ShowHotelOffer from "../../show/offers/ShowHotelOffer";
 import ShowFlightOffer from "../../show/offers/ShowFlightOffer";
-import OfferFooterImage from "../offers/OfferFooterImage";
 import {
   endDate,
+  getPackageAvailability,
   getPackagePrice,
   startDate,
 } from "../../../common/packages/functions";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import DiscountOutlinedIcon from "@mui/icons-material/DiscountOutlined";
+import OfferFooterImage from "../../../common/OfferFooterImage";
+import ReserveOnline from "../../../common/ReserveOnline";
 
 const PackageOffer = () => {
   const { get } = packageOffer();
@@ -103,6 +107,9 @@ const PackageOffer = () => {
       and: [
         filter,
         {
+          isSingleOffer: { eq: false },
+        },
+        {
           hotelOffers: {
             all: {
               startDate: {
@@ -132,6 +139,14 @@ const PackageOffer = () => {
       select: ["id", "description", "name", "discount"],
       expand: {
         flightOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             flight: {
@@ -147,18 +162,38 @@ const PackageOffer = () => {
                 },
               },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["cant"] },
           },
         },
         hotelOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             hotel: {
               select: ["name", "category"],
               expand: { image: { select: ["id", "name", "url"] } },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["cant"] },
           },
         },
         excursionOffers: {
+          select: [
+            "price",
+            "startDate",
+            "description",
+            "endDate",
+            "type",
+            "availability",
+          ],
           expand: {
             image: { select: ["id", "name", "url"] },
             excursion: {
@@ -168,13 +203,18 @@ const PackageOffer = () => {
                 image: { select: ["id", "name", "url"] },
               },
             },
+            facilities: { select: ["name"] },
+            reserves: { select: ["cant"] },
           },
         },
       },
       filter: finalFilter,
     });
 
-    if (result.ok) setData(result.value || []);
+    if (result.ok)
+      setData(
+        (result.value || []).filter((x) => getPackageAvailability(x) > 0)
+      );
     else message.error(result.message);
 
     setLoading(false);
@@ -307,6 +347,21 @@ const PackageOffer = () => {
                   onClick={() => setSelected(value)}
                 />
               </Tooltip>,
+              <Tooltip title="Availability">
+                <LocalOfferIcon
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
+                />{" "}
+                {getPackageAvailability(value)}
+              </Tooltip>,
+
+              <Tooltip title="Discount">
+                <DiscountOutlinedIcon
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
+                />{" "}
+                {value.discount} %
+              </Tooltip>,
             ]}
             convert={(value: Package) => ({
               title: value.name,
@@ -314,6 +369,16 @@ const PackageOffer = () => {
               description: value.description,
               footerImage: (
                 <OfferFooterImage
+                  reserveBtn={
+                    <ReserveOnline
+                      reload={() => load(buildFilter())}
+                      isSingleOffer={false}
+                      loading={loading}
+                      setLoading={setLoading}
+                      id={value.id}
+                      availability={getPackageAvailability(value)}
+                    />
+                  }
                   price={getPackagePrice(value)}
                   startDate={startDate(value)}
                   endDate={endDate(value)}

@@ -202,7 +202,13 @@ export const PackageForm: FC<PackageFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={hotelOffers.map((x) => ({
               value: x.id,
               label: x.name,
@@ -216,7 +222,12 @@ export const PackageForm: FC<PackageFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={excursionOffers.map((x) => ({
               value: x.id,
               label: x.name,
@@ -230,7 +241,12 @@ export const PackageForm: FC<PackageFormProps> = ({
           <Select
             mode="multiple"
             allowClear
-            filterOption={(input, option) => option?.label === input}
+            filterOption={(input, option) =>
+              (option?.label
+                ?.toString()
+                ?.toLowerCase()
+                ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+            }
             options={flightOffers.map((x) => ({
               value: x.id,
               label: x.name,

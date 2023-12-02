@@ -5,6 +5,7 @@ import { useState, useRef, useContext } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import {
   endDate,
+  getPackageAvailability,
   getPackagePrice,
   startDate,
 } from "../../common/packages/functions";
@@ -15,9 +16,14 @@ import { UserAgencyContext } from "../../types/auth";
 import { Package } from "../../types/packages";
 import ShowPackage from "../show/offers/ShowPackage";
 import dayjs from "dayjs";
+import ReserveForm from "../reserve/ReserveForm";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { reserveTicket } from "../../api/reserves";
+import { ReserveFormType } from "../../types/reserves";
 
 const TicketAgency = () => {
   const { get } = packageOffer();
+  const { create } = reserveTicket();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [reserveModal, setReserveModal] = useState<boolean>(false);
@@ -31,6 +37,19 @@ const TicketAgency = () => {
   });
   const { user } = useContext(UserContext);
   const toDate = dayjs().toDate().valueOf();
+
+  const reserve = async (form: ReserveFormType) => {
+    setLoading(true);
+
+    const response = await create(form);
+
+    if (response.ok) {
+      message.success("Reserve created");
+      tableRef.current.reload();
+    } else message.error(response.message);
+
+    setLoading(false);
+  };
 
   const load = async (
     _: Record<string, FilterValue | null>,
@@ -91,42 +110,55 @@ const TicketAgency = () => {
     };
 
     const response = await get({
+      select: ["id", "description", "name", "discount", "isSingleOffer"],
       expand: {
         flightOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["cant"] },
+          },
         },
         hotelOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["cant"] },
+          },
         },
         excursionOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["cant"] },
+          },
         },
       },
       filter: finalFilter,
@@ -134,7 +166,9 @@ const TicketAgency = () => {
 
     if (response.ok) {
       const data = response.value || [];
-      setDataValue(data);
+      console.log(data);
+
+      setDataValue(data.filter((x) => getPackageAvailability(x) > 0));
     } else {
       message.error(response.message);
     }
@@ -155,7 +189,7 @@ const TicketAgency = () => {
           <Col span={24}>
             <TableEntities
               ref={tableRef}
-              title="Packages"
+              title="Packages - Offers"
               loading={loading}
               columns={[
                 {
@@ -164,19 +198,46 @@ const TicketAgency = () => {
                   render: (v: Package) => <>{v.name}</>,
                 },
                 {
+                  title: "Description",
+                  key: "description",
+                  render: (v: Package) => <>{v.description}</>,
+                },
+                {
                   title: "Discount",
                   key: "discount",
                   render: (v: Package) => <>{`${v.discount}% `}</>,
                 },
                 {
+                  title: "Availability",
+                  key: "availability",
+                  render: (v: Package) => <>{getPackageAvailability(v)}</>,
+                },
+                {
+                  title: "Type",
+                  key: "type",
+                  render: (v: Package) => (
+                    <>
+                      {v.isSingleOffer ? (
+                        <Tag color="blue">Package</Tag>
+                      ) : (
+                        <Tag color="green">Offer</Tag>
+                      )}
+                    </>
+                  ),
+                },
+                {
                   key: "start",
                   title: "Initial Date",
-                  render: (v: Package) => <>{startDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(startDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   key: "end",
                   title: "Final Date",
-                  render: (v: Package) => <>{endDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(endDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   title: "Hotel Offers",
@@ -247,7 +308,8 @@ const TicketAgency = () => {
                       </Col>
                       <Col>
                         <Tooltip title="Reserve">
-                          <EyeOutlined
+                          <ShoppingCartOutlinedIcon
+                            style={{ fontSize: "14px", cursor: "pointer" }}
                             onClick={() => {
                               setSelected(v);
                               setReserveModal(true);
@@ -270,8 +332,31 @@ const TicketAgency = () => {
           open={showModal}
           onOk={() => {
             setShowModal(false);
+            setSelected(undefined);
           }}
           packageOffer={selected}
+        />
+      )}
+      {selected && (
+        <ReserveForm
+          isOnline={false}
+          availability={getPackageAvailability(selected)}
+          open={reserveModal}
+          onOk={(form) => {
+            let p = selected;
+            setReserveModal(false);
+            setSelected(undefined);
+            reserve({
+              userIdentities: form.userIdentities,
+              id: p.id,
+              isSingleOffer: false,
+              userIdentity: form.userIdentities[0],
+            });
+          }}
+          onCancel={() => {
+            setReserveModal(false);
+            setSelected(undefined);
+          }}
         />
       )}
     </>
