@@ -163,7 +163,7 @@ const PackageOffer = () => {
               },
             },
             facilities: { select: ["name"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
         hotelOffers: {
@@ -182,7 +182,7 @@ const PackageOffer = () => {
               expand: { image: { select: ["id", "name", "url"] } },
             },
             facilities: { select: ["name"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
         excursionOffers: {
@@ -204,7 +204,7 @@ const PackageOffer = () => {
               },
             },
             facilities: { select: ["name"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
       },

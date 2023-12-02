@@ -10,7 +10,7 @@ import {
   InputNumber,
   message,
 } from "antd";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 import { UserIdentity } from "../../types/reserves";
 import Title from "antd/es/typography/Title";
@@ -36,6 +36,11 @@ const ReserveForm: FC<ReserveFormProps> = ({
   onCancel,
 }) => {
   const [form] = Form.useForm<ReserveData>();
+
+  useEffect(() => {
+    if (open) form.resetFields();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   const info =
     "Please enter the data of the people for whom you want to make a reservation, the data of the person who is making the reservation must be placed in the first field";

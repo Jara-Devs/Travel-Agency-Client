@@ -10,6 +10,7 @@ export interface Reserve {
   packageId: string;
   userIdentities: UserIdentity[];
   userIdentity: UserIdentity;
+  cant: number;
   offers: Offer[];
 }
 

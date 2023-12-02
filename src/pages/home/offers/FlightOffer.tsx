@@ -101,7 +101,7 @@ const FlightOffer = () => {
         },
         reactions: { select: ["reactionState", "touristId", "id"] },
         facilities: { select: ["id", "name"] },
-        reserves: { select: ["id"] },
+        reserves: { select: ["cant"] },
       },
       filter: finalFilter,
     });

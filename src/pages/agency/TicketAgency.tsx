@@ -125,7 +125,7 @@ const TicketAgency = () => {
           ],
           expand: {
             image: { select: ["id", "name", "url"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
         hotelOffers: {
@@ -141,7 +141,7 @@ const TicketAgency = () => {
           ],
           expand: {
             image: { select: ["id", "name", "url"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
         excursionOffers: {
@@ -157,7 +157,7 @@ const TicketAgency = () => {
           ],
           expand: {
             image: { select: ["id", "name", "url"] },
-            reserves: { select: ["id"] },
+            reserves: { select: ["cant"] },
           },
         },
       },
