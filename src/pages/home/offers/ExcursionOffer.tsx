@@ -21,10 +21,11 @@ import {
   reactionLogic,
   selectedReaction,
 } from "../../../common/offers/reactions";
-import OfferFooterImage from "./OfferFooterImage";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import dayjs from "dayjs";
 import { offerAvailability } from "../../../common/offers/functions";
+import OfferFooterImage from "../../../common/OfferFooterImage";
+import ReserveOnline from "../../../common/ReserveOnline";
 
 const ExcursionOffer = () => {
   const { get } = excursionOffer();
@@ -241,6 +242,12 @@ const ExcursionOffer = () => {
               description: value.description,
               footerImage: (
                 <OfferFooterImage
+                  reserveBtn={
+                    <ReserveOnline
+                      id={value.id}
+                      availability={offerAvailability(value)}
+                    />
+                  }
                   price={value.price}
                   startDate={value.startDate}
                   endDate={value.endDate}

@@ -25,7 +25,6 @@ import ShowMiniOffer from "../../show/offers/ShowMiniOffer";
 import ShowPackage from "../../show/offers/ShowPackage";
 import ShowHotelOffer from "../../show/offers/ShowHotelOffer";
 import ShowFlightOffer from "../../show/offers/ShowFlightOffer";
-import OfferFooterImage from "../offers/OfferFooterImage";
 import {
   endDate,
   getPackageAvailability,
@@ -34,6 +33,8 @@ import {
 } from "../../../common/packages/functions";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import DiscountOutlinedIcon from "@mui/icons-material/DiscountOutlined";
+import OfferFooterImage from "../../../common/OfferFooterImage";
+import ReserveOnline from "../../../common/ReserveOnline";
 
 const PackageOffer = () => {
   const { get } = packageOffer();
@@ -368,6 +369,12 @@ const PackageOffer = () => {
               description: value.description,
               footerImage: (
                 <OfferFooterImage
+                  reserveBtn={
+                    <ReserveOnline
+                      id={value.id}
+                      availability={getPackageAvailability(value)}
+                    />
+                  }
                   price={getPackagePrice(value)}
                   startDate={startDate(value)}
                   endDate={endDate(value)}
