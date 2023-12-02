@@ -1,15 +1,11 @@
+import { UserIdentityForm } from "./auth";
 import { Offer } from "./offers";
-
-export interface UserIdentity {
-  name: string;
-  identityDocument: string;
-}
 
 export interface Reserve {
   id: string;
   packageId: string;
-  userIdentities: UserIdentity[];
-  userIdentity: UserIdentity;
+  userIdentities: UserIdentityForm[];
+  userIdentity: UserIdentityForm;
   cant: number;
   offers: Offer[];
 }
@@ -21,8 +17,8 @@ export interface ReserveOnline extends Reserve {
 export interface ReserveFormType {
   id: string;
   isSingleOffer: boolean;
-  userIdentities: UserIdentity[];
-  userIdentity: UserIdentity;
+  userIdentities: UserIdentityForm[];
+  userIdentity: UserIdentityForm;
 }
 
 export interface ReserveOnlineForm extends ReserveFormType {

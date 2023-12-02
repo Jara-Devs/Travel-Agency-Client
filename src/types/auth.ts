@@ -5,8 +5,21 @@ export interface User {
   role: Roles;
 }
 
-export interface UserTouristContext extends User {
+export interface UserIdentity {
+  id: string;
+  name: string;
+  identityDocument: number;
   nationality: string;
+}
+
+export interface UserIdentityForm {
+  name: string;
+  identityDocument: string;
+  nationality: string;
+}
+
+export interface UserTouristContext extends User {
+  useIdentity: UserIdentity;
 }
 
 export interface UserAgencyContext extends User {
@@ -23,7 +36,7 @@ export interface LoginForm {
 export interface TouristRegisterForm {
   email: string;
   name: string;
-  nationality: string;
+  userIdentity: UserIdentityForm;
   password: string;
   confirm: string;
 }

@@ -12,8 +12,8 @@ import {
 } from "antd";
 import { FC, useEffect } from "react";
 import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
-import { UserIdentity } from "../../types/reserves";
 import Title from "antd/es/typography/Title";
+import { UserIdentity } from "../../types/auth";
 
 export interface ReserveData {
   userIdentities: UserIdentity[];
