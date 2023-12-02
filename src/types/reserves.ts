@@ -18,7 +18,8 @@ export interface ReserveOnline extends Reserve {
 }
 
 export interface ReserveFormType {
-  packageId: string;
+  id: string;
+  isSingleOffer: boolean;
   userIdentities: UserIdentity[];
   userIdentity: UserIdentity;
 }

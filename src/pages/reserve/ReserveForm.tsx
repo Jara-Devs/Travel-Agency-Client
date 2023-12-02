@@ -9,7 +9,6 @@ import {
   Tooltip,
   InputNumber,
 } from "antd";
-import { Package } from "../../types/packages";
 import { FC } from "react";
 import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 import { ReserveOnlineForm, UserIdentity } from "../../types/reserves";
@@ -21,7 +20,9 @@ export interface ReserveData {
 }
 
 export interface ReserveFormProps {
-  packageOffer: Package;
+  id: string;
+  availability: number;
+  isSingleOffer: boolean;
   onOk: (values: ReserveOnlineForm) => void;
   onCancel: () => void;
   open: boolean;
@@ -30,7 +31,9 @@ export interface ReserveFormProps {
 
 const ReserveForm: FC<ReserveFormProps> = ({
   onOk,
-  packageOffer,
+  id,
+  availability,
+  isSingleOffer,
   open,
   isOnline,
   onCancel,
@@ -61,7 +64,8 @@ const ReserveForm: FC<ReserveFormProps> = ({
           onOk({
             userIdentities: values.userIdentities,
             userIdentity: values.userIdentities[0],
-            packageId: packageOffer.id,
+            id,
+            isSingleOffer,
             creditCard: values.creditCard,
           });
         }}
@@ -119,16 +123,18 @@ const ReserveForm: FC<ReserveFormProps> = ({
                   />
                 </Space>
               ))}
-              <Form.Item>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Add
-                </Button>
-              </Form.Item>
+              {fields.length < availability && (
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    Add
+                  </Button>
+                </Form.Item>
+              )}
             </>
           )}
         </Form.List>

@@ -5,6 +5,7 @@ import { useState, useRef, useContext } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import {
   endDate,
+  getPackageAvailability,
   getPackagePrice,
   startDate,
 } from "../../common/packages/functions";
@@ -107,42 +108,55 @@ const TicketAgency = () => {
     };
 
     const response = await get({
+      select: ["id", "description", "name", "discount"],
       expand: {
         flightOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["id"] },
+          },
         },
         hotelOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["id"] },
+          },
         },
         excursionOffers: {
           select: [
             "id",
             "name",
             "description",
+            "availability",
             "price",
             "type",
             "startDate",
             "endDate",
           ],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            reserves: { select: ["id"] },
+          },
         },
       },
       filter: finalFilter,
@@ -150,7 +164,7 @@ const TicketAgency = () => {
 
     if (response.ok) {
       const data = response.value || [];
-      setDataValue(data);
+      setDataValue(data.filter((x) => getPackageAvailability(x) > 0));
     } else {
       message.error(response.message);
     }
@@ -187,12 +201,16 @@ const TicketAgency = () => {
                 {
                   key: "start",
                   title: "Initial Date",
-                  render: (v: Package) => <>{startDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(startDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   key: "end",
                   title: "Final Date",
-                  render: (v: Package) => <>{endDate(v)}</>,
+                  render: (v: Package) => (
+                    <>{dayjs(endDate(v)).format("DD/MM/YYYY")}</>
+                  ),
                 },
                 {
                   title: "Hotel Offers",
@@ -295,14 +313,17 @@ const TicketAgency = () => {
       {selected && (
         <ReserveForm
           isOnline={false}
-          packageOffer={selected}
+          isSingleOffer={false}
+          availability={getPackageAvailability(selected)}
+          id={selected.id}
           open={reserveModal}
           onOk={(form) => {
             setReserveModal(false);
             setSelected(undefined);
             reserve({
               userIdentities: form.userIdentities,
-              packageId: form.packageId,
+              id: form.id,
+              isSingleOffer: form.isSingleOffer,
               userIdentity: form.userIdentity,
             });
           }}
