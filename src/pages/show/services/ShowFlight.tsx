@@ -3,8 +3,8 @@ import { FC } from "react";
 import { Flight } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 import dayjs from "dayjs";
-import { ShowMiniPlace } from "./ShowPlace";
 import duration from "dayjs/plugin/duration";
+import { ShowMiniCity } from "./ShowCity";
 
 dayjs.extend(duration);
 
@@ -68,7 +68,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
           <Title level={4}>Origin</Title>
           <Divider />
 
-          {/* <ShowMiniPlace place={flight.origin} /> */}
+          <ShowMiniCity city={flight.origin} />
         </Col>
       </Row>
       <Row className="m-5">
@@ -76,7 +76,7 @@ const ShowFlight: FC<ShowFlightProps> = ({ open, onOk, flight }) => {
           <Title level={4}>Destination</Title>
           <Divider />
 
-          {/* <ShowMiniPlace place={flight.destination} /> */}
+          <ShowMiniCity city={flight.destination} />
         </Col>
       </Row>
     </Modal>

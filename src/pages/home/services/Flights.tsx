@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { flight, city } from "../../../api/services";
 import { City, Flight } from "../../../types/services";
-import { Image, Tooltip, message } from "antd";
+import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
-import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import SlideCard from "../../../common/SlideCard";
 import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { Filter } from "odata-query";
 import { useSearchParams } from "react-router-dom";
 import { isGuid } from "../../../common/functions";
+import ShowCity, { ShowMiniCity } from "../../show/services/ShowCity";
 
 const Flights = () => {
   const { get } = flight();
@@ -125,10 +125,10 @@ const Flights = () => {
         content={(value: Flight) => {
           const places = [
             <div onClick={() => setSelectedCity(value.origin)}>
-              {/* <ShowMiniPlace place={value.origin} ribbon="Origin" /> */}
+              <ShowMiniCity city={value.origin} ribbon="Origin" />
             </div>,
             <div onClick={() => setSelectedCity(value.destination)}>
-              {/* <ShowMiniPlace place={value.destination} ribbon="Destination" /> */}
+              <ShowMiniCity city={value.destination} ribbon="Destination" />
             </div>,
           ];
 
@@ -157,13 +157,13 @@ const Flights = () => {
           flight={selected}
         />
       )}
-      {/* {selectedPlace && (
-        <ShowPlace
-          place={selectedPlace}
+      {selectedCity && (
+        <ShowCity
+          city={selectedCity}
           open={true}
-          onOk={() => setSelectedPlace(undefined)}
+          onOk={() => setSelectedCity(undefined)}
         />
-      )} */}
+      )}
     </div>
   );
 };
