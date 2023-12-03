@@ -102,9 +102,7 @@ const HotelOffer = () => {
     });
 
     if (result.ok)
-      setData(
-        (result.value || []).filter((x) => x.availability > x.reserves.length)
-      );
+      setData((result.value || []).filter((x) => offerAvailability(x) > 0));
     else message.error(result.message);
 
     setLoading(false);

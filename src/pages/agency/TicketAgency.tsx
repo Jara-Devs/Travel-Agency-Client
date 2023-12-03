@@ -166,7 +166,6 @@ const TicketAgency = () => {
 
     if (response.ok) {
       const data = response.value || [];
-      console.log(data);
 
       setDataValue(data.filter((x) => getPackageAvailability(x) > 0));
     } else {
