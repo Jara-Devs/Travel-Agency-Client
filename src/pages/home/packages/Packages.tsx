@@ -95,6 +95,28 @@ const PackageOffer = () => {
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
 
+    const start = searchParams.get("start");
+    const end = searchParams.get("end");
+
+    if (start && end) {
+      const a = parseInt(start);
+      const b = parseInt(end);
+      if (dayjs(a).isValid() && dayjs(b).isValid()) {
+        const q = {
+          all: {
+            startDate: {
+              ge: a,
+            },
+            endDate: {
+              lt: b,
+            },
+          },
+        };
+
+        f.push({ hotelOffers: q, excursionOffers: q, flightOffers: q });
+      }
+    }
+
     return { and: f };
   };
 
@@ -103,35 +125,21 @@ const PackageOffer = () => {
   const load = async (filter: Filter) => {
     setLoading(true);
 
+    const q = {
+      all: {
+        startDate: {
+          ge: toDate,
+        },
+      },
+    };
+
     const finalFilter = {
       and: [
         filter,
         {
           isSingleOffer: { eq: false },
         },
-        {
-          hotelOffers: {
-            all: {
-              startDate: {
-                ge: toDate,
-              },
-            },
-          },
-          excursionOffers: {
-            all: {
-              startDate: {
-                ge: toDate,
-              },
-            },
-          },
-          flightOffers: {
-            all: {
-              startDate: {
-                ge: toDate,
-              },
-            },
-          },
-        },
+        { hotelOffers: q, excursionOffers: q, flightOffers: q },
       ],
     };
 
@@ -306,6 +314,7 @@ const PackageOffer = () => {
               filterHotelOffer,
             ]}
             loading={loading}
+            rangePicker={true}
           />
         </Col>
       </Row>

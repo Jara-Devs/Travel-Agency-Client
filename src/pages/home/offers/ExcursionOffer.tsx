@@ -52,6 +52,18 @@ const ExcursionOffer = () => {
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
 
+    const start = searchParams.get("start");
+    const end = searchParams.get("end");
+
+    if (start && end) {
+      const a = parseInt(start);
+      const b = parseInt(end);
+      if (dayjs(a).isValid() && dayjs(b).isValid())
+        f.push({
+          and: [{ startDate: { ge: a } }, { endDate: { le: b } }],
+        });
+    }
+
     return { and: f };
   };
 
@@ -165,7 +177,11 @@ const ExcursionOffer = () => {
     <div className="m-5">
       <Row>
         <Col span={24}>
-          <FilterSearch filters={[filterExcursion]} loading={loading} />
+          <FilterSearch
+            filters={[filterExcursion]}
+            loading={loading}
+            rangePicker={true}
+          />
         </Col>
       </Row>
       <Row>

@@ -1,8 +1,9 @@
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import { Button, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import { CSSProperties, FC } from "react";
 import { useSearchParams } from "react-router-dom";
 import { UndoOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 export interface FilterItem {
   options: DefaultOptionType[];
@@ -15,9 +16,14 @@ export interface FilterItem {
 export interface FilterSearchProps {
   filters: FilterItem[];
   loading: boolean;
+  rangePicker?: boolean;
 }
 
-const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
+const FilterSearch: FC<FilterSearchProps> = ({
+  filters,
+  loading,
+  rangePicker = false,
+}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [form] = Form.useForm();
@@ -28,7 +34,7 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
   };
 
   return (
-    <Form form={form} style={{ height: "30px" }}>
+    <Form form={form} style={{ height: rangePicker ? "80px" : "30px" }}>
       <Row justify="space-between">
         <Col>
           <Row gutter={5}>
@@ -88,6 +94,29 @@ const FilterSearch: FC<FilterSearchProps> = ({ filters, loading }) => {
             </Col>
           </Row>
         </Col>
+      </Row>
+      <Row>
+        {rangePicker && (
+          <Col>
+            <DatePicker.RangePicker
+              format="DD/MM/YYYY HH:mm"
+              showTime
+              onChange={(v) => {
+                const params = Object.fromEntries(searchParams);
+
+                if (v) {
+                  params["start"] = dayjs(v[0]).valueOf().toString();
+                  params["end"] = dayjs(v[1]).valueOf().toString();
+                } else {
+                  delete params["start"];
+                  delete params["end"];
+                }
+
+                setSearchParams(params);
+              }}
+            />
+          </Col>
+        )}
       </Row>
     </Form>
   );
