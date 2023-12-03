@@ -63,21 +63,23 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
         </Col>
       </Row>
 
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Facilities</Title>
-          <Divider />
+      {flightOffer.facilities.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Facilities</Title>
+            <Divider />
 
-          <SlideCard
-            data={flightOffer.facilities.map((f) => (
-              <Card hoverable>
-                <Card.Meta title={f.name} />
-              </Card>
-            ))}
-            size="2"
-          />
-        </Col>
-      </Row>
+            <SlideCard
+              data={flightOffer.facilities.map((f) => (
+                <Card hoverable>
+                  <Card.Meta title={f.name} />
+                </Card>
+              ))}
+              size="2"
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row className="m-5">
         <Col span={24}>

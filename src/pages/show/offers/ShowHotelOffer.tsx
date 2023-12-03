@@ -83,21 +83,23 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
         </Col>
       </Row>
 
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Facilities</Title>
-          <Divider />
+      {hoteloffer.facilities.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Facilities</Title>
+            <Divider />
 
-          <SlideCard
-            data={hoteloffer.facilities.map((f) => (
-              <Card hoverable>
-                <Card.Meta title={f.name} />
-              </Card>
-            ))}
-            size="2"
-          />
-        </Col>
-      </Row>
+            <SlideCard
+              data={hoteloffer.facilities.map((f) => (
+                <Card hoverable>
+                  <Card.Meta title={f.name} />
+                </Card>
+              ))}
+              size="2"
+            />
+          </Col>
+        </Row>
+      )}
       <Row className="m-5">
         <Col span={24}>
           <Title level={4}>Hotel</Title>

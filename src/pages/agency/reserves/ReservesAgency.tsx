@@ -195,7 +195,7 @@ const ReservesAgency = () => {
                     <Typography.Title level={5}>{`Total: $ ${ticket.reduce(
                       (acc, current) => acc + current,
                       0
-                    )}`}</Typography.Title>
+                    ).toFixed(2)}`}</Typography.Title>
                   </Col>
                 </Row>
               </Col>
@@ -215,7 +215,7 @@ const ReservesAgency = () => {
                     <Typography.Title level={5}>{`Total: $ ${online.reduce(
                       (acc, current) => acc + current,
                       0
-                    )}`}</Typography.Title>
+                    ).toFixed(2)}`}</Typography.Title>
                   </Col>
                 </Row>
               </Col>
@@ -238,7 +238,7 @@ const ReservesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ReserveTicket) => <>{`$ ${v.payment.price}`}</>,
+                  render: (v: ReserveTicket) => <>{`$ ${v.payment.price.toFixed(2)}`}</>,
                 },
                 {
                   title: "Type",
@@ -295,7 +295,7 @@ const ReservesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ReserveOnline) => <>{`$ ${v.payment.price}`}</>,
+                  render: (v: ReserveOnline) => <>{`$ ${v.payment.price.toFixed(2)}`}</>,
                 },
                 {
                   title: "Type",

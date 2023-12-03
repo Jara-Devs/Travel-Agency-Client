@@ -35,7 +35,7 @@ const CityForm: FC<CityFormProps> = ({ onOk, onCancel, values, open }) => {
       open={open}
       title={
         <Typography>
-          <Title level={3}>Place</Title>
+          <Title level={3}>City</Title>
         </Typography>
       }
       onOk={form.submit}

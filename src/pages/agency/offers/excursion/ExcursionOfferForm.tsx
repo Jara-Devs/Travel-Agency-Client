@@ -123,7 +123,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
               price: values.price,
               startDate: values.startDate.valueOf(),
               endDate: values.endDate.valueOf(),
-              facilities: values.facilities,
+              facilities: values.facilities ?? [],
               imageId: image.id,
             });
           else message.error("You must upload an image");
@@ -157,7 +157,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
               label: `${x.name}`,
               key: x.id,
             }))}
-            placeholder="Select the flight"
+            placeholder="Select the excursion"
           />
         </Form.Item>
 
@@ -231,11 +231,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           />
         </Form.Item>
 
-        <Form.Item
-          name="facilities"
-          label="Facilities"
-          rules={[{ required: true, message: "Select the facilities" }]}
-        >
+        <Form.Item name="facilities" label="Facilities">
           <Select
             mode="multiple"
             showSearch

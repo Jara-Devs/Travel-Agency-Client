@@ -63,21 +63,23 @@ const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
         </Col>
       </Row>
 
-      <Row className="m-5">
-        <Col span={24}>
-          <Title level={4}>Facilities</Title>
-          <Divider />
+      {excursionOffer.facilities.length !== 0 && (
+        <Row className="m-5">
+          <Col span={24}>
+            <Title level={4}>Facilities</Title>
+            <Divider />
 
-          <SlideCard
-            data={excursionOffer.facilities.map((f) => (
-              <Card hoverable>
-                <Card.Meta title={f.name} />
-              </Card>
-            ))}
-            size="2"
-          />
-        </Col>
-      </Row>
+            <SlideCard
+              data={excursionOffer.facilities.map((f) => (
+                <Card hoverable>
+                  <Card.Meta title={f.name} />
+                </Card>
+              ))}
+              size="2"
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row className="m-5">
         <Col span={24}>
