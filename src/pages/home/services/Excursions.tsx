@@ -37,8 +37,7 @@ const Excursions = () => {
     const f: Filter[] = [];
 
     const type = searchParams.get("type");
-    if (type)
-      f.push({ hotels: { any: type === "excursion" ? false : true } });
+    if (type) f.push({ hotels: { any: type === "excursion" ? false : true } });
 
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
@@ -54,7 +53,10 @@ const Excursions = () => {
       expand: {
         places: {
           select: ["name", "description", "address"],
-          expand: { image: { select: ["id", "name", "url"] } },
+          expand: {
+            image: { select: ["id", "name", "url"] },
+            city: { select: ["name", "country"] },
+          },
         },
         activities: {
           select: ["name", "description"],
@@ -72,6 +74,7 @@ const Excursions = () => {
                 image: {
                   select: ["id", "name", "url"],
                 },
+                city: { select: ["name", "country"] },
               },
             },
           },

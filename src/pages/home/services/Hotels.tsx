@@ -55,6 +55,7 @@ const Hotels = () => {
             image: {
               select: ["id", "name", "url"],
             },
+            city: { select: ["name", "country"] },
           },
         },
       },
