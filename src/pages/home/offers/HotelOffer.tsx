@@ -62,6 +62,18 @@ const HotelOffer = () => {
         });
     }
 
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
+
+    if (minPrice && maxPrice) {
+      const a = parseInt(minPrice);
+      const b = parseInt(maxPrice);
+      if (a > 0 && b > 0)
+        f.push({
+          and: [{ price: { ge: a } }, { price: { le: b } }],
+        });
+    }
+
     return { and: f };
   };
   const reactionFunc = (
@@ -162,7 +174,7 @@ const HotelOffer = () => {
           <FilterSearch
             filters={[filterHotel]}
             loading={loading}
-            rangePicker={true}
+            packageOrOffer={true}
           />
         </Col>
       </Row>

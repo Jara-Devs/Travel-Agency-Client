@@ -120,6 +120,19 @@ const PackageOffer = () => {
     return { and: f };
   };
 
+  const buildPriceFilter = () => {
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
+
+    if (minPrice && maxPrice) {
+      const a = parseInt(minPrice);
+      const b = parseInt(maxPrice);
+      if (a > 0 && b > 0) return [a, b];
+    }
+
+    return [];
+  };
+
   const toDate = dayjs().toDate().valueOf();
 
   const load = async (filter: Filter) => {
@@ -217,11 +230,21 @@ const PackageOffer = () => {
       filter: finalFilter,
     });
 
-    if (result.ok)
+    if (result.ok) {
+      const filterPrice = buildPriceFilter();
       setData(
-        (result.value || []).filter((x) => getPackageAvailability(x) > 0)
+        (result.value || []).filter((x) => {
+          if (getPackageAvailability(x) <= 0) return false;
+
+          if (filterPrice.length > 0) {
+            const price = getPackagePrice(x);
+            return price >= filterPrice[0] && price <= filterPrice[1];
+          }
+
+          return true;
+        })
       );
-    else message.error(result.message);
+    } else message.error(result.message);
 
     setLoading(false);
   };
@@ -314,7 +337,7 @@ const PackageOffer = () => {
               filterHotelOffer,
             ]}
             loading={loading}
-            rangePicker={true}
+            packageOrOffer={true}
           />
         </Col>
       </Row>
