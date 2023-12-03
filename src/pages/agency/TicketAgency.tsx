@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import ReserveForm from "../reserve/ReserveForm";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { reserveTicket } from "../../api/reserves";
-import { ReserveFormType } from "../../types/reserves";
+import { ReserveTicketForm } from "../../types/reserves";
 
 const TicketAgency = () => {
   const { get } = packageOffer();
@@ -38,7 +38,7 @@ const TicketAgency = () => {
   const { user } = useContext(UserContext);
   const toDate = dayjs().toDate().valueOf();
 
-  const reserve = async (form: ReserveFormType) => {
+  const reserve = async (form: ReserveTicketForm) => {
     setLoading(true);
 
     const response = await create(form);
@@ -217,9 +217,9 @@ const TicketAgency = () => {
                   render: (v: Package) => (
                     <>
                       {v.isSingleOffer ? (
-                        <Tag color="blue">Package</Tag>
+                        <Tag color="blue">Offer</Tag>
                       ) : (
-                        <Tag color="green">Offer</Tag>
+                        <Tag color="green">Package</Tag>
                       )}
                     </>
                   ),

@@ -4,15 +4,23 @@ import {
   apiSingleOdataWithToken,
   apiWithToken,
 } from "./fetch";
-import { Reserve, ReserveFormType, ReserveOnlineForm } from "../types/reserves";
+import {
+  ReserveFormType,
+  ReserveOnline,
+  ReserveOnlineForm,
+  ReserveTicket,
+} from "../types/reserves";
 import { HttpMethods } from "../types/api";
 
 export const reserveTicket = () => {
   const controller = "reserveTicket";
-  const get = (odataQuery: Partial<QueryOptions<Reserve>>) =>
-    apiOdataWithToken<Reserve>(controller, odataQuery);
-  const getById = (odataQuery: Partial<QueryOptions<Reserve>>, id: number) =>
-    apiSingleOdataWithToken<Reserve>(`${controller}/${id}`, odataQuery);
+  const get = (odataQuery: Partial<QueryOptions<ReserveTicket>>) =>
+    apiOdataWithToken<ReserveTicket>(controller, odataQuery);
+  const getById = (
+    odataQuery: Partial<QueryOptions<ReserveTicket>>,
+    id: number
+  ) =>
+    apiSingleOdataWithToken<ReserveTicket>(`${controller}/${id}`, odataQuery);
 
   const create = (form: ReserveFormType) =>
     apiWithToken(controller, form, HttpMethods.POST);
@@ -22,10 +30,13 @@ export const reserveTicket = () => {
 
 export const reserveOnline = () => {
   const controller = "reserveTourist";
-  const get = (odataQuery: Partial<QueryOptions<Reserve>>) =>
-    apiOdataWithToken<Reserve>(controller, odataQuery);
-  const getById = (odataQuery: Partial<QueryOptions<Reserve>>, id: number) =>
-    apiSingleOdataWithToken<Reserve>(`${controller}/${id}`, odataQuery);
+  const get = (odataQuery: Partial<QueryOptions<ReserveOnline>>) =>
+    apiOdataWithToken<ReserveOnline>(controller, odataQuery);
+  const getById = (
+    odataQuery: Partial<QueryOptions<ReserveOnline>>,
+    id: number
+  ) =>
+    apiSingleOdataWithToken<ReserveOnline>(`${controller}/${id}`, odataQuery);
 
   const create = (form: ReserveOnlineForm) =>
     apiWithToken(controller, form, HttpMethods.POST);

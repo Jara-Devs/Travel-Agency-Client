@@ -90,3 +90,8 @@ export interface UserSystemFormType {
   password: string;
   role: string;
 }
+
+export interface Tourist {
+  name: string;
+  email: string;
+}

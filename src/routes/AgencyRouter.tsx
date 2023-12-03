@@ -7,9 +7,11 @@ import { Roles } from "../types/auth";
 import FlightOfferAgency from "../pages/agency/offers/flight/FlightOfferAgency";
 import ExcursionOffer from "../pages/agency/offers/excursion/ExcursionOffer";
 import HotelOfferAgency from "../pages/agency/offers/hotel/HotelOffer";
+import ReservesAgency from "../pages/agency/reserves/ReservesAgency";
 
 const AgencyRoute = () => (
   <Routes>
+    <Route path="/reserve" element={<ReservesAgency />}></Route>
     <Route
       path="/offer/hotel"
       element={

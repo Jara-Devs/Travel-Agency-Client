@@ -13,6 +13,7 @@ import PoolOutlinedIcon from "@mui/icons-material/PoolOutlined";
 import BeachAccessOutlinedIcon from "@mui/icons-material/BeachAccessOutlined";
 import AccessibilityNewOutlinedIcon from "@mui/icons-material/AccessibilityNewOutlined";
 import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
+import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import MyHeader from "../layout/Header";
 
 import React, { useContext, useState } from "react";
@@ -108,6 +109,13 @@ const MyLayout = () => {
               <AddShoppingCartOutlinedIcon />,
               undefined,
               () => navigate("/agency/package")
+            ),
+            getItem(
+              "Reserves",
+              "23",
+              <CreditCardOutlinedIcon />,
+              undefined,
+              () => navigate("/agency/reserve")
             ),
           ]
         : [];
