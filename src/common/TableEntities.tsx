@@ -1,10 +1,12 @@
 import { Button, Col, Form, Input, Row, Select, Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
 import Title from "antd/es/typography/Title";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { UndoOutlined } from "@ant-design/icons";
 import React, { forwardRef, useImperativeHandle } from "react";
 import { FilterItem } from "./FilterSearch";
+import ReactToPrint from "react-to-print";
+import logo from "../assets/logo.jpg";
 
 export interface TableEntitiesRef {
   reset: () => void;
@@ -21,10 +23,18 @@ export interface TableEntitiesProps<T> {
   ) => void;
   columns: ColumnsType<T>;
   filters?: FilterItem[];
+  footer?: () => React.ReactNode;
 }
 
 const TableEntities = <T extends object>(
-  { load, columns, title, loading, filters = [] }: TableEntitiesProps<T>,
+  {
+    load,
+    columns,
+    title,
+    loading,
+    footer,
+    filters = [],
+  }: TableEntitiesProps<T>,
   ref?: React.Ref<TableEntitiesRef>
 ) => {
   const [search, setSearch] = useState<string>("");
@@ -32,6 +42,8 @@ const TableEntities = <T extends object>(
 
   const [dataValue, setDataValue] = useState<T[]>([]);
   const [form] = Form.useForm();
+
+  const componentRef = useRef<any>(null);
 
   const reset = () => {
     setSearch("");
@@ -103,19 +115,39 @@ const TableEntities = <T extends object>(
                   </Button>
                 </Form.Item>
               </Col>
+              <Col>
+                <ReactToPrint
+                  trigger={() => <Button type="primary">Print</Button>}
+                  content={() => componentRef.current}
+                />
+              </Col>
             </Row>
           </Form>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
-          <Table
-            loading={loading}
-            pagination={false}
-            rowKey="id"
-            dataSource={dataValue}
-            columns={columns}
-          ></Table>
+          <div ref={componentRef} className="table-print">
+            <div className="print-title">
+              <div>
+                <Typography>
+                  <Title level={3}>{title}</Title>
+                </Typography>
+              </div>
+              <div>
+                <img src={logo} alt="logo" className="print-logo" />
+              </div>
+            </div>
+            <Table
+              loading={loading}
+              pagination={false}
+              rowKey="id"
+              dataSource={dataValue}
+              columns={columns}
+            ></Table>
+
+            {footer && <div className="mt-5">{footer()}</div>}
+          </div>
         </Col>
       </Row>
     </>

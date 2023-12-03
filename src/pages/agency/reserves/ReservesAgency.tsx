@@ -168,63 +168,50 @@ const ReservesAgency = () => {
     setLoadingOnline(false);
   };
 
+  const footerTicket = () => (
+    <Row gutter={10}>
+      <Col>
+        <Typography.Title
+          level={5}
+        >{`Cant: ${ticket.length}`}</Typography.Title>
+      </Col>
+      <Col>
+        <Typography.Title level={5}>{`Total: $ ${ticket
+          .reduce((acc, current) => acc + current, 0)
+          .toFixed(2)}`}</Typography.Title>
+      </Col>
+    </Row>
+  );
+
+  const footerOnline = () => (
+    <Row gutter={10}>
+      <Col>
+        <Typography.Title
+          level={5}
+        >{`Cant: ${online.length}`}</Typography.Title>
+      </Col>
+      <Col>
+        <Typography.Title level={5}>{`Total: $ ${online
+          .reduce((acc, current) => acc + current, 0)
+          .toFixed(2)}`}</Typography.Title>
+      </Col>
+    </Row>
+  );
+
   return (
     <>
       <div className="m-5">
-        <Row justify="space-between" className="app-header">
+        <Row className="app-header">
           <Col>
             <Typography>
               <Typography.Title>Reserves</Typography.Title>
             </Typography>
           </Col>
-          <Col>
-            <Row gutter={50}>
-              <Col>
-                <Row>
-                  <Col>
-                    <Typography.Title level={4}>Ticket</Typography.Title>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col>
-                    <Typography.Title
-                      level={5}
-                    >{`Cant: ${ticket.length}`}</Typography.Title>
-                  </Col>
-                  <Col>
-                    <Typography.Title level={5}>{`Total: $ ${ticket.reduce(
-                      (acc, current) => acc + current,
-                      0
-                    ).toFixed(2)}`}</Typography.Title>
-                  </Col>
-                </Row>
-              </Col>
-              <Col>
-                <Row>
-                  <Col>
-                    <Typography.Title level={4}>Online</Typography.Title>
-                  </Col>
-                </Row>
-                <Row gutter={10}>
-                  <Col>
-                    <Typography.Title
-                      level={5}
-                    >{`Cant: ${online.length}`}</Typography.Title>
-                  </Col>
-                  <Col>
-                    <Typography.Title level={5}>{`Total: $ ${online.reduce(
-                      (acc, current) => acc + current,
-                      0
-                    ).toFixed(2)}`}</Typography.Title>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
         </Row>
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
+              footer={footerTicket}
               filters={[filterTypeReservation, cityFilter]}
               loading={loadingTicket}
               title="Reserves Ticket"
@@ -238,7 +225,9 @@ const ReservesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ReserveTicket) => <>{`$ ${v.payment.price.toFixed(2)}`}</>,
+                  render: (v: ReserveTicket) => (
+                    <>{`$ ${v.payment.price.toFixed(2)}`}</>
+                  ),
                 },
                 {
                   title: "Type",
@@ -282,6 +271,7 @@ const ReservesAgency = () => {
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
+              footer={footerOnline}
               filters={[filterTypeReservation, cityFilter]}
               loading={loadingOnline}
               title="Reserves Online"
@@ -295,7 +285,9 @@ const ReservesAgency = () => {
                 {
                   title: "Price",
                   key: "price",
-                  render: (v: ReserveOnline) => <>{`$ ${v.payment.price.toFixed(2)}`}</>,
+                  render: (v: ReserveOnline) => (
+                    <>{`$ ${v.payment.price.toFixed(2)}`}</>
+                  ),
                 },
                 {
                   title: "Type",
