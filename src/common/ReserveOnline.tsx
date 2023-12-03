@@ -27,6 +27,7 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
   const { user } = useContext(UserContext);
   const { create } = reserveOnline();
 
+  const userIdentity = (user as any)?.userIdentity;
   const [show, setShow] = useState<boolean>(false);
 
   const reserve = async (form: ReserveOnlineForm) => {
@@ -45,31 +46,40 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
   return (
     <>
       {user?.role === Roles.Tourist && (
-        <div className="center-content mt-5">
-          <Button
-            type="primary"
-            onClick={() => setShow(true)}
-            disabled={loading}
-          >
-            <ShoppingCartOutlinedIcon />
-          </Button>
-        </div>
+        <>
+          <div className="center-content mt-5">
+            <Button
+              type="primary"
+              onClick={() => setShow(true)}
+              disabled={loading}
+            >
+              <ShoppingCartOutlinedIcon />
+            </Button>
+          </div>
+
+          <ReserveForm
+            isOnline={true}
+            availability={availability}
+            userIdentity={{
+              name: userIdentity.name,
+              nationality: userIdentity.nationality,
+              identityDocument: userIdentity.identityDocument,
+            }}
+            open={show}
+            onOk={(form) => {
+              setShow(false);
+
+              reserve({
+                id,
+                isSingleOffer,
+                ...form,
+                userIdentity: form.userIdentities[0],
+              });
+            }}
+            onCancel={() => setShow(false)}
+          />
+        </>
       )}
-      <ReserveForm
-        isOnline={true}
-        availability={availability}
-        open={show}
-        onOk={(form) => {
-          setShow(false);
-          reserve({
-            id,
-            isSingleOffer,
-            ...form,
-            userIdentity: form.userIdentities[0],
-          });
-        }}
-        onCancel={() => setShow(false)}
-      />
     </>
   );
 };

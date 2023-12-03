@@ -16,12 +16,21 @@ import {
   message,
 } from "antd";
 import logo from "../../assets/logo.jpg";
-import { TouristRegisterForm } from "../../types/auth";
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserProvider";
 import { authService } from "../../api/auth";
 import { useNavigate } from "react-router-dom";
+import FingerprintOutlinedIcon from "@mui/icons-material/FingerprintOutlined";
 import MySpin from "../../layout/MySpin";
+
+interface TouristRegisterData {
+  email: string;
+  name: string;
+  password: string;
+  confirm: string;
+  identityDocument: string;
+  nationality: string;
+}
 
 const TouristRegister = () => {
   const { login } = useContext(UserContext);
@@ -30,9 +39,19 @@ const TouristRegister = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onFinish = (values: TouristRegisterForm) => {
+  const onFinish = (values: TouristRegisterData) => {
     setLoading(true);
-    registerTourist(values)
+    registerTourist({
+      email: values.email,
+      name: values.name,
+      password: values.password,
+      confirm: values.confirm,
+      userIdentity: {
+        name: values.name,
+        nationality: values.nationality,
+        identityDocument: values.identityDocument,
+      },
+    })
       .then((response) => {
         if (response.ok) {
           login(response.value!);
@@ -89,6 +108,20 @@ const TouristRegister = () => {
           <Input
             prefix={<UserOutlined />}
             placeholder="Introduce your user name"
+          />
+        </Form.Item>
+        <Form.Item
+          name="identityDocument"
+          rules={[
+            {
+              required: true,
+              message: "Please introduce your identity document",
+            },
+          ]}
+        >
+          <Input
+            prefix={<FingerprintOutlinedIcon />}
+            placeholder="Introduce your identity document"
           />
         </Form.Item>
         <Form.Item

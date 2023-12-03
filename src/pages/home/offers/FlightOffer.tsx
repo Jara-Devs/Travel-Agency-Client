@@ -90,11 +90,11 @@ const FlightOffer = () => {
           select: ["id", "company", "duration"],
           expand: {
             origin: {
-              select: ["name", "description"],
+              select: ["name", "country"],
               expand: { image: { select: ["id", "name", "url"] } },
             },
             destination: {
-              select: ["name", "description"],
+              select: ["name", "country"],
               expand: { image: { select: ["id", "name", "url"] } },
             },
           },
@@ -107,9 +107,7 @@ const FlightOffer = () => {
     });
 
     if (result.ok)
-      setData(
-        (result.value || []).filter((x) => x.availability > x.reserves.length)
-      );
+      setData((result.value || []).filter((x) => offerAvailability(x) > 0));
     else message.error(result.message);
 
     setLoading(false);

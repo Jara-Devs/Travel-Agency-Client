@@ -38,11 +38,11 @@ const FlightApp = () => {
       select: ["id", "duration", "company", "originId", "destinationId"],
       expand: {
         origin: {
-          select: ["name", "address"],
+          select: ["name", "country"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         destination: {
-          select: ["name", "address"],
+          select: ["name", "country"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },

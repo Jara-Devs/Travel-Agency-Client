@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-import { flight, touristPlace } from "../../../api/services";
-import { Flight, TouristPlace } from "../../../types/services";
+import { flight, city } from "../../../api/services";
+import { City, Flight } from "../../../types/services";
 import { Tooltip, message } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import ShowEntities from "../../../common/ShowEntities";
-import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import SlideCard from "../../../common/SlideCard";
 import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { Filter } from "odata-query";
 import { useSearchParams } from "react-router-dom";
 import { isGuid } from "../../../common/functions";
+import ShowCity, { ShowMiniCity } from "../../show/services/ShowCity";
 
 const Flights = () => {
   const { get } = flight();
-  const { get: getPlaces } = touristPlace();
+  const { get: getCities } = city();
 
   const [searchParams] = useSearchParams();
 
   const [data, setData] = useState<Flight[]>([]);
   const [selected, setSelected] = useState<Flight>();
-  const [places, setPlaces] = useState<TouristPlace[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<TouristPlace>();
+  const [cities, setCities] = useState<City[]>([]);
+  const [selectedCity, setSelectedCity] = useState<City>();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -54,11 +54,11 @@ const Flights = () => {
       select: ["id", "company", "duration"],
       expand: {
         origin: {
-          select: ["name", "description", "address"],
+          select: ["name", "country"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
         destination: {
-          select: ["name", "description", "address"],
+          select: ["name", "country"],
           expand: { image: { select: ["id", "name", "url"] } },
         },
       },
@@ -73,9 +73,9 @@ const Flights = () => {
 
   const loadPlaces = async () => {
     setLoading(true);
-    const result = await getPlaces({ select: ["id", "name"] });
+    const result = await getCities({ select: ["id", "name", "country"] });
 
-    if (result.ok) setPlaces(result.value!);
+    if (result.ok) setCities(result.value!);
     else message.error(result.message);
 
     setLoading(false);
@@ -93,9 +93,9 @@ const Flights = () => {
 
   const originFilter: FilterItem = {
     name: "Origin",
-    options: places.map((p, idx) => ({
+    options: cities.map((p, idx) => ({
       key: idx,
-      label: p.name,
+      label: `${p.name}, ${p.country}`,
       value: p.id,
     })),
     search: true,
@@ -104,9 +104,9 @@ const Flights = () => {
 
   const destinationFilter: FilterItem = {
     name: "Destination",
-    options: places.map((p, idx) => ({
+    options: cities.map((p, idx) => ({
       key: idx,
-      label: p.name,
+      label: `${p.name}, ${p.country}`,
       value: p.id,
     })),
     search: true,
@@ -124,11 +124,11 @@ const Flights = () => {
         data={data}
         content={(value: Flight) => {
           const places = [
-            <div onClick={() => setSelectedPlace(value.origin)}>
-              <ShowMiniPlace place={value.origin} ribbon="Origin" />
+            <div onClick={() => setSelectedCity(value.origin)}>
+              <ShowMiniCity city={value.origin} ribbon="Origin" />
             </div>,
-            <div onClick={() => setSelectedPlace(value.destination)}>
-              <ShowMiniPlace place={value.destination} ribbon="Destination" />
+            <div onClick={() => setSelectedCity(value.destination)}>
+              <ShowMiniCity city={value.destination} ribbon="Destination" />
             </div>,
           ];
 
@@ -157,11 +157,11 @@ const Flights = () => {
           flight={selected}
         />
       )}
-      {selectedPlace && (
-        <ShowPlace
-          place={selectedPlace}
+      {selectedCity && (
+        <ShowCity
+          city={selectedCity}
           open={true}
-          onOk={() => setSelectedPlace(undefined)}
+          onOk={() => setSelectedCity(undefined)}
         />
       )}
     </div>

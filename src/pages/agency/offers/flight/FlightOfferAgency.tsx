@@ -71,10 +71,10 @@ const FlightOfferAgency = () => {
           select: ["company"],
           expand: {
             origin: {
-              select: ["id", "name"],
+              select: ["id", "name", "country"],
             },
             destination: {
-              select: ["id", "name"],
+              select: ["id", "name", "country"],
             },
           },
         },

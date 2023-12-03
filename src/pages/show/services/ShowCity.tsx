@@ -1,39 +1,39 @@
 import { Avatar, Badge, Card, Col, Image, Modal, Row, Typography } from "antd";
 import { FC } from "react";
-import { TouristPlace } from "../../../types/services";
+import { City } from "../../../types/services";
 import Title from "antd/es/typography/Title";
 
-export interface ShowPlaceProps {
+export interface ShowCityProps {
   open: boolean;
   onOk: () => void;
-  place: TouristPlace;
+  city: City;
 }
 
-export interface ShowMiniPlaceProps {
-  place: TouristPlace;
+export interface ShowMiniCityProps {
+  city: City;
   ribbon?: string;
 }
 
-export const ShowMiniPlace: FC<ShowMiniPlaceProps> = ({ place, ribbon }) => (
-  <Badge.Ribbon text={ribbon ?? "Place"}>
+export const ShowMiniCity: FC<ShowMiniCityProps> = ({ city, ribbon }) => (
+  <Badge.Ribbon text={ribbon ?? "City"}>
     <Card hoverable>
       <Card.Meta
         className="show-card"
-        avatar={<Avatar size={50} src={place.image.url} />}
-        title={place.name}
-        description={place.description}
+        avatar={<Avatar size={50} src={city.image.url} />}
+        title={city.name}
+        description={city.country}
       />
     </Card>
   </Badge.Ribbon>
 );
 
-const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
+const ShowCity: FC<ShowCityProps> = ({ open, onOk, city }) => {
   return (
     <Modal
       width={800}
       title={
         <Typography>
-          <Title level={2}>{place.name}</Title>
+          <Title level={2}>{city.name}</Title>
         </Typography>
       }
       open={open}
@@ -46,7 +46,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
         <Col span={24}>
           <Card className="center-content" hoverable>
             <Image
-              src={place.image.url}
+              src={city.image.url}
               className="show-image"
               preview={false}
             />
@@ -56,17 +56,7 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
       <Row className="m-5">
         <Col span={24}>
           <Card hoverable>
-            <Card.Meta title="Description" description={place.description} />
-          </Card>
-        </Col>
-      </Row>
-      <Row className="m-5">
-        <Col span={24}>
-          <Card hoverable>
-            <Card.Meta
-              title="Address"
-              description={`${place.address}, ${place.city.name}, ${place.city.country}`}
-            />
+            <Card.Meta title="Country" description={city.country} />
           </Card>
         </Col>
       </Row>
@@ -74,4 +64,4 @@ const ShowPlace: FC<ShowPlaceProps> = ({ open, onOk, place }) => {
   );
 };
 
-export default ShowPlace;
+export default ShowCity;

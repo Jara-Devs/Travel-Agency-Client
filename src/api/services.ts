@@ -12,6 +12,8 @@ import {
   Facility,
   TouristPlaceFormType,
   FacilityFormType,
+  City,
+  CityFormType,
 } from "../types/services";
 import { apiOdataNoToken, apiSingleOdataNoToken, apiWithToken } from "./fetch";
 import { HttpMethods } from "../types/api";
@@ -53,3 +55,5 @@ export const flight = () => serviceController<Flight, FlightFormType>("flight");
 
 export const facility = () =>
   serviceController<Facility, FacilityFormType>("facility");
+
+export const city = () => serviceController<City, CityFormType>("city");
