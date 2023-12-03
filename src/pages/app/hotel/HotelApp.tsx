@@ -5,11 +5,11 @@ import Title from "antd/es/typography/Title";
 import { Hotel, HotelFormType } from "../../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import HotelForm from "./HotelForm";
 import ShowHotel from "../../show/services/ShowHotel";
 import { HotelCategoryComp } from "../../../common/service/HotelCategory";
+import { anyOfferPackage, buildFilter } from "../../../common/service/filter";
 
 const HotelApp = () => {
   const { get, create, edit, remove } = hotel();
@@ -27,13 +27,14 @@ const HotelApp = () => {
   });
 
   const load = async (
-    _: Record<string, FilterValue | null>,
+    filter: Record<string, string>,
     search: string,
     setDataValue: (data: Hotel[]) => void
   ) => {
     setLoading(true);
 
     const searchFilter: Filter = { Name: { contains: search } };
+    const finalFilter = { and: [searchFilter, buildFilter(filter)] };
 
     const response = await get({
       select: ["id", "category", "name", "touristPlaceId"],
@@ -47,7 +48,7 @@ const HotelApp = () => {
         },
         image: { select: ["id", "url", "name"] },
       },
-      filter: searchFilter,
+      filter: finalFilter,
     });
 
     if (response.ok) {
@@ -114,6 +115,7 @@ const HotelApp = () => {
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
+              filters={[anyOfferPackage]}
               ref={tableRef}
               title="Hotels"
               loading={loading}

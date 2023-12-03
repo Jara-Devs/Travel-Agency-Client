@@ -5,10 +5,10 @@ import Title from "antd/es/typography/Title";
 import { Flight, FlightFormType } from "../../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FlightForm from "./FlightForm";
+import { anyOfferPackage, buildFilter } from "../../../common/service/filter";
 
 const FlightApp = () => {
   const { get, create, edit, remove } = flight();
@@ -26,13 +26,14 @@ const FlightApp = () => {
   });
 
   const load = async (
-    _: Record<string, FilterValue | null>,
+    filter: Record<string, string>,
     search: string,
     setDataValue: (data: Flight[]) => void
   ) => {
     setLoading(true);
 
     const searchFilter: Filter = { Company: { contains: search } };
+    const finalFilter = { and: [searchFilter, buildFilter(filter)] };
 
     const response = await get({
       select: ["id", "duration", "company", "originId", "destinationId"],
@@ -47,7 +48,7 @@ const FlightApp = () => {
         },
       },
 
-      filter: searchFilter,
+      filter: finalFilter,
     });
 
     if (response.ok) {
@@ -114,6 +115,7 @@ const FlightApp = () => {
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
+              filters={[anyOfferPackage]}
               ref={tableRef}
               title="Flights"
               loading={loading}

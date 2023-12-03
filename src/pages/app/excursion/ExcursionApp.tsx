@@ -5,10 +5,10 @@ import Title from "antd/es/typography/Title";
 import { Excursion, ExcursionFormType } from "../../../types/services";
 import TableEntities, { TableEntitiesRef } from "../../../common/TableEntities";
 import { EditOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
-import { FilterValue } from "antd/es/table/interface";
 import { Filter } from "odata-query";
 import ExcursionForm from "./ExcursionForm";
 import ShowExcursion from "../../show/services/ShowExcursion";
+import { anyOfferPackage, buildFilter } from "../../../common/service/filter";
 
 const ExcursionApp = () => {
   const { get, create, edit, remove } = excursion();
@@ -25,7 +25,7 @@ const ExcursionApp = () => {
   });
 
   const load = async (
-    _: Record<string, FilterValue | null>,
+    filter: Record<string, string>,
     search: string,
     setDataValue: (data: Excursion[]) => void
   ) => {
@@ -34,6 +34,7 @@ const ExcursionApp = () => {
     const searchFilter: Filter = {
       name: { contains: search },
     };
+    const finalFilter = { and: [searchFilter, buildFilter(filter)] };
 
     const response = await get({
       select: ["name", "id"],
@@ -52,7 +53,7 @@ const ExcursionApp = () => {
         },
         image: { select: ["id", "name", "url"] },
       },
-      filter: searchFilter,
+      filter: finalFilter,
     });
 
     if (response.ok) {
@@ -202,6 +203,7 @@ const ExcursionApp = () => {
 
     return (
       <TableEntities
+        filters={[anyOfferPackage]}
         ref={tableRef}
         title={"Excursions"}
         loading={loading}
