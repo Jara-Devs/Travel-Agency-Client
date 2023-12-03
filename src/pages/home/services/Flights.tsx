@@ -71,7 +71,7 @@ const Flights = () => {
     setLoading(false);
   };
 
-  const loadPlaces = async () => {
+  const loadCities = async () => {
     setLoading(true);
     const result = await getCities({ select: ["id", "name", "country"] });
 
@@ -82,7 +82,7 @@ const Flights = () => {
   };
 
   useEffect(() => {
-    loadPlaces();
+    loadCities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

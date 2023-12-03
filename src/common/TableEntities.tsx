@@ -1,10 +1,10 @@
-import { Button, Col, Form, Input, Row, Table, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Select, Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { FilterValue } from "antd/es/table/interface";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
 import { UndoOutlined } from "@ant-design/icons";
 import React, { forwardRef, useImperativeHandle } from "react";
+import { FilterItem } from "./FilterSearch";
 
 export interface TableEntitiesRef {
   reset: () => void;
@@ -15,40 +15,39 @@ export interface TableEntitiesProps<T> {
   title: string;
   loading: boolean;
   load: (
-    filters: Record<string, FilterValue | null>,
+    filters: Record<string, any>,
     search: string,
     setDataValue: (data: T[]) => void
   ) => void;
   columns: ColumnsType<T>;
+  filters?: FilterItem[];
 }
 
 const TableEntities = <T extends object>(
-  { load, columns, title, loading }: TableEntitiesProps<T>,
+  { load, columns, title, loading, filters = [] }: TableEntitiesProps<T>,
   ref?: React.Ref<TableEntitiesRef>
 ) => {
-  const [filters, setFilters] = useState<Record<string, FilterValue | null>>(
-    {}
-  );
   const [search, setSearch] = useState<string>("");
+  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
 
   const [dataValue, setDataValue] = useState<T[]>([]);
   const [form] = Form.useForm();
 
   const reset = () => {
-    setFilters({});
     setSearch("");
+    setFilterValues({});
     form.resetFields();
   };
 
   useImperativeHandle(ref, () => ({
     reset: reset,
-    reload: () => load(filters, search, setDataValue),
+    reload: () => load(filterValues, search, setDataValue),
   }));
 
   useEffect(() => {
-    load(filters, search, setDataValue);
+    load(filterValues, search, setDataValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, filters]);
+  }, [search, filterValues]);
 
   return (
     <>
@@ -61,6 +60,34 @@ const TableEntities = <T extends object>(
         <Col>
           <Form form={form}>
             <Row gutter={5}>
+              {filters.map((f, idx) => (
+                <Col key={idx}>
+                  <Form.Item name={idx}>
+                    <Select
+                      onChange={(e) => {
+                        const params = { ...filterValues };
+                        const key = f.key ?? f.name.toLowerCase();
+
+                        if (e) params[key] = e;
+                        else delete params[key];
+
+                        setFilterValues(params);
+                      }}
+                      style={f.styles}
+                      showSearch={f.search}
+                      filterOption={(input, option) =>
+                        (option?.label
+                          ?.toString()
+                          ?.toLowerCase()
+                          ?.indexOf(input.toLowerCase()) ?? -1) >= 0
+                      }
+                      allowClear
+                      options={f.options}
+                      placeholder={f.name}
+                    />
+                  </Form.Item>
+                </Col>
+              ))}
               <Col>
                 <Form.Item name="search">
                   <Input.Search
@@ -88,9 +115,6 @@ const TableEntities = <T extends object>(
             rowKey="id"
             dataSource={dataValue}
             columns={columns}
-            onChange={(_, filters) => {
-              setFilters(filters);
-            }}
           ></Table>
         </Col>
       </Row>
