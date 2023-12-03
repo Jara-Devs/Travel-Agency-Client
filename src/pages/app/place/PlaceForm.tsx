@@ -35,7 +35,7 @@ const PlaceForm: FC<PlaceFormProps> = ({ onOk, onCancel, values, open }) => {
   const [image, setImage] = useState<Image>();
 
   const load = async () => {
-    const responsePlace = await city().get({ select: ["id", "name"] });
+    const responsePlace = await city().get({ select: ["id", "name",'country'] });
 
     if (responsePlace.ok) {
       setCities(responsePlace.value!);

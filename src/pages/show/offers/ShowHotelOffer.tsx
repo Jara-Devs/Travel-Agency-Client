@@ -58,7 +58,11 @@ const ShowHotelOffer: FC<ShowHotelOfferProps> = ({
       <Row className="m-5">
         <Col span={24}>
           <Card className="center-content" hoverable>
-            <Image src={hoteloffer.hotel.image.url} className="show-image" />
+            <Image
+              src={hoteloffer.image.url}
+              className="show-image"
+              preview={false}
+            />
           </Card>
         </Col>
       </Row>

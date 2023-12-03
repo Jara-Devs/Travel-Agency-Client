@@ -21,7 +21,7 @@ const ShowExcursionOffer: FC<ShowExcursionOfferProps> = ({
       width={800}
       title={
         <Typography>
-          <Title level={2}>{"Excursion Offer"}</Title>
+          <Title level={2}>{excursionOffer.name}</Title>
         </Typography>
       }
       open={open}

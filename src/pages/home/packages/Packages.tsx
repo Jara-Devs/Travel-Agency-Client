@@ -161,6 +161,7 @@ const PackageOffer = () => {
       expand: {
         flightOffers: {
           select: [
+            "name",
             "price",
             "startDate",
             "description",
@@ -187,6 +188,7 @@ const PackageOffer = () => {
         },
         hotelOffers: {
           select: [
+            "name",
             "price",
             "startDate",
             "description",
@@ -206,6 +208,7 @@ const PackageOffer = () => {
         },
         excursionOffers: {
           select: [
+            "name",
             "price",
             "startDate",
             "description",

@@ -21,7 +21,7 @@ const ShowFlightOffer: FC<ShowFlightOfferProps> = ({
       width={800}
       title={
         <Typography>
-          <Title level={2}>{"Flight Offer"}</Title>
+          <Title level={2}>{flightOffer.name}</Title>
         </Typography>
       }
       open={open}
