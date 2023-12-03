@@ -7,17 +7,19 @@ import {
   Typography,
   Alert,
   Tooltip,
-  InputNumber,
   message,
+  Row,
+  Col,
+  Checkbox,
 } from "antd";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
-import { UserIdentity } from "../../types/auth";
+import { UserIdentityForm } from "../../types/auth";
 
 export interface ReserveData {
-  userIdentities: UserIdentity[];
-  creditCard: number;
+  userIdentities: UserIdentityForm[];
+  creditCard: string;
 }
 
 export interface ReserveFormProps {
@@ -26,6 +28,7 @@ export interface ReserveFormProps {
   onCancel: () => void;
   open: boolean;
   isOnline: boolean;
+  userIdentity?: UserIdentityForm;
 }
 
 const ReserveForm: FC<ReserveFormProps> = ({
@@ -34,21 +37,29 @@ const ReserveForm: FC<ReserveFormProps> = ({
   open,
   isOnline,
   onCancel,
+  userIdentity,
 }) => {
   const [form] = Form.useForm<ReserveData>();
+  const [currentUserInReserve, setCurrentUserInReserve] =
+    useState<boolean>(isOnline);
 
   useEffect(() => {
-    if (open) form.resetFields();
+    if (open) {
+      form.resetFields();
+      setCurrentUserInReserve(isOnline);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  const info =
-    "Please enter the data of the people for whom you want to make a reservation, the data of the person who is making the reservation must be placed in the first field";
+  const info = isOnline
+    ? "Please choose if you will be part of the reserve"
+    : "Please enter the data of the people for whom you want to make a reservation, the data of the person who is making the reservation must be placed in the first field";
 
   return (
     <Modal
       open={open}
       onOk={form.submit}
+      width={600}
       onCancel={onCancel}
       title={
         <Typography>
@@ -63,7 +74,17 @@ const ReserveForm: FC<ReserveFormProps> = ({
         layout="vertical"
         style={{ marginTop: "20px" }}
         onFinish={(values: ReserveData) => {
-          if (values.userIdentities) onOk(values);
+          if (isOnline && currentUserInReserve)
+            values.userIdentities = [userIdentity!].concat(
+              values.userIdentities ?? []
+            );
+
+          console.log(values.userIdentities);
+          if (
+            values.userIdentities != null &&
+            values.userIdentities.length !== 0
+          )
+            onOk(values);
           else message.error("Select at least one person");
         }}
       >
@@ -80,7 +101,7 @@ const ReserveForm: FC<ReserveFormProps> = ({
                   }}
                   align="baseline"
                 >
-                  {key === 0 ? (
+                  {key === 0 && !isOnline ? (
                     <Tooltip title="Data of the person who is making the reservation">
                       <UserOutlined
                         style={{ color: "green", fontSize: "16px" }}
@@ -114,13 +135,27 @@ const ReserveForm: FC<ReserveFormProps> = ({
                   >
                     <Input placeholder="Identity document" />
                   </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    name={[name, "nationality"]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Introduce the nationality",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Identity the nationality" />
+                  </Form.Item>
+
                   <DeleteOutlined
                     style={{ fontSize: "16px" }}
                     onClick={() => remove(name)}
                   />
                 </Space>
               ))}
-              {fields.length < availability && (
+              {(currentUserInReserve ? fields.length + 1 : fields.length) <
+                availability && (
                 <Form.Item>
                   <Button
                     type="dashed"
@@ -136,6 +171,19 @@ const ReserveForm: FC<ReserveFormProps> = ({
           )}
         </Form.List>
         {isOnline && (
+          <Row gutter={10} style={{ marginBottom: "20px" }}>
+            <Col>
+              <Checkbox
+                checked={currentUserInReserve}
+                onChange={(v) => {
+                  setCurrentUserInReserve(v.target.checked);
+                }}
+              />
+            </Col>
+            <Col>You will be part of the reserve</Col>
+          </Row>
+        )}
+        {isOnline && (
           <Form.Item
             label="Credit Card"
             name="creditCard"
@@ -145,7 +193,7 @@ const ReserveForm: FC<ReserveFormProps> = ({
                 : []
             }
           >
-            <InputNumber style={{ width: "100%" }} />
+            <Input placeholder="Introduce the credit card" />
           </Form.Item>
         )}
       </Form>

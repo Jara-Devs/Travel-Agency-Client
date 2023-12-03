@@ -11,7 +11,7 @@ export interface Reserve {
 }
 
 export interface ReserveOnline extends Reserve {
-  creditCard: number;
+  creditCard: string;
 }
 
 export interface ReserveFormType {
@@ -22,5 +22,5 @@ export interface ReserveFormType {
 }
 
 export interface ReserveOnlineForm extends ReserveFormType {
-  creditCard: number;
+  creditCard: string;
 }

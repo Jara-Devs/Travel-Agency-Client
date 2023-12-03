@@ -8,7 +8,7 @@ export interface User {
 export interface UserIdentity {
   id: string;
   name: string;
-  identityDocument: number;
+  identityDocument: string;
   nationality: string;
 }
 
