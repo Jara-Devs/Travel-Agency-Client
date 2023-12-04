@@ -172,14 +172,14 @@ const HotelOfferAgency = () => {
                   title: "Initial Date",
                   key: "startDate",
                   render: (v: HotelOfferType) => (
-                    <>{dayjs(v.startDate).format("DD/MM/YYYY")}</>
+                    <>{dayjs(v.startDate).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {
                   title: "Final Date",
                   key: "endDate",
                   render: (v: HotelOfferType) => (
-                    <>{dayjs(v.endDate).format("DD/MM/YYYY")}</>
+                    <>{dayjs(v.endDate).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {

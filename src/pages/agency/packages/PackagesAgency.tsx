@@ -209,14 +209,14 @@ const PackagesAgency = () => {
                   key: "start",
                   title: "Initial Date",
                   render: (v: Package) => (
-                    <>{dayjs(startDate(v)).format("DD/MM/YYYY")}</>
+                    <>{dayjs(startDate(v)).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {
                   key: "end",
                   title: "Final Date",
                   render: (v: Package) => (
-                    <>{dayjs(endDate(v)).format("DD/MM/YYYY")}</>
+                    <>{dayjs(endDate(v)).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {

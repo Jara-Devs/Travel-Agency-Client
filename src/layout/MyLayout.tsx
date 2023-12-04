@@ -79,6 +79,16 @@ const MyLayout = () => {
     ),
   ];
 
+  const touristMenu = (): MenuItem => {
+    return getItem(
+      "My Reserves",
+      "23",
+      <CreditCardOutlinedIcon />,
+      undefined,
+      () => navigate("/reserve")
+    );
+  };
+
   const agencyMenu = (): MenuItem => {
     const agencyAdmin: MenuItem[] =
       user?.role === Roles.AdminAgency
@@ -196,6 +206,8 @@ const MyLayout = () => {
 
   if (user?.role === Roles.AdminApp || user?.role === Roles.EmployeeApp)
     items.push(appMenu());
+
+  if (user?.role === Roles.Tourist) items.push(touristMenu());
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

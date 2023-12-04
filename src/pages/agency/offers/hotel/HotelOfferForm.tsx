@@ -197,9 +197,10 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           rules={[{ required: true, message: "Select the startDate" }]}
         >
           <DatePicker
+            showTime
             disabledDate={disabledDateStart}
             allowClear={false}
-            format={"DD/MM/YYYY"}
+            format={"YYYY-MM-DD HH:mm"}
           />
         </Form.Item>
 
@@ -209,9 +210,10 @@ const HotelOfferForm: FC<HotelFormProps> = ({
           rules={[{ required: true, message: "Select the endDate" }]}
         >
           <DatePicker
+            showTime
             disabledDate={disableEndDate}
             allowClear={false}
-            format={"DD/MM/YYYY"}
+            format={"YYYY-MM-DD HH:mm"}
           />
         </Form.Item>
 

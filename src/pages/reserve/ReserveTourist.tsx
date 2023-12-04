@@ -1,38 +1,34 @@
-import { useEffect, useState } from "react";
-import { ReserveOnline, ReserveTicket } from "../../../types/reserves";
-import { reserveOnline, reserveTicket } from "../../../api/reserves";
-import { Col, Row, Tag, Tooltip, Typography, message } from "antd";
-import TableEntities from "../../../common/TableEntities";
-import { FilterItem } from "../../../common/FilterSearch";
+import { message, Row, Col, Typography, Tag, Tooltip } from "antd";
 import { Filter } from "odata-query";
-import { city } from "../../../api/services";
-import { City } from "../../../types/services";
+import { useState, useEffect } from "react";
+import { reserveOnline } from "../../api/reserves";
+import { city } from "../../api/services";
+import { FilterItem } from "../../common/FilterSearch";
+import TableEntities from "../../common/TableEntities";
+import { ReserveOnline } from "../../types/reserves";
+import { City } from "../../types/services";
+import { endDate, startDate } from "../../common/packages/functions";
+import dayjs from "dayjs";
+import ShowUsersInReserve from "./ShowUsersReserve";
 import { EyeOutlined } from "@ant-design/icons";
-import ShowUsersInReserve from "../../reserve/ShowUsersReserve";
 
-const ReservesAgency = () => {
-  const [loadingTicket, setLoadingTicket] = useState<boolean>(false);
+const ReservesTourist = () => {
   const [loadingOnline, setLoadingOnline] = useState<boolean>(false);
 
-  const [ticket, setTicket] = useState<number[]>([]);
   const [online, setOnline] = useState<number[]>([]);
 
   const [cities, setCities] = useState<City[]>([]);
 
-  const { get: getTicket } = reserveTicket();
   const { get: getOnline } = reserveOnline();
   const { get: getCities } = city();
 
-  const [selected, setSelected] = useState<ReserveTicket | ReserveOnline>();
+  const [selected, setSelected] = useState<ReserveOnline>();
 
   const loadCities = async () => {
-    setLoadingTicket(true);
     const result = await getCities({ select: ["id", "name", "country"] });
 
     if (result.ok) setCities(result.value!);
     else message.error(result.message);
-
-    setLoadingTicket(false);
   };
 
   useEffect(() => {
@@ -103,46 +99,6 @@ const ReservesAgency = () => {
     return { and: f };
   };
 
-  const loadTicket = async (
-    filter: Record<string, string>,
-    search: string,
-    setDataValue: (data: ReserveTicket[]) => void
-  ) => {
-    setLoadingTicket(true);
-
-    const filterSearch = { package: { name: { contains: search } } };
-    const finalFilter = { and: [filterSearch, buildFilter(filter)] };
-
-    const response = await getTicket({
-      select: ["id", "cant"],
-      expand: {
-        user: { select: ["name", "email"] },
-        userIdentities: {
-          select: ["id", "identityDocument", "name", "nationality"],
-        },
-        payment: {
-          select: ["price"],
-          expand: {
-            userIdentity: {
-              select: ["name"],
-            },
-          },
-        },
-        package: {
-          select: ["name", "isSingleOffer"],
-        },
-      },
-      filter: finalFilter,
-    });
-
-    if (response.ok) {
-      setDataValue(response.value!);
-      setTicket(response.value!.map((x) => x.payment.price));
-    } else message.error(response.message);
-
-    setLoadingTicket(false);
-  };
-
   const loadOnline = async (
     filter: Record<string, string>,
     search: string,
@@ -156,15 +112,15 @@ const ReservesAgency = () => {
     const response = await getOnline({
       select: ["id", "cant"],
       expand: {
-        user: { select: ["name", "email"] },
+        payment: {
+          select: ["price"],
+        },
         userIdentities: {
           select: ["id", "identityDocument", "name", "nationality"],
         },
-        payment: {
-          select: ["price", "creditCard"],
-        },
         package: {
           select: ["name", "isSingleOffer"],
+          expand: ["excursionOffers", "flightOffers", "hotelOffers"],
         },
       },
       filter: finalFilter,
@@ -177,21 +133,6 @@ const ReservesAgency = () => {
 
     setLoadingOnline(false);
   };
-
-  const footerTicket = () => (
-    <Row gutter={10}>
-      <Col>
-        <Typography.Title
-          level={5}
-        >{`Cant: ${ticket.length}`}</Typography.Title>
-      </Col>
-      <Col>
-        <Typography.Title level={5}>{`Total: $ ${ticket
-          .reduce((acc, current) => acc + current, 0)
-          .toFixed(2)}`}</Typography.Title>
-      </Col>
-    </Row>
-  );
 
   const footerOnline = () => (
     <Row gutter={10}>
@@ -218,75 +159,7 @@ const ReservesAgency = () => {
             </Typography>
           </Col>
         </Row>
-        <Row className="content-center m-10">
-          <Col span={24}>
-            <TableEntities
-              footer={footerTicket}
-              filters={[filterTypeReservation, cityFilter]}
-              loading={loadingTicket}
-              title="Reserves Ticket"
-              load={loadTicket}
-              columns={[
-                {
-                  title: "Package",
-                  key: "package",
-                  render: (v: ReserveTicket) => <>{v.package.name}</>,
-                },
-                {
-                  title: "Price",
-                  key: "price",
-                  render: (v: ReserveTicket) => (
-                    <>{`$ ${v.payment.price.toFixed(2)}`}</>
-                  ),
-                },
-                {
-                  title: "Type",
-                  key: "type",
-                  render: (v: ReserveTicket) => (
-                    <>
-                      {v.package.isSingleOffer ? (
-                        <Tag color="blue">Offer</Tag>
-                      ) : (
-                        <Tag color="green">Package</Tag>
-                      )}
-                    </>
-                  ),
-                },
-                {
-                  title: "Tourist",
-                  key: "tourist",
-                  render: (v: ReserveTicket) => (
-                    <>{v.payment.userIdentity.name}</>
-                  ),
-                },
-                {
-                  title: "User agency",
-                  key: "userAgency",
-                  render: (v: ReserveTicket) => <>{v.user.name}</>,
-                },
-                {
-                  title: "User agency email",
-                  key: "email",
-                  render: (v: ReserveTicket) => <>{v.user.email}</>,
-                },
-                {
-                  title: "Cant",
-                  key: "cant",
-                  render: (v: ReserveTicket) => <>{v.cant}</>,
-                },
-                {
-                  title: "Actions",
-                  key: "actions",
-                  render: (v: ReserveTicket) => (
-                    <Tooltip title="Show users">
-                      <EyeOutlined onClick={() => setSelected(v)} />
-                    </Tooltip>
-                  ),
-                },
-              ]}
-            />
-          </Col>
-        </Row>
+
         <Row className="content-center m-10">
           <Col span={24}>
             <TableEntities
@@ -322,19 +195,20 @@ const ReservesAgency = () => {
                   ),
                 },
                 {
-                  title: "Tourist",
-                  key: "tourist",
-                  render: (v: ReserveOnline) => <>{v.user.name}</>,
+                  title: "Start Date",
+                  key: "startDate",
+                  render: (v: ReserveOnline) => (
+                    <>
+                      {dayjs(startDate(v.package)).format("YYYY-MM-DD HH:mm")}
+                    </>
+                  ),
                 },
                 {
-                  title: "Tourist email",
-                  key: "email",
-                  render: (v: ReserveOnline) => <>{v.user.email}</>,
-                },
-                {
-                  title: "Credit card",
-                  key: "creditCard",
-                  render: (v: ReserveOnline) => <>{v.payment.creditCard}</>,
+                  title: "End Date",
+                  key: "endDate",
+                  render: (v: ReserveOnline) => (
+                    <>{dayjs(endDate(v.package)).format("YYYY-MM-DD HH:mm")}</>
+                  ),
                 },
                 {
                   title: "Cant",
@@ -366,4 +240,4 @@ const ReservesAgency = () => {
   );
 };
 
-export default ReservesAgency;
+export default ReservesTourist;

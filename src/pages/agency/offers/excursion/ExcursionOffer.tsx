@@ -206,14 +206,14 @@ const ExcursionOffer = () => {
                   title: "Initial Date",
                   key: "startDate",
                   render: (v: ExcursionOfferType) => (
-                    <>{dayjs(v.startDate).format("DD/MM/YYYY")}</>
+                    <>{dayjs(v.startDate).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {
                   title: "Final Date",
                   key: "endDate",
                   render: (v: ExcursionOfferType) => (
-                    <>{dayjs(v.endDate).format("DD/MM/YYYY")}</>
+                    <>{dayjs(v.endDate).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
                 {
