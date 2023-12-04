@@ -8,6 +8,7 @@ import TableEntities from "../../common/TableEntities";
 import { ReserveOnline } from "../../types/reserves";
 import { City } from "../../types/services";
 import { endDate, startDate } from "../../common/packages/functions";
+import dayjs from "dayjs";
 
 const ReservesTourist = () => {
   const [loadingOnline, setLoadingOnline] = useState<boolean>(false);
@@ -189,12 +190,18 @@ const ReservesTourist = () => {
                 {
                   title: "Start Date",
                   key: "startDate",
-                  render: (v: ReserveOnline) => <>{startDate(v.package)}</>,
+                  render: (v: ReserveOnline) => (
+                    <>
+                      {dayjs(startDate(v.package)).format("YYYY-MM-DD HH:mm")}
+                    </>
+                  ),
                 },
                 {
                   title: "End Date",
                   key: "endDate",
-                  render: (v: ReserveOnline) => <>{endDate(v.package)}</>,
+                  render: (v: ReserveOnline) => (
+                    <>{dayjs(endDate(v.package)).format("YYYY-MM-DD HH:mm")}</>
+                  ),
                 },
 
                 {

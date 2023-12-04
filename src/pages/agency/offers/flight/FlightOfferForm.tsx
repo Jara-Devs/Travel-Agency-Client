@@ -64,7 +64,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
     }
   }, [open, form, values]);
 
-  const dateFormat = "DD/MM/YYYY";
+  const dateFormat = "YYYY-MM-DD HH:mm";
 
   const load = async () => {
     const responseFlight = await flight().get({
@@ -211,6 +211,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           ]}
         >
           <DatePicker
+            showTime
             placeholder="Introduce the initial date"
             format={dateFormat}
             disabledDate={disabledDateStart}
@@ -228,6 +229,7 @@ const FlightOfferForm: FC<FlightOfferFormProps> = ({
           ]}
         >
           <DatePicker
+            showTime
             placeholder="Introduce the final date"
             format={dateFormat}
             disabledDate={disableEndDate}
