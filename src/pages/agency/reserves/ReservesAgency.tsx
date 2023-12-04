@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { ReserveOnline, ReserveTicket } from "../../../types/reserves";
 import { reserveOnline, reserveTicket } from "../../../api/reserves";
-import { Col, Row, Tag, Typography, message } from "antd";
+import { Col, Row, Tag, Tooltip, Typography, message } from "antd";
 import TableEntities from "../../../common/TableEntities";
 import { FilterItem } from "../../../common/FilterSearch";
 import { Filter } from "odata-query";
 import { city } from "../../../api/services";
 import { City } from "../../../types/services";
+import { EyeOutlined } from "@ant-design/icons";
+import ShowUsersInReserve from "../../reserve/ShowUsersReserve";
 
 const ReservesAgency = () => {
   const [loadingTicket, setLoadingTicket] = useState<boolean>(false);
@@ -20,6 +22,8 @@ const ReservesAgency = () => {
   const { get: getTicket } = reserveTicket();
   const { get: getOnline } = reserveOnline();
   const { get: getCities } = city();
+
+  const [selected, setSelected] = useState<ReserveTicket | ReserveOnline>();
 
   const loadCities = async () => {
     setLoadingTicket(true);
@@ -113,6 +117,9 @@ const ReservesAgency = () => {
       select: ["id", "cant"],
       expand: {
         user: { select: ["name", "email"] },
+        userIdentities: {
+          select: ["id", "identityDocument", "name", "nationality"],
+        },
         payment: {
           select: ["price"],
           expand: {
@@ -150,6 +157,9 @@ const ReservesAgency = () => {
       select: ["id", "cant"],
       expand: {
         user: { select: ["name", "email"] },
+        userIdentities: {
+          select: ["id", "identityDocument", "name", "nationality"],
+        },
         payment: {
           select: ["price", "creditCard"],
         },
@@ -264,6 +274,15 @@ const ReservesAgency = () => {
                   key: "cant",
                   render: (v: ReserveTicket) => <>{v.cant}</>,
                 },
+                {
+                  title: "Actions",
+                  key: "actions",
+                  render: (v: ReserveTicket) => (
+                    <Tooltip title="Show users">
+                      <EyeOutlined onClick={() => setSelected(v)} />
+                    </Tooltip>
+                  ),
+                },
               ]}
             />
           </Col>
@@ -322,11 +341,27 @@ const ReservesAgency = () => {
                   key: "cant",
                   render: (v: ReserveOnline) => <>{v.cant}</>,
                 },
+                {
+                  title: "Actions",
+                  key: "actions",
+                  render: (v: ReserveOnline) => (
+                    <Tooltip title="Show users">
+                      <EyeOutlined onClick={() => setSelected(v)} />
+                    </Tooltip>
+                  ),
+                },
               ]}
             />
           </Col>
         </Row>
       </div>
+      {selected && (
+        <ShowUsersInReserve
+          open={true}
+          users={selected.userIdentities}
+          onOk={() => setSelected(undefined)}
+        />
+      )}
     </>
   );
 };

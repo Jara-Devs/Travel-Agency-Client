@@ -6,7 +6,7 @@ import { UndoOutlined } from "@ant-design/icons";
 import React, { forwardRef, useImperativeHandle } from "react";
 import { FilterItem } from "./FilterSearch";
 import ReactToPrint from "react-to-print";
-import logo from "../assets/logo.jpg";
+import PrintDocument from "./PrintDocumnet";
 
 export interface TableEntitiesRef {
   reset: () => void;
@@ -127,26 +127,23 @@ const TableEntities = <T extends object>(
       </Row>
       <Row>
         <Col span={24}>
-          <div ref={componentRef} className="table-print">
-            <div className="print-title">
-              <div>
-                <Typography>
-                  <Title level={3}>{title}</Title>
-                </Typography>
-              </div>
-              <div>
-                <img src={logo} alt="logo" className="print-logo" />
-              </div>
-            </div>
-            <Table
-              loading={loading}
-              pagination={false}
-              rowKey="id"
-              dataSource={dataValue}
-              columns={columns}
-            ></Table>
+          <div ref={componentRef}>
+            <PrintDocument
+              node={
+                <>
+                  <Table
+                    loading={loading}
+                    pagination={false}
+                    rowKey="id"
+                    dataSource={dataValue}
+                    columns={columns}
+                  ></Table>
 
-            {footer && <div className="mt-5">{footer()}</div>}
+                  {footer && <div className="mt-5">{footer()}</div>}
+                </>
+              }
+              title={title}
+            />
           </div>
         </Col>
       </Row>

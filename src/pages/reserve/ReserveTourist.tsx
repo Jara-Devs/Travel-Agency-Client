@@ -1,4 +1,4 @@
-import { message, Row, Col, Typography, Tag } from "antd";
+import { message, Row, Col, Typography, Tag, Tooltip } from "antd";
 import { Filter } from "odata-query";
 import { useState, useEffect } from "react";
 import { reserveOnline } from "../../api/reserves";
@@ -9,6 +9,8 @@ import { ReserveOnline } from "../../types/reserves";
 import { City } from "../../types/services";
 import { endDate, startDate } from "../../common/packages/functions";
 import dayjs from "dayjs";
+import ShowUsersInReserve from "./ShowUsersReserve";
+import { EyeOutlined } from "@ant-design/icons";
 
 const ReservesTourist = () => {
   const [loadingOnline, setLoadingOnline] = useState<boolean>(false);
@@ -19,6 +21,8 @@ const ReservesTourist = () => {
 
   const { get: getOnline } = reserveOnline();
   const { get: getCities } = city();
+
+  const [selected, setSelected] = useState<ReserveOnline>();
 
   const loadCities = async () => {
     const result = await getCities({ select: ["id", "name", "country"] });
@@ -110,6 +114,9 @@ const ReservesTourist = () => {
       expand: {
         payment: {
           select: ["price"],
+        },
+        userIdentities: {
+          select: ["id", "identityDocument", "name", "nationality"],
         },
         package: {
           select: ["name", "isSingleOffer"],
@@ -203,17 +210,32 @@ const ReservesTourist = () => {
                     <>{dayjs(endDate(v.package)).format("YYYY-MM-DD HH:mm")}</>
                   ),
                 },
-
                 {
                   title: "Cant",
                   key: "cant",
                   render: (v: ReserveOnline) => <>{v.cant}</>,
+                },
+                {
+                  title: "Actions",
+                  key: "actions",
+                  render: (v: ReserveOnline) => (
+                    <Tooltip title="Show users">
+                      <EyeOutlined onClick={() => setSelected(v)} />
+                    </Tooltip>
+                  ),
                 },
               ]}
             />
           </Col>
         </Row>
       </div>
+      {selected && (
+        <ShowUsersInReserve
+          open={true}
+          users={selected.userIdentities}
+          onOk={() => setSelected(undefined)}
+        />
+      )}
     </>
   );
 };
