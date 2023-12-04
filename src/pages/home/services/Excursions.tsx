@@ -37,7 +37,8 @@ const Excursions = () => {
     const f: Filter[] = [];
 
     const type = searchParams.get("type");
-    if (type) f.push({ hotels: { any: type === "excursion" ? false : true } });
+    if (type === "simple") f.push({ hotels: { any: {} } });
+    if (type === "overNight") f.push({ not: { hotels: { any: {} } } });
 
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });
@@ -97,7 +98,7 @@ const Excursions = () => {
 
   const filterItem: FilterItem = {
     options: [
-      { key: 1, label: "Simple", value: "excursion" },
+      { key: 1, label: "Simple", value: "simple" },
       { key: 2, label: "Over Night", value: "overNight" },
     ],
     name: "Type",
