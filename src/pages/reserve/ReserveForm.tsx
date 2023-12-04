@@ -30,6 +30,22 @@ export interface ReserveFormProps {
   userIdentity?: UserIdentityForm;
 }
 
+function isUnique(list: UserIdentityForm[]): boolean {
+  const map = new Map<string, boolean>();
+
+  for (const item of list) {
+    const key = `${item.identityDocument}-${item.name}-${item.nationality}`;
+
+    if (map.has(key)) {
+      return false;
+    }
+
+    map.set(key, true);
+  }
+
+  return true;
+}
+
 const ReserveForm: FC<ReserveFormProps> = ({
   onOk,
   availability,
@@ -65,6 +81,7 @@ const ReserveForm: FC<ReserveFormProps> = ({
         identityDocument: userIdentity?.identityDocument,
         nationality: userIdentity?.nationality,
         userIdentities: [],
+        creditCard: "",
       });
       setIncludeReserver(true);
     }
@@ -92,7 +109,6 @@ const ReserveForm: FC<ReserveFormProps> = ({
         onFinish={(values: ReserveData) => {
           let userIdentities = values.userIdentities ?? [];
 
-          console.log(includeReserver);
           if (includeReserver) {
             userIdentities = userIdentities.concat([
               {
@@ -102,6 +118,12 @@ const ReserveForm: FC<ReserveFormProps> = ({
               },
             ]);
           }
+
+          if (!isUnique(userIdentities)) {
+            message.error("There are repeated identities");
+            return;
+          }
+
           if (userIdentities.length !== 0) {
             onOk({ ...values, userIdentities });
           } else message.error("Select at least one person");
