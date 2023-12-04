@@ -149,7 +149,7 @@ const AgencyRegister = () => {
           />
         </Form.Item>
         <Form.Item
-          name="Direction"
+          name="address"
           rules={[
             { required: true, message: "Please introduce the direction" },
           ]}

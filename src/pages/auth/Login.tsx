@@ -67,15 +67,12 @@ const Login = () => {
           rules={[
             {
               required: true,
-              message: "Please introduce your email or user",
+              message: "Please introduce your email",
               type: "email",
             },
           ]}
         >
-          <Input
-            prefix={<UserOutlined />}
-            placeholder="Introduce your email or user"
-          />
+          <Input prefix={<UserOutlined />} placeholder="Introduce your email" />
         </Form.Item>
         <Form.Item
           name="password"
