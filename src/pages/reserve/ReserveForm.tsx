@@ -5,21 +5,20 @@ import {
   Modal,
   Space,
   Typography,
-  Alert,
-  Tooltip,
-  message,
-  Row,
-  Col,
   Checkbox,
+  message,
 } from "antd";
 import { FC, useEffect, useState } from "react";
-import { DeleteOutlined, UserOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import { UserIdentityForm } from "../../types/auth";
 
 export interface ReserveData {
   userIdentities: UserIdentityForm[];
-  creditCard: string;
+  name: string;
+  identityDocument: string;
+  nationality: string;
+  creditCard?: string;
 }
 
 export interface ReserveFormProps {
@@ -40,20 +39,37 @@ const ReserveForm: FC<ReserveFormProps> = ({
   userIdentity,
 }) => {
   const [form] = Form.useForm<ReserveData>();
-  const [currentUserInReserve, setCurrentUserInReserve] =
-    useState<boolean>(isOnline);
+
+  const [includeReserver, setIncludeReserver] = useState(true);
+
+  useEffect(() => {
+    const values = form.getFieldsValue();
+
+    if (includeReserver && values.userIdentities) {
+      if (values.userIdentities.length + 1 > availability) {
+        form.setFieldsValue({
+          ...values,
+          userIdentities: values.userIdentities.filter(
+            (_, idx) => idx !== values.userIdentities.length - 1
+          ),
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [includeReserver]);
 
   useEffect(() => {
     if (open) {
-      form.resetFields();
-      setCurrentUserInReserve(isOnline);
+      form.setFieldsValue({
+        name: userIdentity?.name,
+        identityDocument: userIdentity?.identityDocument,
+        nationality: userIdentity?.nationality,
+        userIdentities: [],
+      });
+      setIncludeReserver(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-
-  const info = isOnline
-    ? "Please choose if you will be part of the reserve"
-    : "Please enter the data of the people for whom you want to make a reservation, the data of the person who is making the reservation must be placed in the first field";
 
   return (
     <Modal
@@ -74,58 +90,69 @@ const ReserveForm: FC<ReserveFormProps> = ({
         layout="vertical"
         style={{ marginTop: "20px" }}
         onFinish={(values: ReserveData) => {
-          if (isOnline && currentUserInReserve)
-            values.userIdentities = [userIdentity!].concat(
-              values.userIdentities ?? []
-            );
+          let userIdentities = values.userIdentities ?? [];
 
-          console.log(values.userIdentities);
-          if (
-            values.userIdentities != null &&
-            values.userIdentities.length !== 0
-          )
-            onOk(values);
-          else message.error("Select at least one person");
+          console.log(includeReserver);
+          if (includeReserver) {
+            userIdentities = userIdentities.concat([
+              {
+                name: values.name,
+                identityDocument: values.identityDocument,
+                nationality: values.nationality,
+              },
+            ]);
+          }
+          if (userIdentities.length !== 0) {
+            onOk({ ...values, userIdentities });
+          } else message.error("Select at least one person");
         }}
       >
-        <Alert message={info} type="info" style={{ marginBottom: "30px" }} />
+        <Form.Item label="Reserver">
+          <Space style={{ display: "flex" }} align="baseline">
+            <Form.Item
+              name="name"
+              rules={[{ required: true, message: "Introduce the name" }]}
+            >
+              <Input placeholder="Introduce the name" disabled={isOnline} />
+            </Form.Item>
+            <Form.Item
+              name="identityDocument"
+              rules={[
+                { required: true, message: "Introduce the identity document" },
+              ]}
+            >
+              <Input placeholder="Identity document" disabled={isOnline} />
+            </Form.Item>
+            <Form.Item
+              name="nationality"
+              rules={[{ required: true, message: "Introduce the nationality" }]}
+            >
+              <Input placeholder="Nationality" disabled={isOnline} />
+            </Form.Item>
+          </Space>
+          <Checkbox
+            checked={includeReserver}
+            onChange={(e) => setIncludeReserver(e.target.checked)}
+          >
+            {isOnline ? "Include yourself" : "Include reserver"}
+          </Checkbox>
+        </Form.Item>
+
         <Form.List name="userIdentities">
           {(fields, { add, remove }) => (
             <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Space
-                  key={key}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                  align="baseline"
-                >
-                  {key === 0 && !isOnline ? (
-                    <Tooltip title="Data of the person who is making the reservation">
-                      <UserOutlined
-                        style={{ color: "green", fontSize: "16px" }}
-                      />
-                    </Tooltip>
-                  ) : (
-                    <UserOutlined style={{ fontSize: "16px" }} />
-                  )}
-
+              {fields.map((field, idx) => (
+                <Space key={idx} style={{ display: "flex" }} align="baseline">
                   <Form.Item
-                    {...restField}
-                    name={[name, "name"]}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Introduce the name",
-                      },
-                    ]}
+                    {...field}
+                    name={[field.name, "name"]}
+                    rules={[{ required: true, message: "Introduce the name" }]}
                   >
-                    <Input placeholder="Name" />
+                    <Input placeholder="Introduce the name" />
                   </Form.Item>
                   <Form.Item
-                    {...restField}
-                    name={[name, "identityDocument"]}
+                    {...field}
+                    name={[field.name, "identityDocument"]}
                     rules={[
                       {
                         required: true,
@@ -136,25 +163,20 @@ const ReserveForm: FC<ReserveFormProps> = ({
                     <Input placeholder="Identity document" />
                   </Form.Item>
                   <Form.Item
-                    {...restField}
-                    name={[name, "nationality"]}
+                    {...field}
+                    name={[field.name, "nationality"]}
                     rules={[
-                      {
-                        required: true,
-                        message: "Introduce the nationality",
-                      },
+                      { required: true, message: "Introduce the nationality" },
                     ]}
                   >
-                    <Input placeholder="Identity the nationality" />
+                    <Input placeholder="Nationality" />
                   </Form.Item>
-
-                  <DeleteOutlined
-                    style={{ fontSize: "16px" }}
-                    onClick={() => remove(name)}
-                  />
+                  <Button type="dashed" onClick={() => remove(field.name)}>
+                    <DeleteOutlined />
+                  </Button>
                 </Space>
               ))}
-              {(currentUserInReserve ? fields.length + 1 : fields.length) <
+              {(includeReserver ? fields.length + 1 : fields.length) !==
                 availability && (
                 <Form.Item>
                   <Button
@@ -170,19 +192,7 @@ const ReserveForm: FC<ReserveFormProps> = ({
             </>
           )}
         </Form.List>
-        {isOnline && (
-          <Row gutter={10} style={{ marginBottom: "20px" }}>
-            <Col>
-              <Checkbox
-                checked={currentUserInReserve}
-                onChange={(v) => {
-                  setCurrentUserInReserve(v.target.checked);
-                }}
-              />
-            </Col>
-            <Col>You will be part of the reserve</Col>
-          </Row>
-        )}
+
         {isOnline && (
           <Form.Item
             label="Credit Card"

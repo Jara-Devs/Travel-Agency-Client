@@ -32,6 +32,7 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
 
   const reserve = async (form: ReserveOnlineForm) => {
     setLoading(true);
+    console.log(form);
 
     const response = await create(form);
 
@@ -72,8 +73,13 @@ const ReserveOnline: FC<ReserveOnlineProps> = ({
               reserve({
                 id,
                 isSingleOffer,
-                ...form,
-                userIdentity: form.userIdentities[0],
+                userIdentities: form.userIdentities,
+                creditCard: form.creditCard!,
+                userIdentity: {
+                  name: form.name,
+                  nationality: form.nationality,
+                  identityDocument: form.identityDocument,
+                },
               });
             }}
             onCancel={() => setShow(false)}
