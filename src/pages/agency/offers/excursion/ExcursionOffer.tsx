@@ -186,7 +186,7 @@ const ExcursionOffer = () => {
                   ),
                 },
                 {
-                  title: "Availability",
+                  title: "Cant",
                   key: "availability",
                   render: (v: ExcursionOfferType) => <>{v.availability}</>,
                 },

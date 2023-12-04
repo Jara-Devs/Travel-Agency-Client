@@ -97,7 +97,7 @@ const Excursions = () => {
 
   const filterItem: FilterItem = {
     options: [
-      { key: 1, label: "Excursion", value: "excursion" },
+      { key: 1, label: "Simple", value: "excursion" },
       { key: 2, label: "Over Night", value: "overNight" },
     ],
     name: "Type",

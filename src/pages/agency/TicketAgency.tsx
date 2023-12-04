@@ -197,11 +197,6 @@ const TicketAgency = () => {
                   render: (v: Package) => <>{v.name}</>,
                 },
                 {
-                  title: "Description",
-                  key: "description",
-                  render: (v: Package) => <>{v.description}</>,
-                },
-                {
                   title: "Discount",
                   key: "discount",
                   render: (v: Package) => <>{`${v.discount}% `}</>,

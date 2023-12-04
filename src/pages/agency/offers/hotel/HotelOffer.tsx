@@ -159,7 +159,7 @@ const HotelOfferAgency = () => {
                   ),
                 },
                 {
-                  title: "Availability",
+                  title: "Cant",
                   key: "availability",
                   render: (v: HotelOfferType) => <>{v.availability}</>,
                 },

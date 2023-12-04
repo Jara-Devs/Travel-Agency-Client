@@ -162,7 +162,7 @@ const FlightOfferAgency = () => {
                   render: (v: FlightOfferType) => <>{flightLabel(v.flight)} </>,
                 },
                 {
-                  title: "Availability",
+                  title: "Cant",
                   key: "availability",
                   render: (v: FlightOfferType) => <>{v.availability}</>,
                 },
