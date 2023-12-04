@@ -7,6 +7,7 @@ import AgencyRoute from "./AgencyRouter";
 import HomeView from "../pages/HomeView";
 import PrivateRoutes from "./PrivateRoutes";
 import { Roles } from "../types/auth";
+import ReservesTourist from "../pages/reserve/ReserveTourist";
 
 export const WebRouter = () => {
   return (
@@ -14,6 +15,16 @@ export const WebRouter = () => {
       <Route path="/offer/*" element={<OfferRoute />}></Route>
       <Route path="/service/*" element={<ServiceRoute />}></Route>
       <Route path="/package" element={<Packages />}></Route>
+      <Route
+        path="/reserve"
+        element={
+          <PrivateRoutes
+            requiredRoles={[Roles.Tourist]}
+            component={ReservesTourist}
+          />
+        }
+      ></Route>
+
       <Route
         path="/app/*"
         element={
