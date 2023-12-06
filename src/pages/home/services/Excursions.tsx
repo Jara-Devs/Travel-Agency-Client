@@ -37,8 +37,8 @@ const Excursions = () => {
     const f: Filter[] = [];
 
     const type = searchParams.get("type");
-    if (type === "simple") f.push({ hotels: { any: {} } });
-    if (type === "overNight") f.push({ not: { hotels: { any: {} } } });
+    if (type === "overNight") f.push({ hotels: { any: {} } });
+    if (type === "simple") f.push({ not: { hotels: { any: {} } } });
 
     const search = searchParams.get("search");
     if (search) f.push({ name: { contains: search } });

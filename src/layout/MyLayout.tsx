@@ -210,7 +210,7 @@ const MyLayout = () => {
   if (user?.role === Roles.Tourist) items.push(touristMenu());
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout className="global-layout">
       <Sider
         className="layout-screen-sidebar"
         collapsible
@@ -247,7 +247,7 @@ const MyLayout = () => {
         />
       </Sider>
 
-      <Layout>
+      <Layout className="content-layout">
         <Header className="layout-header">
           <MyHeader />
         </Header>

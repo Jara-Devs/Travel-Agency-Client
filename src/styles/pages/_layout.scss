@@ -105,3 +105,14 @@
 // .ant-menu-dark {
 //   background-color: #1d1d1d;
 // }
+
+.global-layout {
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.content-layout {
+  overflow: auto;
+}
