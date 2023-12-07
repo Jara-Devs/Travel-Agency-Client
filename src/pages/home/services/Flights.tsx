@@ -8,15 +8,18 @@ import SlideCard from "../../../common/SlideCard";
 import ShowFlight, { buildDuration } from "../../show/services/ShowFlight";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
 import { Filter } from "odata-query";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { isGuid } from "../../../common/functions";
 import ShowCity, { ShowMiniCity } from "../../show/services/ShowCity";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+
 
 const Flights = () => {
   const { get } = flight();
   const { get: getCities } = city();
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [data, setData] = useState<Flight[]>([]);
   const [selected, setSelected] = useState<Flight>();
@@ -141,6 +144,15 @@ const Flights = () => {
               onClick={() => setSelected(value)}
             />
           </Tooltip>,
+          <Tooltip title="Show Offers">
+          <LocalOfferIcon
+            onClick={() =>
+              navigate(`/offer/flight?flight=${value.id}`)
+            }
+            style={{ paddingTop: "3px" }}
+            fontSize="small"
+          />
+        </Tooltip>,
         ]}
         convert={(value: Flight) => ({
           title: value.company,

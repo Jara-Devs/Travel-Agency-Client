@@ -8,15 +8,17 @@ import { buildMessage } from "../../../common/functions";
 import ShowPlace, { ShowMiniPlace } from "../../show/services/ShowPlace";
 import ShowHotel from "../../show/services/ShowHotel";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
 import SlideCard from "../../../common/SlideCard";
 import { HotelCategoryComp } from "../../../common/service/HotelCategory";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 const Hotels = () => {
   const { get } = hotel();
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [data, setData] = useState<Hotel[]>([]);
   const [selected, setSelected] = useState<Hotel>();
@@ -132,6 +134,14 @@ const Hotels = () => {
                 <EyeOutlined
                   style={{ fontSize: "20px" }}
                   onClick={() => setSelected(value)}
+                />
+              </Tooltip>,
+              <Tooltip title="Show Offers">
+                ,
+                <LocalOfferIcon
+                  onClick={() => navigate(`/offer/hotel?hotel=${value.id}`)}
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
                 />
               </Tooltip>,
             ]}

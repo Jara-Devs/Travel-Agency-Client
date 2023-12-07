@@ -17,13 +17,15 @@ import ShowTouristActivity, {
 import ShowHotel, { ShowMiniHotel } from "../../show/services/ShowHotel";
 import SlideCard from "../../../common/SlideCard";
 import FilterSearch, { FilterItem } from "../../../common/FilterSearch";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Filter } from "odata-query";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 const Excursions = () => {
   const { get } = excursion();
 
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [data, setData] = useState<Excursion[]>([]);
   const [selected, setSelected] = useState<Excursion>();
@@ -148,6 +150,15 @@ const Excursions = () => {
                 <EyeOutlined
                   style={{ fontSize: "20px" }}
                   onClick={() => setSelected(value)}
+                />
+              </Tooltip>,
+              <Tooltip title="Show Offers">
+                <LocalOfferIcon
+                  onClick={() =>
+                    navigate(`/offer/excursion?excursion=${value.id}`)
+                  }
+                  style={{ paddingTop: "3px" }}
+                  fontSize="small"
                 />
               </Tooltip>,
             ]}
